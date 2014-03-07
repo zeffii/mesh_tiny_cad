@@ -11,7 +11,7 @@ I'll try to keep this short as I'd rather be coding. There is certain functional
   - Trim
   - Intersect / weld
 
-For edges these functions exist as Python scripts, and i've bundle them here in the hope they might be useful to you or they might make you angry and you code nicer versions which I will then use instead :)
+For edges these functions exist as Python scripts, and i've bundled them here in the hope they might be useful to you or they might make you angry and you code nicer versions which I will then use instead :)
 
 ### Why on github?
 

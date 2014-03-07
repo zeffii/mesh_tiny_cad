@@ -24,9 +24,14 @@ All the functions have low error margins, `1.5E-6` normally. These functions are
   - V : extending two edges towards their _calculated_ intersection point.
    ![V](http://i.imgur.com/JWXCKcJ.jpg)
 
-  - T : extending the path of one edges towards another edge.
+  - T : extending the path of one edge towards another edge.
    ![T](http://i.imgur.com/uA1ChX0.jpg)  
 
   - X : two edges intersect, their intersection gets a weld vertex. You now habe 4 edgse and 5 vertices.
    ![X](http://i.imgur.com/SJxjfQr.jpg)
 
+
+
+### X ALL
+
+Intersect all, it programatically goes through all selected edges and slices them all using any found intersections, then welds them.

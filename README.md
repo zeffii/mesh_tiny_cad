@@ -21,13 +21,13 @@ The issue tracker, use it. Let me know if these things are broken in new release
 
 All the functions have low error margins, `1.5E-6` normally. These functions are not easy to describe hence pictures below:
 
-  - V : extending two edges towards their _calculated_ intersection point.
+  - V : extending two edges towards their _calculated_ intersection point.  
    ![V](http://i.imgur.com/JWXCKcJ.jpg)
 
-  - T : extending the path of one edge towards another edge.
+  - T : extending the path of one edge towards another edge.  
    ![T](http://i.imgur.com/uA1ChX0.jpg)  
 
-  - X : two edges intersect, their intersection gets a weld vertex. You now habe 4 edgse and 5 vertices.
+  - X : two edges intersect, their intersection gets a weld vertex. You now habe 4 edgse and 5 vertices.  
    ![X](http://i.imgur.com/SJxjfQr.jpg)
 
 

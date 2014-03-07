@@ -15,18 +15,18 @@ For edges these functions exist as Python scripts, and i've bundle them here in 
 
 ### Why on github?
 
-The issue tracker, use it. Let me know if these things are broken in new relesaes. Why? I don't update Blender as often as some so am oblivious to the slow evolution. Secondly; the issue tracker. use it. If you can make a valid argument for extra functionality and it seems like something I might use or be able to implement for fun, it's going to happen. Thirdly, the issue tracker; use it. I'm always open to pull requests (just don't expect instant approval of something massive, we can talk..you can use your gift of persuasion and sharp objectivism)
+The issue tracker, use it. Let me know if these things are broken in new releases. Why? I don't update Blender as often as some so am oblivious to the slow evolution. Secondly; the issue tracker. use it. If you can make a valid argument for extra functionality and it seems like something I might use or be able to implement for fun, it's going to happen. Thirdly, the issue tracker; use it. I'm always open to pull requests (just don't expect instant approval of something massive, we can talk..you can use your gift of persuasion and sharp objectivism)
 
 ### VTX
 
 All the functions have low error margins, `1.5E-6` normally. These functions are not easy to describe hence pictures below:
 
   - V : extending two edges towards their _calculated_ intersection point.
-   ![V](http://i.imgur.com/JWXCKcJ)
+   ![V](http://i.imgur.com/JWXCKcJ.jpg)
 
   - T : extending the path of one edges towards another edge.
-   ![T](http://i.imgur.com/uA1ChX0)  
+   ![T](http://i.imgur.com/uA1ChX0.jpg)  
 
   - X : two edges intersect, their intersection gets a weld vertex. You now habe 4 edgse and 5 vertices.
-   ![X](http://i.imgur.com/SJxjfQr)
+   ![X](http://i.imgur.com/SJxjfQr.jpg)
 

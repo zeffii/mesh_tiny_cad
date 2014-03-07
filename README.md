@@ -27,7 +27,7 @@ All the functions have low error margins, `1.5E-6` normally. These functions are
   - T : extending the path of one edge towards another edge.  
    ![T](http://i.imgur.com/uA1ChX0.jpg)  
 
-  - X : two edges intersect, their intersection gets a weld vertex. You now habe 4 edgse and 5 vertices.  
+  - X : two edges intersect, their intersection gets a weld vertex. You now have 4 edgse and 5 vertices.  
    ![X](http://i.imgur.com/SJxjfQr.jpg)
 
 

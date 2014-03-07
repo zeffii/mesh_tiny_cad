@@ -15,6 +15,6 @@ For edges these functions exist as Python scripts, and i've bundle them here in 
 
 ### Why on github?
 
-The issue tracker, use it. Let me know if these things are broken in new relesaes. Why? I don't update Blender as often as some so am oblivious to the slow evolution. Secondly; the ussue tracker. use it. If you can make a valid argument for extra functionality and it seems like something I might use or be able to implement for fun, it's going to happen. Thirdly, the issue tracker; use it. I'm always open to pull requests (just don't expect instant approval of something massive, we can talk..you can use your gift of persuasion to lull me into accepting it)
+The issue tracker, use it. Let me know if these things are broken in new relesaes. Why? I don't update Blender as often as some so am oblivious to the slow evolution. Secondly; the issue tracker. use it. If you can make a valid argument for extra functionality and it seems like something I might use or be able to implement for fun, it's going to happen. Thirdly, the issue tracker; use it. I'm always open to pull requests (just don't expect instant approval of something massive, we can talk..you can use your gift of persuasion and sharp objectivism)
 
   

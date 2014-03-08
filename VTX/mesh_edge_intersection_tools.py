@@ -129,34 +129,34 @@ def makeGeometryWeld(vX,outer_points):
 
 #   Used for extending an edge to a point on another edge.
 def ExtendEdge(vX, outer_points, count):
-    o, vert_count, edge_count =  GetActiveObject()
+    o, vc, edge_count =  GetActiveObject()
     vA, vB, vC, vD =  edges_to_points(outer_points)
-    AddVertsToObject(vert_count, o, vX, vA, vB, vC, vD)
+    AddVertsToObject(vc, o, vX, vA, vB, vC, vD)
 
     oe = o.data.edges
     oe.add(4)
-    # Candidate for serious optimization.
+
     if isPointOnEdge(vX, vA, vB):
-        oe[edge_count].vertices = [vert_count, vert_count+1]
-        oe[edge_count+1].vertices = [vert_count, vert_count+2]
+        oe[edge_count].vertices = [vc, vc+1]
+        oe[edge_count+1].vertices = [vc, vc+2]
         # find which of C and D is farthest away from X
         if mDist(vD, vX) > mDist(vC, vX):
-            oe[edge_count+2].vertices = [vert_count, vert_count+3]
-            oe[edge_count+3].vertices = [vert_count+3, vert_count+4]
+            oe[edge_count+2].vertices = [vc, vc+3]
+            oe[edge_count+3].vertices = [vc+3, vc+4]
         if mDist(vC, vX) > mDist(vD, vX):
-            oe[edge_count+2].vertices = [vert_count, vert_count+4]
-            oe[edge_count+3].vertices = [vert_count+3, vert_count+4]
-
+            oe[edge_count+2].vertices = [vc, vc+4]
+            oe[edge_count+3].vertices = [vc+3, vc+4]
+ 
     if isPointOnEdge(vX, vC, vD):
-        oe[edge_count].vertices = [vert_count, vert_count+3]
-        oe[edge_count+1].vertices = [vert_count, vert_count+4]
+        oe[edge_count].vertices = [vc, vc+3]
+        oe[edge_count+1].vertices = [vc, vc+4]
         # find which of A and B is farthest away from X 
         if mDist(vB, vX) > mDist(vA, vX):
-            oe[edge_count+2].vertices = [vert_count, vert_count+1]
-            oe[edge_count+3].vertices = [vert_count+1, vert_count+2]
+            oe[edge_count+2].vertices = [vc, vc+1]
+            oe[edge_count+3].vertices = [vc+1, vc+2]
         if mDist(vA, vX) > mDist(vB, vX):
-            oe[edge_count+2].vertices = [vert_count, vert_count+2]
-            oe[edge_count+3].vertices = [vert_count+1, vert_count+2]
+            oe[edge_count+2].vertices = [vc, vc+2]
+            oe[edge_count+3].vertices = [vc+1, vc+2]
 
 
 #   ProjectGeometry is used to extend two edges to their intersection point.

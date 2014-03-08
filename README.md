@@ -39,7 +39,7 @@ Intersect all, it programatically goes through all selected edges and slices the
   - XALL is fast!  
   ![XALL](http://i.imgur.com/9po2kIV.gif)
 
-### Vertex to Intersection
+### V2X (Vertex to Intersection)
 
 This might be a niche accessory, but sometimes all you want is a vertex positioned on the intersection of two edges. Nothing fancy.
 

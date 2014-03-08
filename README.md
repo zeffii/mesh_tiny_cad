@@ -28,7 +28,7 @@ The issue tracker, use it. Let me know if these things are broken in new release
 
 ### VTX
 
-All the functions have low error margins, `1.5E-6` and are happy to operate geometry that isn't flat on X Y or Z (so, full freedom of orientation..stuff just have to really intersect within tolerance). These functions are not easy to describe hence pictures below:
+All the functions have low error margins (`1.5E-6` = tolerance) and are happy to operate on geometry that isn't flat on X,Y or Z. Expect full freedom of orientation, but stuff must really intersect within this tolerance. These functions are not easy to describe hence pictures below:
 
   - V : extending two edges towards their _calculated_ intersection point.  
    ![V](http://i.imgur.com/zBSciFf.png)

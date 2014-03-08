@@ -19,7 +19,6 @@ Todo:
 
   - Extend multiple
   - Trim multiple
-  - geom tools for showing indices + edge keys per selected (or selection) sort of like a light version of Index Visualizer and debug mode.
 
 
 ### Why on github?

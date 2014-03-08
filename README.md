@@ -35,3 +35,15 @@ All the functions have low error margins, `1.5E-6` normally. These functions are
 ### X ALL
 
 Intersect all, it programatically goes through all selected edges and slices them all using any found intersections, then welds them.
+
+### Vertex to Intersection
+
+This might be a niche accessory, but sometimes all you want is a vertex positioned on the intersection of two edges. Nothing fancy.
+
+### Trim Multiples
+
+Explained in the issue tracker with moving GIF: [issue3](https://github.com/zeffii/Blender_CAD_utils/issues/3)
+
+### Extend Multiples
+
+Explained in the issue tracker with moving GIF: [issue2](https://github.com/zeffii/Blender_CAD_utils/issues/2)

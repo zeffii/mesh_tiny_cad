@@ -5,9 +5,7 @@ A tiny subset of unmissable CAD functions for Blender 3d.
 
 ### OK, what's this all about?
 
-I'll try to keep this short as I'd rather be coding. There is certain functionality found in most dedicated CAD software that I can't live without, namely: *Extend*, *Trim* and *Intersect / weld*. There are more but (for me) mainly these.  
-  
-For edges these functions exist as Python scripts, and i've bundled them here in the hope they might be useful to you or they might make you angry and you code nicer versions which I will then use instead :) 
+I'll try to keep this short as I'd rather be coding. There is certain functionality found in most dedicated CAD software that I can't live without, namely: `Extend`, `Trim` and `Intersect / weld`. For edges these functions exist as Python scripts, and i've bundled them here in the hope they might be useful to you or they might make you angry and you code nicer versions which I will then use instead :) 
   
 The VTX script has lived in contrib distributions of Blender since 2010, with relatively minor changes. The feedback from BlenderArtists has been [overwhelmingly positive](http://blenderartists.org/forum/showthread.php?204836-CAD-Addon-Edge-Tools-(blender-2-6x)). I'm not going to claim it's bug free, but finding them has proven difficult.  
   

@@ -14,7 +14,7 @@ Todo:
   - Extend multiple
   - Trim multiple
   
-Other features like `Fillet / Chamfer` and `Offset` are also catered for as scripts. (Insert link here) 
+Other features like `Fillet / Chamfer` and `Offset` are also catered for as scripts. [link here](http://blenderartists.org/forum/showthread.php?179375)
   
 ### Why on github?
 

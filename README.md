@@ -18,7 +18,11 @@ Other features like `Fillet / Chamfer` and `Offset` are also catered for as scri
   
 ### Why on github?
 
-The issue tracker, use it. Let me know if these things are broken in new releases. Why? I don't update Blender as often as some so am oblivious to the slow evolution. Secondly; the issue tracker. use it. If you can make a valid argument for extra functionality and it seems like something I might use or be able to implement for fun, it's going to happen. Thirdly, the issue tracker; use it. I'm always open to pull requests (just don't expect instant approval of something massive, we can talk..you can use your gift of persuasion and sharp objectivism)
+The issue tracker, use it.  
+
+-  Let me know if these things are broken in new releases. Why? I don't update Blender as often as some so am oblivious to the slow evolution. 
+-  If you can make a valid argument for extra functionality and it seems like something I might use or be able to implement for fun, it's going to happen.
+-  I'm always open to pull requests (just don't expect instant approval of something massive, we can talk..you can use your gift of persuasion and sharp objectivism)
 
 ### VTX
 

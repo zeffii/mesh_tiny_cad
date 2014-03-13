@@ -75,16 +75,10 @@ def intersection_edge(edge_prime, edge):
     p1, p2 = edge_prime
     p3, p4 = edge
     line = LineIntersect(p1, p2, p3, p4)
-    return ((line[0] + line[1]) / 2)  # or point = line[0]
+    return ((line[0] + line[1]) / 2)
 
 
 def get_intersection(self, context, idx, bm):
-    '''
-    If there is an intersection, projected or otherwise,
-        return the vector.
-    else return None
-    '''
-    # no editing shall take place, so getting info from bmesh might be overkill
     obj = context.active_object
     edge_prime_idx = self.selected_edges[0]
 
@@ -94,7 +88,6 @@ def get_intersection(self, context, idx, bm):
     vp = bm.edges[edge_prime_idx].verts
     edge_prime = (vp[0].co, vp[1].co)
 
-    # first check if vertex intersects in the mathematical sense
     return intersection_edge(edge_prime, edge)
 
 
@@ -154,10 +147,6 @@ def draw_callback_px(self, context):
 
             # now check if the newly selected edge intersects
             p = get_intersection(self, context, idx, bm)
-            print(p)
-            if not p:
-                e.select = False
-                continue
 
             # the point must also lie on edge_prime
             edge_prime_idx = self.selected_edges[0]
@@ -169,7 +158,6 @@ def draw_callback_px(self, context):
                 continue
 
             if point_on_edge(p, edge_prime):
-                # evec = closest(p, edge)
                 vert_idx_closest = closest(p, e)
                 self.selected_edges.append(idx)
                 self.xvectors[idx] = [p, vert_idx_closest]

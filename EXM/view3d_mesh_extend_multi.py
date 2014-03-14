@@ -165,6 +165,8 @@ def draw_callback_px(self, context):
         draw_gl_strip(coords, 3)
 
     def do_single_draw_pass(self, bm):
+        num_selected = len(self.selected_edges)
+
         # draw edge prime
         if num_selected > 0:
             idx = self.selected_edges[0]
@@ -198,7 +200,6 @@ def draw_callback_px(self, context):
     me.update()
 
     populate_vector_lists(self, bm)
-    num_selected = len(self.selected_edges)
     do_single_draw_pass(self, bm)
 
 

@@ -100,36 +100,7 @@ def closest(p, e):
     return ev[0].index if distance_test else ev[1].index
 
 
-# calculate locations and store them as ID property in the mesh
-def draw_callback_px(self, context):
-
-    if context.mode != "EDIT_MESH":
-        return
-
-    # get screen information
-    region = context.region
-    rv3d = context.space_data.region_3d
-    this_object = context.active_object
-    matrix_world = this_object.matrix_world
-
-    def draw_gl_strip(coords, line_thickness):
-        bgl.glLineWidth(line_thickness)
-        bgl.glBegin(bgl.GL_LINES)
-        for coord in coords:
-            vector3d = matrix_world * coord
-            vector2d = loc3d2d(region, rv3d, vector3d)
-            bgl.glVertex2f(*vector2d)
-        bgl.glEnd()
-
-    def draw_edge(coords, mode):
-        bgl.glColor3f(*line_colors[mode])
-        draw_gl_strip(coords, 3)
-
-    scene = context.scene
-    me = context.active_object.data
-    bm = bmesh.from_edit_mesh(me)
-    me.update()
-
+def populate_vector_lists(self, bm):
     # this segment adds each new edge to the select_edges storage
     # suboptimal..
     for idx, e in enumerate(bm.edges):
@@ -167,35 +138,68 @@ def draw_callback_px(self, context):
                 self.selected_edges.remove(idx)
                 del self.xvectors[idx]
 
-    num_selected = len(self.selected_edges)
-    print(self.selected_edges)
 
-    # draw edge prime
-    if num_selected > 0:
-        idx = self.selected_edges[0]
-        v = bm.edges[idx].verts
-        coords = (v[0].co, v[1].co)
-        draw_edge(coords, "prime")
+# calculate locations and store them as ID property in the mesh
+def draw_callback_px(self, context):
 
-    # draw extender edges and projections.
-    if num_selected > 1:
-        print('wiips')
-        # get and draw selected valid edges
-        coords = []
-        for idx in self.selected_edges[1:]:
+    if context.mode != "EDIT_MESH":
+        return
+
+    # get screen information
+    region = context.region
+    rv3d = context.space_data.region_3d
+    this_object = context.active_object
+    matrix_world = this_object.matrix_world
+
+    def draw_gl_strip(coords, line_thickness):
+        bgl.glLineWidth(line_thickness)
+        bgl.glBegin(bgl.GL_LINES)
+        for coord in coords:
+            vector3d = matrix_world * coord
+            vector2d = loc3d2d(region, rv3d, vector3d)
+            bgl.glVertex2f(*vector2d)
+        bgl.glEnd()
+
+    def draw_edge(coords, mode):
+        bgl.glColor3f(*line_colors[mode])
+        draw_gl_strip(coords, 3)
+
+    def do_single_draw_pass(self, bm):
+        # draw edge prime
+        if num_selected > 0:
+            idx = self.selected_edges[0]
             v = bm.edges[idx].verts
-            c = (v[0].co, v[1].co)
-            coords.extend(c)
+            coords = (v[0].co, v[1].co)
+            draw_edge(coords, "prime")
 
-        draw_edge(coords, "extend")
+        # draw extender edges and projections.
+        if num_selected > 1:
+            print('wiips')
+            # get and draw selected valid edges
+            coords = []
+            for idx in self.selected_edges[1:]:
+                v = bm.edges[idx].verts
+                c = (v[0].co, v[1].co)
+                coords.extend(c)
 
-        # get and draw extenders only
-        list2d = [val for key, val in self.xvectors.items()]
-        list2d = [[p, bm.verts[pidx].co] for (p, pidx) in list2d]
-        coordinates = list(itertools.chain.from_iterable(list2d))
-        draw_edge(coordinates, "projection")
+            draw_edge(coords, "extend")
 
-    restore_bgl_defaults()
+            # get and draw extenders only
+            list2d = [val for key, val in self.xvectors.items()]
+            list2d = [[p, bm.verts[pidx].co] for (p, pidx) in list2d]
+            coordinates = list(itertools.chain.from_iterable(list2d))
+            draw_edge(coordinates, "projection")
+
+        restore_bgl_defaults()
+
+    scene = context.scene
+    me = context.active_object.data
+    bm = bmesh.from_edit_mesh(me)
+    me.update()
+
+    populate_vector_lists(self, bm)
+    num_selected = len(self.selected_edges)
+    do_single_draw_pass(self, bm)
 
 
 # operator

@@ -94,9 +94,8 @@ def get_intersection(self, idx, bm):
 
 def closest(p, e):
     ev = e.verts
-    edge = (ev[0].co, ev[1].co)
-    v1 = edge[0]
-    v2 = edge[1]
+    v1 = ev[0].co
+    v2 = ev[1].co
     distance_test = mDist(v1, p) < mDist(v2, p)
     return ev[0].index if distance_test else ev[1].index
 

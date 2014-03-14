@@ -71,6 +71,13 @@ def point_on_edge(point, edge):
     return abs(eps) < VTX_PRECISION
 
 
+def get_prime(self, bm):
+    edge_prime_idx = self.selected_edges[0]
+    vp = bm.edges[edge_prime_idx].verts
+    edge_prime = (vp[0].co, vp[1].co)
+    return edge_prime
+
+
 def intersection_edge(edge_prime, edge):
     p1, p2 = edge_prime
     p3, p4 = edge
@@ -78,16 +85,10 @@ def intersection_edge(edge_prime, edge):
     return ((line[0] + line[1]) / 2)
 
 
-def get_intersection(self, context, idx, bm):
-    obj = context.active_object
-    edge_prime_idx = self.selected_edges[0]
-
+def get_intersection(self, idx, bm):
+    edge_prime = get_prime(self, bm)
     v = bm.edges[idx].verts
     edge = (v[0].co, v[1].co)
-
-    vp = bm.edges[edge_prime_idx].verts
-    edge_prime = (vp[0].co, vp[1].co)
-
     return intersection_edge(edge_prime, edge)
 
 
@@ -146,12 +147,9 @@ def draw_callback_px(self, context):
                 continue
 
             # now check if the newly selected edge intersects
-            p = get_intersection(self, context, idx, bm)
-
-            # the point must also lie on edge_prime
-            edge_prime_idx = self.selected_edges[0]
-            vp = bm.edges[edge_prime_idx].verts
-            edge_prime = (vp[0].co, vp[1].co)
+            # (p will always be a vector, but it might not be an intersection)
+            p = get_intersection(self, idx, bm)
+            edge_prime = get_prime(self, bm)
 
             if not point_on_edge(p, edge_prime):
                 e.select = False

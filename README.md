@@ -57,4 +57,5 @@ Explained in the issue tracker with moving GIF: [issue3](https://github.com/zeff
 
 ### Extend Multiples
 
-Explained in the issue tracker with moving GIF: [issue2](https://github.com/zeffii/Blender_CAD_utils/issues/2)
+Explained in the issue tracker with moving GIF: [issue2](https://github.com/zeffii/Blender_CAD_utils/issues/2). This has now progressed to an addon called [EXM](https://github.com/zeffii/Blender_CAD_utils/tree/master/EXM)
+![Imgur](http://i.imgur.com/PYggEIq.gif)

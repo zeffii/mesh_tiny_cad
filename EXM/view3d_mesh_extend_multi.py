@@ -100,6 +100,12 @@ def closest(p, e):
     return ev[0].index if distance_test else ev[1].index
 
 
+def coords_from_idx(bm, idx):
+    v = bm.edges[idx].verts
+    c = (v[0].co, v[1].co)
+    return c
+
+
 def populate_vector_lists(self, bm):
     # this segment adds each new edge to the select_edges storage
     # suboptimal..
@@ -170,9 +176,8 @@ def draw_callback_px(self, context):
         # draw edge prime
         if num_selected > 0:
             idx = self.selected_edges[0]
-            v = bm.edges[idx].verts
-            coords = (v[0].co, v[1].co)
-            draw_edge(coords, "prime")
+            c = coords_from_idx(bm, idx)
+            draw_edge(c, "prime")
 
         # draw extender edges and projections.
         if num_selected > 1:
@@ -180,8 +185,7 @@ def draw_callback_px(self, context):
             # get and draw selected valid edges
             coords = []
             for idx in self.selected_edges[1:]:
-                v = bm.edges[idx].verts
-                c = (v[0].co, v[1].co)
+                c = coords_from_idx(bm, idx)
                 coords.extend(c)
 
             draw_edge(coords, "extend")

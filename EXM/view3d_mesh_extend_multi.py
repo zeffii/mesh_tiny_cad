@@ -53,7 +53,6 @@ line_colors = {
 
 
 def restore_bgl_defaults():
-    # restore opengl defaults
     bgl.glLineWidth(1)
     bgl.glDisable(bgl.GL_BLEND)
     bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
@@ -117,7 +116,8 @@ def get_extender_coords(self, bm):
 
 def populate_vector_lists(self, bm):
     # this segment adds each new edge to the select_edges storage
-    # suboptimal..
+    # doing this only if edges are added or removed would be much more optimal
+    # doing this on every redraw is quite wasteful.
     for idx, e in enumerate(bm.edges):
         if e.hide:
             continue
@@ -154,7 +154,6 @@ def populate_vector_lists(self, bm):
                 del self.xvectors[idx]
 
 
-# calculate locations and store them as ID property in the mesh
 def draw_callback_px(self, context):
 
     if context.mode != "EDIT_MESH":
@@ -210,14 +209,11 @@ def draw_callback_px(self, context):
     do_single_draw_pass(self, bm)
 
 
-# operator
-class EdgeHover(bpy.types.Operator):
-    bl_idname = "view3d.edge_visualiser"
-    bl_label = "_extend all"
-    bl_description = "Toggle the visualisation of indices"
+class ExtendMultipleEdges(bpy.types.Operator):
+    bl_idname = "view3d.extend_edges"
+    bl_label = "extend all"
+    bl_description = "Extends all exdges towards a prime edge"
 
-    # [0] will contain edge_prime
-    # [1:] will contain the extender edges, (edges that really intersect)
     selected_edges = []
     xvectors = {}
     handle = None
@@ -270,11 +266,11 @@ class EdgeHover(bpy.types.Operator):
 
 
 def register():
-    bpy.utils.register_class(EdgeHover)
+    bpy.utils.register_class(ExtendMultipleEdges)
 
 
 def unregister():
-    bpy.utils.unregister_class(EdgeHover)
+    bpy.utils.unregister_class(ExtendMultipleEdges)
 
 
 if __name__ == "__main__":

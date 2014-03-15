@@ -59,15 +59,10 @@ def restore_bgl_defaults():
     bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
 
 
-#   returns distance between two given points
-def mDist(A, B):
-    return (A-B).length
-
-
 #   returns True / False if a point happens to lie on an edge
 def point_on_edge(point, edge):
     A, B = edge
-    eps = ((mDist(A, B) - mDist(point, B)) - mDist(A, point))
+    eps = (((A - B).length - (point - B).length) - (A - point).length)
     return abs(eps) < VTX_PRECISION
 
 
@@ -96,7 +91,7 @@ def closest(p, e):
     ev = e.verts
     v1 = ev[0].co
     v2 = ev[1].co
-    distance_test = mDist(v1, p) < mDist(v2, p)
+    distance_test = (v1 - p).length < (v2 - p).length
     return ev[0].index if distance_test else ev[1].index
 
 

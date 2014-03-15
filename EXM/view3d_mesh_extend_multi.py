@@ -106,6 +106,20 @@ def coords_from_idx(bm, idx):
     return c
 
 
+def get_projection_coords(self, bm):
+    list2d = [val for key, val in self.xvectors.items()]
+    list2d = [[p, bm.verts[pidx].co] for (p, pidx) in list2d]
+    return list(itertools.chain.from_iterable(list2d))
+
+
+def get_extender_coords(self, bm):
+    coords = []
+    for idx in self.selected_edges[1:]:
+        c = coords_from_idx(bm, idx)
+        coords.extend(c)
+    return coords
+
+
 def populate_vector_lists(self, bm):
     # this segment adds each new edge to the select_edges storage
     # suboptimal..
@@ -181,20 +195,14 @@ def draw_callback_px(self, context):
 
         # draw extender edges and projections.
         if num_selected > 1:
-            print('wiips')
-            # get and draw selected valid edges
-            coords = []
-            for idx in self.selected_edges[1:]:
-                c = coords_from_idx(bm, idx)
-                coords.extend(c)
 
-            draw_edge(coords, "extend")
+            # get and draw selected valid edges
+            coords_ext = get_extender_coords(self, bm)
+            draw_edge(coords_ext, "extend")
 
             # get and draw extenders only
-            list2d = [val for key, val in self.xvectors.items()]
-            list2d = [[p, bm.verts[pidx].co] for (p, pidx) in list2d]
-            coordinates = list(itertools.chain.from_iterable(list2d))
-            draw_edge(coordinates, "projection")
+            coords_proj = get_projection_coords(self, bm)
+            draw_edge(coords_proj, "projection")
 
         restore_bgl_defaults()
 

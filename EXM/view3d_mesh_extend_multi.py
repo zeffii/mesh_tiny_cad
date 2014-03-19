@@ -151,19 +151,43 @@ def populate_vector_lists(self, bm):
         else:
             if idx in self.selected_edges:
                 self.selected_edges.remove(idx)
-                del self.xvectors[idx]
+
+                if idx in self.xvectors:
+                    del self.xvectors[idx]
 
 
-def draw_callback_px(self, context):
+def hid_states(self, event):
+
+    if event.type in self.hid_state_dict:
+        if self.hid_state_dict[event.type] == 0:
+            if event.value == 'PRESS':
+                self.hid_state_dict[event.type] = 1
+                return False
+        else:
+            if event.value == 'RELEASE':
+                self.hid_state_dict[event.type] = 0
+                return True
+
+    return False
+
+
+def draw_callback_px(self, context, event):
 
     if context.mode != "EDIT_MESH":
         return
+
+    self.state = hid_states(self, event)
 
     # get screen information
     region = context.region
     rv3d = context.space_data.region_3d
     this_object = context.active_object
     matrix_world = this_object.matrix_world
+
+    scene = context.scene
+    me = context.active_object.data
+    bm = bmesh.from_edit_mesh(me)
+    me.update()
 
     def draw_gl_strip(coords, line_thickness):
         bgl.glLineWidth(line_thickness)
@@ -200,23 +224,30 @@ def draw_callback_px(self, context):
 
         restore_bgl_defaults()
 
-    scene = context.scene
-    me = context.active_object.data
-    bm = bmesh.from_edit_mesh(me)
-    me.update()
+    # only in the event of interaction, admittedly indiscriminate, shall
+    # the vector list be updates.
+    if self.state:
+        populate_vector_lists(self, bm)
 
-    populate_vector_lists(self, bm)
     do_single_draw_pass(self, bm)
 
 
 class ExtendMultipleEdges(bpy.types.Operator):
     bl_idname = "view3d.extend_edges"
     bl_label = "extend all"
-    bl_description = "Extends all exdges towards a prime edge"
+    bl_description = "Extends all edges towards a prime edge"
 
     selected_edges = []
     xvectors = {}
     handle = None
+    state = True
+
+    hid_state_dict = {
+        'LEFTMOUSE': 0,
+        'RIGHTMOUSE': 0,
+        'LEFT_SHIFT': 0,
+        'MIDDLEMOUSE': 0
+    }
 
     @classmethod
     def poll(cls, context):
@@ -246,23 +277,24 @@ class ExtendMultipleEdges(bpy.types.Operator):
         if event.type in ('PERIOD'):
             bpy.types.SpaceView3D.draw_handler_remove(self.handle, 'WINDOW')
             self.add_geometry(context)
-            return {"CANCELLED"}
+            return {'FINISHED'}
 
-        if context.area:
+        if context.area and self.state:
             context.area.tag_redraw()
 
-        return {"PASS_THROUGH"}
+        return {'PASS_THROUGH'}
 
     def invoke(self, context, event):
         if context.area.type == "VIEW_3D":
             self.unselect_all(context)
+            fparams = (self, context, event)
             self.handle = bpy.types.SpaceView3D.draw_handler_add(
-                draw_callback_px, (self, context), 'WINDOW', 'POST_PIXEL')
+                draw_callback_px, fparams, 'WINDOW', 'POST_PIXEL')
             context.window_manager.modal_handler_add(self)
-            return {"RUNNING_MODAL"}
+            return {'RUNNING_MODAL'}
         else:
             self.report({"WARNING"}, "View3D not found, can't run operator")
-            return {"CANCELLED"}
+            return {'CANCELLED'}
 
 
 def register():

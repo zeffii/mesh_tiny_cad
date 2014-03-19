@@ -87,6 +87,7 @@ def get_intersection(self, idx, bm):
 
 
 def closest(p, e):
+    '''p is a vector, e is a bmesh edge'''
     ev = e.verts
     v1 = ev[0].co
     v2 = ev[1].co
@@ -96,8 +97,7 @@ def closest(p, e):
 
 def coords_from_idx(bm, idx):
     v = bm.edges[idx].verts
-    c = (v[0].co, v[1].co)
-    return c
+    return (v[0].co, v[1].co)
 
 
 def get_projection_coords(self, bm):
@@ -115,9 +115,7 @@ def get_extender_coords(self, bm):
 
 
 def populate_vector_lists(self, bm):
-    # this segment adds each new edge to the select_edges storage
-    # doing this only if edges are added or removed would be much more optimal
-    # doing this on every redraw is quite wasteful.
+    # this segment adds each new edge to the select_edges list
     for idx, e in enumerate(bm.edges):
         if e.hide:
             continue
@@ -277,6 +275,8 @@ class ExtendMultipleEdges(bpy.types.Operator):
         if event.type in ('PERIOD'):
             bpy.types.SpaceView3D.draw_handler_remove(self.handle, 'WINDOW')
             self.add_geometry(context)
+            self.selected_edges = []
+            self.xvectors = {}
             return {'FINISHED'}
 
         if context.area and self.state:

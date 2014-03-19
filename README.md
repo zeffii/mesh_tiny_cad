@@ -11,7 +11,6 @@ The VTX script has lived in contrib distributions of Blender since 2010, with re
   
 Todo:  
 
-  - Extend multiple
   - Trim multiple
   
 Other features like `Fillet / Chamfer` and `Offset` are also catered for as scripts. [link here](http://blenderartists.org/forum/showthread.php?179375)
@@ -57,7 +56,7 @@ Explained in the issue tracker with moving GIF: [issue3](https://github.com/zeff
 
 ### Extend Multiples
 
-. This has now progressed to an addon called [EXM](https://github.com/zeffii/Blender_CAD_utils/tree/master/EXM)
+This has now progressed to an addon called [EXM](https://github.com/zeffii/Blender_CAD_utils/tree/master/EXM)
 ![Imgur](http://i.imgur.com/PYggEIq.gif)  
 
 Explained in the issue tracker with moving GIF: [issue2](https://github.com/zeffii/Blender_CAD_utils/issues/2)

@@ -20,7 +20,7 @@
 bl_info = {
     'name': 'extend multi edges (BMesh, bgl)',
     'author': 'zeffii',
-    'version': (0, 0, 1),
+    'version': (0, 0, 2),
     'blender': (2, 7, 0),
     'location': '',
     'warning': '',
@@ -48,7 +48,8 @@ VTX_PRECISION = 1.0e-5  # or 1.0e-6 ..if you need
 line_colors = {
     "prime": (0.2, 0.8, 0.9),
     "extend": (0.9, 0.8, 0.2),
-    "projection": (0.9, 0.6, 0.5)
+    "projection": (0.9, 0.6, 0.5),
+    "cursor": (0.9, 0.9, 0.2)
 }
 
 
@@ -160,7 +161,6 @@ def hid_states(self, event):
         if self.hid_state_dict[event.type] == 0:
             if event.value == 'PRESS':
                 self.hid_state_dict[event.type] = 1
-                return False
         else:
             if event.value == 'RELEASE':
                 self.hid_state_dict[event.type] = 0
@@ -196,9 +196,26 @@ def draw_callback_px(self, context, event):
             bgl.glVertex2f(*vector2d)
         bgl.glEnd()
 
-    def draw_edge(coords, mode):
+    def draw_edge(coords, mode, lt):
         bgl.glColor3f(*line_colors[mode])
-        draw_gl_strip(coords, 3)
+        draw_gl_strip(coords, lt)
+
+    # def draw_cursor():
+    #     hsize = 2
+    #     cmx, cmy = self.mx, self.my
+    #     p1 = cmx - hsize, cmy - hsize
+    #     p2 = cmx + hsize, cmy - hsize
+    #     p3 = cmx + hsize, cmy + hsize
+    #     p4 = cmx - hsize, cmy + hsize
+    #     coords = [p1, p2, p3, p4, p1]
+    #     print(coords)
+
+    #     bgl.glColor3f(*line_colors["cursor"])
+    #     bgl.glLineWidth(1)
+    #     bgl.glBegin(bgl.GL_LINE_LOOP)
+    #     for coord in coords:
+    #         bgl.glVertex2f(*coord)
+    #     bgl.glEnd()
 
     def do_single_draw_pass(self, bm):
         num_selected = len(self.selected_edges)
@@ -207,18 +224,18 @@ def draw_callback_px(self, context, event):
         if num_selected > 0:
             idx = self.selected_edges[0]
             c = coords_from_idx(bm, idx)
-            draw_edge(c, "prime")
+            draw_edge(c, "prime", 3)
 
         # draw extender edges and projections.
         if num_selected > 1:
 
             # get and draw selected valid edges
             coords_ext = get_extender_coords(self, bm)
-            draw_edge(coords_ext, "extend")
+            draw_edge(coords_ext, "extend", 3)
 
             # get and draw extenders only
             coords_proj = get_projection_coords(self, bm)
-            draw_edge(coords_proj, "projection")
+            draw_edge(coords_proj, "projection", 3)
 
         restore_bgl_defaults()
 
@@ -227,6 +244,7 @@ def draw_callback_px(self, context, event):
     if self.state:
         populate_vector_lists(self, bm)
 
+    # draw_cursor()
     do_single_draw_pass(self, bm)
 
 
@@ -246,6 +264,8 @@ class ExtendMultipleEdges(bpy.types.Operator):
         'LEFT_SHIFT': 0,
         'MIDDLEMOUSE': 0
     }
+
+    # mx, my = None, None
 
     @classmethod
     def poll(cls, context):
@@ -275,9 +295,11 @@ class ExtendMultipleEdges(bpy.types.Operator):
         if event.type in ('PERIOD'):
             bpy.types.SpaceView3D.draw_handler_remove(self.handle, 'WINDOW')
             self.add_geometry(context)
-            self.selected_edges = []
-            self.xvectors = {}
             return {'FINISHED'}
+
+        # if event.type == 'MOUSEMOVE':
+        #     self.mx = event.mouse_region_x
+        #     self.my = event.mouse_region_y
 
         if context.area and self.state:
             context.area.tag_redraw()
@@ -286,7 +308,12 @@ class ExtendMultipleEdges(bpy.types.Operator):
 
     def invoke(self, context, event):
         if context.area.type == "VIEW_3D":
+            
+            # scrub selections and storage
+            self.selected_edges = []
+            self.xvectors = {}
             self.unselect_all(context)
+           
             fparams = (self, context, event)
             self.handle = bpy.types.SpaceView3D.draw_handler_add(
                 draw_callback_px, fparams, 'WINDOW', 'POST_PIXEL')

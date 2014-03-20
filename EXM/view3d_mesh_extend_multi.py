@@ -308,12 +308,12 @@ class ExtendMultipleEdges(bpy.types.Operator):
 
     def invoke(self, context, event):
         if context.area.type == "VIEW_3D":
-            
+
             # scrub selections and storage
             self.selected_edges = []
             self.xvectors = {}
             self.unselect_all(context)
-           
+
             fparams = (self, context, event)
             self.handle = bpy.types.SpaceView3D.draw_handler_add(
                 draw_callback_px, fparams, 'WINDOW', 'POST_PIXEL')

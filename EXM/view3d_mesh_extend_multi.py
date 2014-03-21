@@ -225,24 +225,33 @@ class ExtendEdgesMulti(bpy.types.Operator):
     def poll(cls, context):
         return context.mode == "EDIT_MESH"
 
-    def add_geometry(self, context):
+    def modify_geometry(self, context, event_type):
         list2d = [val for key, val in self.xvectors.items()]
         vertex_count = len(self.bm.verts)
 
-        for point, closest_idx in list2d:
-            self.bm.verts.new((point))
-            v1 = self.bm.verts[-1]
-            v2 = self.bm.verts[closest_idx]
-            self.bm.edges.new((v1, v2))
+        # adds new geometry
+        if event_type == 'PERIOD':
+
+            for point, closest_idx in list2d:
+                self.bm.verts.new((point))
+                v1 = self.bm.verts[-1]
+                v2 = self.bm.verts[closest_idx]
+                self.bm.edges.new((v1, v2))
+
+        # extend current egdes towards intersections
+        elif event_type == 'COMMA':
+
+            for point, closest_idx in list2d:
+                self.bm.verts[closest_idx].co = point
 
         bmesh.update_edit_mesh(self.me)
 
     def modal(self, context, event):
 
-        if event.type in ('PERIOD'):
+        if event.type in ('PERIOD', 'COMMA'):
             bpy.types.SpaceView3D.draw_handler_remove(self.handle, 'WINDOW')
             bpy.context.space_data.show_manipulator = True
-            self.add_geometry(context)
+            self.modify_geometry(context, event.type)
             del self.selected_edges
             del self.xvectors
             return {'FINISHED'}

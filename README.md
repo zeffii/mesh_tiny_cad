@@ -56,7 +56,22 @@ Explained in the issue tracker with moving GIF: [issue3](https://github.com/zeff
 
 ### Extend Multiples
 
-This has now progressed to an addon called [EXM](https://github.com/zeffii/Blender_CAD_utils/tree/master/EXM)
+This has now progressed to an addon called [EXM](https://github.com/zeffii/Blender_CAD_utils/tree/master/EXM)  
+It has two modes.  
+  -  Pick an edge (we'll call this Edge Prime)
+  -  make sure only one edge is selected
+  -  Run `extend edge` from spacebar menu
+  -  Your picked edge has turned light blue
+  -  Pick edges to extend towards that edge
+  -  If edges are picked that don't intersect in 3d space (within tolerance) then those edges are not added
+  -  Edges that do intersect will be shown in a different colour with the extended part in yet another colour
+  -  You can unpick edges by clicking on them
+  -  To finalize the operation:  
+    - Press `Comma` to extend the edges using the vertex closest to the intersection point
+    - Press `Period` to create a new edge attached to the original geometry.
+  -  This addon does not weld the extended edges onto Edge Prime.
+
+
 ![Imgur](http://i.imgur.com/PYggEIq.gif)  
 
 Explained in the issue tracker with moving GIF: [issue2](https://github.com/zeffii/Blender_CAD_utils/issues/2)

@@ -264,7 +264,7 @@ class ExtendEdgesMulti(bpy.types.Operator):
             self.bm = bmesh.from_edit_mesh(self.me)
             self.me.update()
 
-            # enfore singular edge selection first then assign to edge_prime
+            # enforce singular edge selection first then assign to edge_prime
             m = [e.index for e in self.bm.edges if e.select]
             if not len(m) is 1:
                 self.report({"WARNING"}, "Please select 1 edge only")

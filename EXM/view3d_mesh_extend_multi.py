@@ -18,9 +18,9 @@
 
 
 bl_info = {
-    'name': 'extend multi edges (BMesh, bgl)',
+    'name': 'testiing (BMesh, bgl)',
     'author': 'zeffii',
-    'version': (0, 0, 2),
+    'version': (0, 0, 3),
     'blender': (2, 7, 0),
     'location': '',
     'warning': '',
@@ -48,8 +48,7 @@ VTX_PRECISION = 1.0e-5  # or 1.0e-6 ..if you need
 line_colors = {
     "prime": (0.2, 0.8, 0.9),
     "extend": (0.9, 0.8, 0.2),
-    "projection": (0.9, 0.6, 0.5),
-    "cursor": (0.9, 0.9, 0.2)
+    "projection": (0.9, 0.6, 0.5)
 }
 
 
@@ -66,11 +65,9 @@ def point_on_edge(point, edge):
     return abs(eps) < VTX_PRECISION
 
 
-def get_prime(self, bm):
-    edge_prime_idx = self.selected_edges[0]
-    vp = bm.edges[edge_prime_idx].verts
-    edge_prime = (vp[0].co, vp[1].co)
-    return edge_prime
+def get_prime(self):
+    vp = self.bm.edges[self.edge_prime_idx].verts
+    return vp[0].co, vp[1].co
 
 
 def intersection_edge(edge_prime, edge):
@@ -80,9 +77,9 @@ def intersection_edge(edge_prime, edge):
     return ((line[0] + line[1]) / 2)
 
 
-def get_intersection(self, idx, bm):
-    edge_prime = get_prime(self, bm)
-    v = bm.edges[idx].verts
+def get_intersection(self, idx):
+    edge_prime = get_prime(self)
+    v = self.bm.edges[idx].verts
     edge = (v[0].co, v[1].co)
     return intersection_edge(edge_prime, edge)
 
@@ -96,77 +93,62 @@ def closest(p, e):
     return ev[0].index if distance_test else ev[1].index
 
 
-def coords_from_idx(bm, idx):
-    v = bm.edges[idx].verts
+def coords_from_idx(self, idx):
+    v = self.bm.edges[idx].verts
     return (v[0].co, v[1].co)
 
 
-def get_projection_coords(self, bm):
+def get_projection_coords(self):
     list2d = [val for key, val in self.xvectors.items()]
-    list2d = [[p, bm.verts[pidx].co] for (p, pidx) in list2d]
+    list2d = [[p, self.bm.verts[pidx].co] for (p, pidx) in list2d]
     return list(itertools.chain.from_iterable(list2d))
 
 
-def get_extender_coords(self, bm):
+def get_extender_coords(self):
     coords = []
-    for idx in self.selected_edges[1:]:
-        c = coords_from_idx(bm, idx)
+    for idx in self.selected_edges:
+        c = coords_from_idx(self, idx)
         coords.extend(c)
     return coords
 
 
-def populate_vector_lists(self, bm):
-    # this segment adds each new edge to the select_edges list
-    for idx, e in enumerate(bm.edges):
-        if e.hide:
-            continue
+def add_or_remove_new_edge(self, idx):
+    '''
+        - only add idx if not edge_prime
+        - and not currently present in selected_edges
+    '''
+    if idx == self.edge_prime_idx:
+        print(idx, 'is edge prime, not adding')
+        return
 
-        if e.select:
-            if idx in self.selected_edges:
-                continue
+    present = (idx in self.selected_edges)
+    if present:
+        self.selected_edges.remove(idx)
+        del self.xvectors[idx]
+    else:
 
-            # boom, edge_prime
-            if len(self.selected_edges) == 0:
-                self.selected_edges.append(idx)
-                continue
+        p = get_intersection(self, idx)
+        edge_prime = get_prime(self)
 
-            # now check if the newly selected edge intersects
-            # (p will always be a vector, but it might not be an intersection)
-            p = get_intersection(self, idx, bm)
-            edge_prime = get_prime(self, bm)
+        if not point_on_edge(p, edge_prime):
+            return
 
-            if not point_on_edge(p, edge_prime):
-                e.select = False
-                continue
-
-            if point_on_edge(p, edge_prime):
-                vert_idx_closest = closest(p, e)
-                self.selected_edges.append(idx)
-                self.xvectors[idx] = [p, vert_idx_closest]
-                continue
-            else:
-                e.select = False
-
-        else:
-            if idx in self.selected_edges:
-                self.selected_edges.remove(idx)
-
-                if idx in self.xvectors:
-                    del self.xvectors[idx]
+        vert_idx_closest = closest(p, self.bm.edges[idx])
+        self.xvectors[idx] = [p, vert_idx_closest]
+        self.selected_edges.append(idx)
 
 
-def hid_states(self, event):
+def set_mesh_data(self):
+    history = self.bm.select_history
+    if not (len(history) > 0):
+        return
 
-    if event.type in self.hid_state_dict:
-        if self.hid_state_dict[event.type] == 0:
-            if event.value == 'PRESS':
-                self.hid_state_dict[event.type] = 1
-        else:
-            if event.value == 'RELEASE':
-                self.hid_state_dict[event.type] = 0
-                return True
+    a = history[-1]
+    if not isinstance(a, bmesh.types.BMEdge):
+        return
 
-    return False
+    add_or_remove_new_edge(self, a.index)
+    a.select = False
 
 
 def draw_callback_px(self, context, event):
@@ -174,18 +156,12 @@ def draw_callback_px(self, context, event):
     if context.mode != "EDIT_MESH":
         return
 
-    self.state = hid_states(self, event)
-
     # get screen information
     region = context.region
     rv3d = context.space_data.region_3d
     this_object = context.active_object
     matrix_world = this_object.matrix_world
-
-    scene = context.scene
-    me = context.active_object.data
-    bm = bmesh.from_edit_mesh(me)
-    me.update()
+    # scene = context.scene
 
     def draw_gl_strip(coords, line_thickness):
         bgl.glLineWidth(line_thickness)
@@ -217,91 +193,64 @@ def draw_callback_px(self, context, event):
     #         bgl.glVertex2f(*coord)
     #     bgl.glEnd()
 
-    def do_single_draw_pass(self, bm):
-        num_selected = len(self.selected_edges)
+    def do_single_draw_pass(self):
 
         # draw edge prime
-        if num_selected > 0:
-            idx = self.selected_edges[0]
-            c = coords_from_idx(bm, idx)
-            draw_edge(c, "prime", 3)
+        c = coords_from_idx(self, self.edge_prime_idx)
+        draw_edge(c, "prime", 3)
 
         # draw extender edges and projections.
-        if num_selected > 1:
+        if len(self.selected_edges) > 0:
 
             # get and draw selected valid edges
-            coords_ext = get_extender_coords(self, bm)
+            coords_ext = get_extender_coords(self)
             draw_edge(coords_ext, "extend", 3)
 
             # get and draw extenders only
-            coords_proj = get_projection_coords(self, bm)
+            coords_proj = get_projection_coords(self)
             draw_edge(coords_proj, "projection", 3)
 
         restore_bgl_defaults()
 
-    # only in the event of interaction, admittedly indiscriminate, shall
-    # the vector list be updates.
-    if self.state:
-        populate_vector_lists(self, bm)
-
     # draw_cursor()
-    do_single_draw_pass(self, bm)
+    do_single_draw_pass(self)
 
 
-class ExtendMultipleEdges(bpy.types.Operator):
-    bl_idname = "view3d.extend_edges"
-    bl_label = "extend all"
-    bl_description = "Extends all edges towards a prime edge"
-
-    selected_edges = []
-    xvectors = {}
-    handle = None
-    state = True
-
-    hid_state_dict = {
-        'LEFTMOUSE': 0,
-        'RIGHTMOUSE': 0,
-        'LEFT_SHIFT': 0,
-        'MIDDLEMOUSE': 0
-    }
-
-    # mx, my = None, None
+class EdgeUnderCursor(bpy.types.Operator):
+    bl_idname = "view3d.cursor_test"
+    bl_label = "cursor_test"
+    bl_description = "cursor testing"
 
     @classmethod
     def poll(cls, context):
         return context.mode == "EDIT_MESH"
 
-    def unselect_all(self, context):
-        me = context.active_object.data
-        bm = bmesh.from_edit_mesh(me)
-        me.update()
-        for e in bm.edges:
-            e.select = False
-
     def add_geometry(self, context):
         list2d = [val for key, val in self.xvectors.items()]
-        me = context.active_object.data
-        bm = bmesh.from_edit_mesh(me)
-        vertex_count = len(bm.verts)
+        vertex_count = len(self.bm.verts)
 
         for point, closest_idx in list2d:
-            bm.verts.new((point))
-            bm.edges.new((bm.verts[-1], bm.verts[closest_idx]))
+            self.bm.verts.new((point))
+            v1 = self.bm.verts[-1]
+            v2 = self.bm.verts[closest_idx]
+            self.bm.edges.new((v1, v2))
 
-        bmesh.update_edit_mesh(me)
+        bmesh.update_edit_mesh(self.me)
 
     def modal(self, context, event):
 
         if event.type in ('PERIOD'):
             bpy.types.SpaceView3D.draw_handler_remove(self.handle, 'WINDOW')
+            bpy.context.space_data.show_manipulator = True
             self.add_geometry(context)
+            del self.selected_edges
+            del self.xvectors
             return {'FINISHED'}
 
-        # if event.type == 'MOUSEMOVE':
-        #     self.mx = event.mouse_region_x
-        #     self.my = event.mouse_region_y
+        if (event.type, event.value) == ("RIGHTMOUSE", "RELEASE"):
+            set_mesh_data(self)
 
-        if context.area and self.state:
+        if context.area:
             context.area.tag_redraw()
 
         return {'PASS_THROUGH'}
@@ -309,27 +258,41 @@ class ExtendMultipleEdges(bpy.types.Operator):
     def invoke(self, context, event):
         if context.area.type == "VIEW_3D":
 
-            # scrub selections and storage
             self.selected_edges = []
             self.xvectors = {}
-            self.unselect_all(context)
+            self.me = context.active_object.data
+            self.bm = bmesh.from_edit_mesh(self.me)
+            self.me.update()
 
-            fparams = (self, context, event)
-            self.handle = bpy.types.SpaceView3D.draw_handler_add(
-                draw_callback_px, fparams, 'WINDOW', 'POST_PIXEL')
+            # enfore singular edge selection first then assign to edge_prime
+            m = [e.index for e in self.bm.edges if e.select]
+            if not len(m) is 1:
+                self.report({"WARNING"}, "Please select 1 edge only")
+                return {'CANCELLED'}
+
+            # switch off axial manipulator, set important variables.
+            self.edge_prime_idx = m[0]
+            bpy.context.space_data.show_manipulator = False
+
+            # configure draw handler
+            fparams = self, context, event
+            handler_config = draw_callback_px, fparams, 'WINDOW', 'POST_PIXEL'
+            draw_handler_add = bpy.types.SpaceView3D.draw_handler_add
+            self.handle = draw_handler_add(*handler_config)
+
             context.window_manager.modal_handler_add(self)
             return {'RUNNING_MODAL'}
         else:
-            self.report({"WARNING"}, "View3D not found, can't run operator")
+            self.report({"WARNING"}, "Please run operator from within 3d view")
             return {'CANCELLED'}
 
 
 def register():
-    bpy.utils.register_class(ExtendMultipleEdges)
+    bpy.utils.register_class(EdgeUnderCursor)
 
 
 def unregister():
-    bpy.utils.unregister_class(ExtendMultipleEdges)
+    bpy.utils.unregister_class(EdgeUnderCursor)
 
 
 if __name__ == "__main__":

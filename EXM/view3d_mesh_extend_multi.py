@@ -22,7 +22,7 @@ bl_info = {
     'author': 'zeffii',
     'version': (0, 0, 3),
     'blender': (2, 7, 0),
-    'location': '',
+    'location': 'https://github.com/zeffii/Blender_CAD_utils',
     'warning': '',
     'description': '',
     'wiki_url': '',
@@ -176,23 +176,6 @@ def draw_callback_px(self, context, event):
         bgl.glColor3f(*line_colors[mode])
         draw_gl_strip(coords, lt)
 
-    # def draw_cursor():
-    #     hsize = 2
-    #     cmx, cmy = self.mx, self.my
-    #     p1 = cmx - hsize, cmy - hsize
-    #     p2 = cmx + hsize, cmy - hsize
-    #     p3 = cmx + hsize, cmy + hsize
-    #     p4 = cmx - hsize, cmy + hsize
-    #     coords = [p1, p2, p3, p4, p1]
-    #     print(coords)
-
-    #     bgl.glColor3f(*line_colors["cursor"])
-    #     bgl.glLineWidth(1)
-    #     bgl.glBegin(bgl.GL_LINE_LOOP)
-    #     for coord in coords:
-    #         bgl.glVertex2f(*coord)
-    #     bgl.glEnd()
-
     def do_single_draw_pass(self):
 
         # draw edge prime
@@ -212,7 +195,6 @@ def draw_callback_px(self, context, event):
 
         restore_bgl_defaults()
 
-    # draw_cursor()
     do_single_draw_pass(self)
 
 

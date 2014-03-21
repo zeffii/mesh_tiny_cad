@@ -18,7 +18,7 @@
 
 
 bl_info = {
-    'name': 'testiing (BMesh, bgl)',
+    'name': 'extend multi edges (BMesh, bgl)',
     'author': 'zeffii',
     'version': (0, 0, 3),
     'blender': (2, 7, 0),
@@ -216,10 +216,10 @@ def draw_callback_px(self, context, event):
     do_single_draw_pass(self)
 
 
-class EdgeUnderCursor(bpy.types.Operator):
-    bl_idname = "view3d.cursor_test"
-    bl_label = "cursor_test"
-    bl_description = "cursor testing"
+class ExtendEdgesMulti(bpy.types.Operator):
+    bl_idname = "view3d.extend_eges"
+    bl_label = "extend_edges"
+    bl_description = "extend edge"
 
     @classmethod
     def poll(cls, context):
@@ -288,11 +288,11 @@ class EdgeUnderCursor(bpy.types.Operator):
 
 
 def register():
-    bpy.utils.register_class(EdgeUnderCursor)
+    bpy.utils.register_class(ExtendEdgesMulti)
 
 
 def unregister():
-    bpy.utils.unregister_class(EdgeUnderCursor)
+    bpy.utils.unregister_class(ExtendEdgesMulti)
 
 
 if __name__ == "__main__":

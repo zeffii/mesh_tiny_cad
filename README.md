@@ -39,13 +39,9 @@ Intersect all, it programatically goes through all selected edges and slices the
 
 This might be a niche accessory, but sometimes all you want is a vertex positioned on the intersection of two edges. Nothing fancy.
 
-### Trim Multiples
+### EXM (Extend Multiples)
 
-Explained in the issue tracker with moving GIF: [issue3](https://github.com/zeffii/Blender_CAD_utils/issues/3)
-
-### Extend Multiples
-
-This has now progressed to an addon called [EXM](https://github.com/zeffii/Blender_CAD_utils/tree/master/EXM)  
+[download EXM](https://github.com/zeffii/Blender_CAD_utils/tree/master/EXM)  
 It has two modes.  
   -  Pick an edge (we'll call this Edge Prime)
   -  make sure only one edge is selected
@@ -62,6 +58,11 @@ It has two modes.
 
 
 ![Imgur](http://i.imgur.com/PYggEIq.gif)  
+
+### Trim Multiples
+
+Explained in the issue tracker with moving GIF: [issue3](https://github.com/zeffii/Blender_CAD_utils/issues/3)
+
 
 ### Why on github?
 

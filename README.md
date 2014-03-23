@@ -5,26 +5,15 @@ A tiny subset of unmissable CAD functions for Blender 3d.
 
 ### OK, what's this all about?
 
-I'll try to keep this short as I'd rather be coding. There is certain functionality found in most dedicated CAD software that speed up drafting, namely: `Extend`, `Trim` and `Intersect / weld`. For edges these functions exist as Python scripts, and are bundled here in the hope that they might be as useful to you as they are to me.
+Certain functionality found in most dedicated CAD software speeds up drafting significantly, namely: `Extend`, `Trim`,  `Intersect`, `Fillet /w radius` and `Offset /w distance`. At the moment of this writing these functions aren't included by default in regular distributions on Blender.org. Below you will find links to these scripts. The scripts in this repository are ones I wrote, but I will also link to additional scripts (Fillet, and Offset) that I did not write but that everyone should know about.  
   
-The VTX script has lived in contrib distributions of Blender since 2010, with relatively minor changes. The feedback from BlenderArtists has been [overwhelmingly positive](http://blenderartists.org/forum/showthread.php?204836-CAD-Addon-Edge-Tools-(blender-2-6x)). I'm not going to claim it's bug free, but finding them has proven difficult.  
+These scripts have shortnames: `VTX, EXM, V2X, XALL` and are described separately in sections below. `Fillet` and `Offset` are written by zmj1000 and can be found [here](http://blenderartists.org/forum/showthread.php?179375).
   
-Todo:  
-
-  - Trim multiple
-  
-Other features like `Fillet / Chamfer` and `Offset` are also catered for as scripts. [link here](http://blenderartists.org/forum/showthread.php?179375)
-  
-### Why on github?
-
-The issue tracker, use it.  
-
--  Let me know if these things are broken in new releases. Why? I don't update Blender as often as some so am oblivious to the slow evolution. 
--  If you can make a valid argument for extra functionality and it seems like something I might use or be able to implement for fun, it's going to happen.
--  I'm always open to pull requests (just don't expect instant approval of something massive, we can talk..you can use your gift of persuasion and sharp objectivism)
 
 ### VTX
 
+The VTX script has lived in contrib distributions of Blender since 2010, with relatively minor changes. The feedback from BlenderArtists has been [overwhelmingly positive](http://blenderartists.org/forum/showthread.php?204836-CAD-Addon-Edge-Tools-(blender-2-6x)). I'm not going to claim it's bug free, but finding them has proven difficult.  
+  
 All the functions have low error margins (`1.5E-6` = tolerance) and are happy to operate on geometry that isn't flat on X,Y or Z. Expect full freedom of orientation, but stuff must really intersect within this tolerance. These functions are not easy to describe hence pictures below:
 
   - V : extending two edges towards their _calculated_ intersection point.  
@@ -74,3 +63,10 @@ It has two modes.
 
 ![Imgur](http://i.imgur.com/PYggEIq.gif)  
 
+### Why on github?
+
+The issue tracker, use it.  
+
+-  Let me know if these things are broken in new releases. Why? I don't update Blender as often as some so am oblivious to the slow evolution. 
+-  If you can make a valid argument for extra functionality and it seems like something I might use or be able to implement for fun, it's going to happen.
+-  I'm always open to pull requests (just don't expect instant approval of something massive, we can talk..you can use your gift of persuasion and sharp objectivism)

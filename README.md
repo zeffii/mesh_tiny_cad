@@ -74,4 +74,3 @@ It has two modes.
 
 ![Imgur](http://i.imgur.com/PYggEIq.gif)  
 
-Explained in the issue tracker with moving GIF: [issue2](https://github.com/zeffii/Blender_CAD_utils/issues/2)

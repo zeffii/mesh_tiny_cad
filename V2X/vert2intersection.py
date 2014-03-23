@@ -48,6 +48,7 @@ def add_vertex_to_intersection():
         iv = geometry.intersect_line_line(v1, v2, v3, v4)
         iv = (iv[0] + iv[1]) / 2
         bm.verts.new(iv)
+        bm.verts[-1].select = True
         bmesh.update_edit_mesh(me)
 
 

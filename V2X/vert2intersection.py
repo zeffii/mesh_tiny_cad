@@ -22,7 +22,7 @@ bl_info = {
     "name": "Vert tools : vert 2 intersection",
     "author": "zeffii",
     "version": (0, 0, 2),
-    "blender": (2, 6, 8),
+    "blender": (2, 7, 0),
     "category": "Mesh",
     "location": "View3D > EditMode > (w) Specials",
     "wiki_url": "",

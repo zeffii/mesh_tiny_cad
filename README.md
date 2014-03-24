@@ -57,7 +57,7 @@ It has two modes.
   -  This addon does not weld the extended edges onto Edge Prime.
 
 
-![Imgur](http://i.imgur.com/PYggEIq.gif)  
+![Imgur](http://i.imgur.com/WRD0prj.gif)  
 
 ### Trim Multiples
 

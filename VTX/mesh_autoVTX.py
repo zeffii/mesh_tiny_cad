@@ -41,8 +41,6 @@ import bmesh
 from mathutils import Vector, geometry
 from mathutils.geometry import intersect_line_line as LineIntersect
 
-VTX_PRECISION = 1.0e-5  # or 1.0e-6 ..if you need
-
 
 def point_on_edge(p, edge):
     '''
@@ -52,7 +50,7 @@ def point_on_edge(p, edge):
     '''
     A, B = edge
     eps = (((A - B).length - (p - B).length) - (A - p).length)
-    return abs(eps) < VTX_PRECISION
+    return abs(eps) < AutoVTX.VTX_PRECISION
 
 
 def get_intersection_points(edge1, edge2):
@@ -73,7 +71,7 @@ def test_coplanar(edge1, edge2):
     coplanar or parallel.
     '''
     line = get_intersection_points(edge1, edge2)
-    return (line[0]-line[1]).length < VTX_PRECISION
+    return (line[0]-line[1]).length < AutoVTX.VTX_PRECISION
 
 
 def closest(p, e):
@@ -109,8 +107,42 @@ def find_intersecting_edges(self):
 
 def selected_edges_share_vertices(self):
     ei = [self.bm.edges[i].verts for i in self.selected_edges]
-    ii = [ei[a][b].index for a, b in [(0, 0), (0, 1), (1, 0), (1, 1)]]
-    return len(set(ii)) < 4
+    self.ii = [ei[a][b].index for a, b in [(0, 0), (0, 1), (1, 0), (1, 1)]]
+    return len(set(self.ii)) < 4
+
+
+def getVTX(self):
+    self.idx1, self.idx2 = self.selected_edges
+    self.edge1 = coords_from_idx(self, self.idx1)
+    self.edge2 = coords_from_idx(self, self.idx2)
+    self.point = find_intersection_vector(self)
+    self.edges = find_intersecting_edges(self)
+
+
+def checkVTX(context, self):
+    '''
+    - decides VTX automatically.
+    - remembers edges attached to current selection, for later.
+    '''
+
+    # [x] if either of these edges share a vertex, return early.
+    if selected_edges_share_vertices(self):
+        msg = "edges share a vertex, degenerate case, returning early"
+        self.report({"WARNING"}, msg)
+        return False
+
+    # [x] find which edges intersect
+    getVTX(self)
+
+    # [x] check coplanar, or parallel.
+    if [None, None] == self.edges:
+        coplanar = test_coplanar(self.edge1, self.edge2)
+        if not coplanar:
+            msg = "parallel or not coplanar! returning early"
+            self.report({"WARNING"}, msg)
+            return False
+
+    return True
 
 
 def doVTX(self):
@@ -125,42 +157,27 @@ def doVTX(self):
     print(self.edges)
     print(self.idx1, self.idx2)
 
-
-def checkVTX(context, self):
-    '''
-    - decides VTX automatically.
-    - remembers edges attached to current selection, for later.
-    '''
-
-    # [x] if either of these edges share a vertex, return early.
-    if selected_edges_share_vertices(self):
-        msg = "edges share a vertex, degenerate case, returning early"
-        self.report({"WARNING"}, msg)
-        return
-
-    # [x] find which edges intersect
-    self.idx1, self.idx2 = self.selected_edges
-    self.edge1 = coords_from_idx(self, self.idx1)
-    self.edge2 = coords_from_idx(self, self.idx2)
-    self.point = find_intersection_vector(self)
-    self.edges = find_intersecting_edges(self)
-
-    # [x] check coplanar, or parallel.
+    # V (projection of both edges)
     if [None, None] == self.edges:
-        coplanar = test_coplanar(self.edge1, self.edge2)
-        if not coplanar:
-            msg = "parallel or not coplanar! returning early"
-            self.report({"WARNING"}, msg)
-            return
+        # edge1.closest -> point
+        # edge2.closest -> point
+        pass
 
-    doVTX(self)
+    # X (weld intersection)
+    elif all(self.edges):
+        pass
+
+    # T (extend towards)
+    else:
+        pass
 
 
 class AutoVTX(bpy.types.Operator):
-    ''' Makes a weld/slice/extend to intersecting edges/lines '''
     bl_idname = 'view3d.autovtx'
     bl_label = 'autoVTX'
     # bl_options = {'REGISTER', 'UNDO'}
+
+    VTX_PRECISION = 1.0e-5  # or 1.0e-6 ..if you need
 
     @classmethod
     def poll(self, context):
@@ -168,7 +185,6 @@ class AutoVTX(bpy.types.Operator):
         - only activate if two selected edges
         - and both are not hidden
         '''
-
         obj = context.active_object
         self.me = obj.data
         self.bm = bmesh.from_edit_mesh(self.me)
@@ -186,7 +202,9 @@ class AutoVTX(bpy.types.Operator):
 
     def execute(self, context):
         self.geom_cache = []
-        checkVTX(context, self)
+        if checkVTX(context, self):
+            doVTX(self)
+
         return {'FINISHED'}
 
 

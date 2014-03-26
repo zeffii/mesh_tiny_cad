@@ -119,6 +119,18 @@ def getVTX(self):
     self.edges = find_intersecting_edges(self)
 
 
+def vert_idxs_from_edge_idx(self, idx):
+    edge = self.bm.edges[idx]
+    return edge.verts[0].index, edge.verts[1].index
+
+
+def add_edges(self, idxs):
+    for e in idxs:
+        v1 = self.bm.verts[-1]
+        v2 = self.bm.verts[e]
+        self.bm.edges.new((v1, v2))
+
+
 def checkVTX(context, self):
     '''
     - decides VTX automatically.
@@ -157,19 +169,38 @@ def doVTX(self):
     print(self.edges)
     print(self.idx1, self.idx2)
 
+    self.bm.verts.new((self.point))
+
     # V (projection of both edges)
     if [None, None] == self.edges:
-        # edge1.closest -> point
-        # edge2.closest -> point
-        pass
+        cl_vert1 = closest(self.point, self.bm.edges[self.idx1])
+        cl_vert2 = closest(self.point, self.bm.edges[self.idx2])
+        add_edges(self, [cl_vert1, cl_vert2])
 
     # X (weld intersection)
+    # add 1 vert, add 4 edges, remove original edges
     elif all(self.edges):
-        pass
+        add_edges(self, self.ii)
+        for i in reversed(sorted(self.edges)):
+            self.bm.edges.remove(self.bm.edges[i])
 
     # T (extend towards)
     else:
-        pass
+        # this picks the non None member.
+        to_edge_idx = [i for i in self.edges if i][0]
+        from_edge_idx = self.idx1 if to_edge_idx == self.idx2 else self.idx2
+
+        # make 3 new edges: 2 on the towards, 1 as extender
+        cl_vert = closest(self.point, self.bm.edges[from_edge_idx])
+        to_vert1, to_vert2 = vert_idxs_from_edge_idx(self, to_edge_idx)
+        roto_indices = [cl_vert, to_vert1, to_vert2]
+        add_edges(self, roto_indices)
+
+        bmesh.update_edit_mesh(self.me)
+        self.bm.edges.remove(self.bm.edges[to_edge_idx])
+
+    # final refresh before returning to user.
+    bmesh.update_edit_mesh(self.me)
 
 
 class AutoVTX(bpy.types.Operator):

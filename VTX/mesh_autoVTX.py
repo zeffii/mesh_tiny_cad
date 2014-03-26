@@ -46,9 +46,9 @@ VTX_PRECISION = 1.0e-5  # or 1.0e-6 ..if you need
 
 def point_on_edge(p, edge):
     '''
-    - p is a vector
-    - edge is a tuple of 2 vectors
-    returns True / False if a point happens to lie on an edge
+    > p:        vector
+    > edge:     tuple of 2 vectors
+    < returns:  True / False if a point happens to lie on an edge
     '''
     A, B = edge
     eps = (((A - B).length - (p - B).length) - (A - p).length)
@@ -66,12 +66,22 @@ def intersection_edge(edge1, edge2):
 
 
 def test_coplanar(edge1, edge2):
+    '''
+    the line that describes the shortest line between the two edges
+    would be short if the lines intersect mathematically. If this
+    line is longer than the VTX_PRECISION then they are either
+    coplanar or parallel.
+    '''
     line = get_intersection_points(edge1, edge2)
     return (line[0]-line[1]).length < VTX_PRECISION
 
 
 def closest(p, e):
-    ''' p is a vector, e is a bmesh edge'''
+    '''
+    > p:        vector
+    > e:        bmesh edge
+    < returns:  returns index of vertex closest to that point.
+    '''
     ev = e.verts
     v1 = ev[0].co
     v2 = ev[1].co
@@ -88,13 +98,32 @@ def find_intersection_vector(self):
     return intersection_edge(self.edge1, self.edge2)
 
 
-def find_intersecting_edges(self, idx1, idx2, point):
+def find_intersecting_edges(self):
     edges = [None, None]
-    if point_on_edge(point, self.edge1):
-        edges[0] = idx1
-    if point_on_edge(point, self.edge2):
-        edges[1] = idx2
+    if point_on_edge(self.point, self.edge1):
+        edges[0] = self.idx1
+    if point_on_edge(self.point, self.edge2):
+        edges[1] = self.idx2
     return edges
+
+
+def selected_edges_share_vertices(self):
+    ei = [self.bm.edges[i].verts for i in self.selected_edges]
+    ii = [ei[a][b].index for a, b in [(0, 0), (0, 1), (1, 0), (1, 1)]]
+    return len(set(ii)) < 4
+
+
+def doVTX(self):
+    '''
+    At this point we know that there is an intersection, and if it
+    is V, T or X.
+    - If both are None, then both edges are projected towards point. (V)
+    - If only one is None, then it's a projection onto a real edge (T)
+    - Else, then the intersection lies on both edges (X)
+    '''
+    print(self.point)
+    print(self.edges)
+    print(self.idx1, self.idx2)
 
 
 def checkVTX(context, self):
@@ -104,29 +133,27 @@ def checkVTX(context, self):
     '''
 
     # [x] if either of these edges share a vertex, return early.
-    ei = [self.bm.edges[i].verts for i in self.selected_edges]
-    ii = [ei[a][b].index for a, b in [(0, 0), (0, 1), (1, 0), (1, 1)]]
-    if len(set(ii)) < 4:
+    if selected_edges_share_vertices(self):
         msg = "edges share a vertex, degenerate case, returning early"
         self.report({"WARNING"}, msg)
         return
 
     # [x] find which edges intersect
-    idx1, idx2 = self.selected_edges
-    self.edge1 = coords_from_idx(self, idx1)
-    self.edge2 = coords_from_idx(self, idx2)
+    self.idx1, self.idx2 = self.selected_edges
+    self.edge1 = coords_from_idx(self, self.idx1)
+    self.edge2 = coords_from_idx(self, self.idx2)
+    self.point = find_intersection_vector(self)
+    self.edges = find_intersecting_edges(self)
 
-    point = find_intersection_vector(self)
-    edges = find_intersecting_edges(self, idx1, idx2, point)
-
-    # [x] it may not be coplanar
-    print(edges)
-    if [None, None] == edges:
+    # [x] check coplanar, or parallel.
+    if [None, None] == self.edges:
         coplanar = test_coplanar(self.edge1, self.edge2)
         if not coplanar:
-            msg = "not coplanar! returning early"
+            msg = "parallel or not coplanar! returning early"
             self.report({"WARNING"}, msg)
             return
+
+    doVTX(self)
 
 
 class AutoVTX(bpy.types.Operator):

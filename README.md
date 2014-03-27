@@ -28,7 +28,7 @@ All the functions have low error margins (`1.5E-6` = tolerance) and are happy to
 A note about usage: Once the operation completes, all geometry that was previously selected will now be separated from any surrounding geometry that it was attached to. This has pros and cons, but is ultimately due to weak initial algorithm design. I've started an [issue about this](https://github.com/zeffii/Blender_CAD_utils/issues/4).  
   
 _Update_:  
-This script comes in to flavours, I recommend you use [the latest incarnation](https://github.com/zeffii/Blender_CAD_utils/blob/master/VTX/mesh_autoVTX.py). It performs V, T or X selection automatically. When installad 
+This script comes in two flavours, I recommend you use [the latest incarnation](https://github.com/zeffii/Blender_CAD_utils/blob/master/VTX/mesh_autoVTX.py). It performs V, T or X selection automatically. When installad 
 - Select two edges  
 - hit `Spacebar` and type `auto` ..select `auto vtx`  
 - Bam. the rest is taken care of.

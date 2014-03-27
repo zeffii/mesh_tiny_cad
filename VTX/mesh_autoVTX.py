@@ -131,7 +131,12 @@ def add_edges(self, idxs):
         self.bm.edges.new((v1, v2))
 
 
-def checkVTX(context, self):
+def remove_earmarked_edges(self, earmarked):
+    edges_select = [e for e in self.bm.edges if e.index in earmarked]
+    bmesh.ops.delete(self.bm, geom=edges_select, context=2)
+
+
+def checkVTX(self, context):
     '''
     - decides VTX automatically.
     - remembers edges attached to current selection, for later.
@@ -165,11 +170,12 @@ def doVTX(self):
     - If only one is None, then it's a projection onto a real edge (T)
     - Else, then the intersection lies on both edges (X)
     '''
-    print(self.point)
-    print(self.edges)
-    print(self.idx1, self.idx2)
+    print('point:', self.point)
+    print('edges selected:', self.idx1, self.idx2)
+    print('edges to use:', self.edges)
 
     self.bm.verts.new((self.point))
+    earmarked = []
 
     # V (projection of both edges)
     if [None, None] == self.edges:
@@ -178,11 +184,9 @@ def doVTX(self):
         add_edges(self, [cl_vert1, cl_vert2])
 
     # X (weld intersection)
-    # add 1 vert, add 4 edges, remove original edges
     elif all(self.edges):
         add_edges(self, self.ii)
-        for i in reversed(sorted(self.edges)):
-            self.bm.edges.remove(self.bm.edges[i])
+        earmarked = self.edges
 
     # T (extend towards)
     else:
@@ -195,12 +199,12 @@ def doVTX(self):
         to_vert1, to_vert2 = vert_idxs_from_edge_idx(self, to_edge_idx)
         roto_indices = [cl_vert, to_vert1, to_vert2]
         add_edges(self, roto_indices)
-
-        bmesh.update_edit_mesh(self.me)
-        self.bm.edges.remove(self.bm.edges[to_edge_idx])
+        earmarked = [to_edge_idx]
 
     # final refresh before returning to user.
-    bmesh.update_edit_mesh(self.me)
+    if earmarked:
+        remove_earmarked_edges(self, earmarked)
+    bmesh.update_edit_mesh(self.me, True)
 
 
 class AutoVTX(bpy.types.Operator):
@@ -227,13 +231,10 @@ class AutoVTX(bpy.types.Operator):
             idxs = [v.index for v in edges if ok(v)]
             if len(idxs) is 2:
                 self.selected_edges = idxs
-                self.edge1 = None
-                self.edge2 = None
                 return True
 
     def execute(self, context):
-        self.geom_cache = []
-        if checkVTX(context, self):
+        if checkVTX(self, context):
             doVTX(self)
 
         return {'FINISHED'}

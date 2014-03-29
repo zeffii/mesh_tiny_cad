@@ -40,6 +40,7 @@ import sys
 import bmesh
 from mathutils import Vector, geometry
 from mathutils.geometry import intersect_line_line as LineIntersect
+from mathutils.geometry import intersect_point_line as PtLineIntersect
 
 
 def point_on_edge(p, edge):
@@ -48,9 +49,8 @@ def point_on_edge(p, edge):
     > edge:     tuple of 2 vectors
     < returns:  True / False if a point happens to lie on an edge
     '''
-    A, B = edge
-    eps = (((A - B).length - (p - B).length) - (A - p).length)
-    return abs(eps) < AutoVTX.VTX_PRECISION
+    pt, _percent = PtLineIntersect(p, *edge)
+    return (pt-p).length < AutoVTX.VTX_PRECISION
 
 
 def get_intersection_points(edge1, edge2):

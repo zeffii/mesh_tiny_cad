@@ -20,7 +20,7 @@
 bl_info = {
     'name': 'extend multi edges (BMesh, bgl)',
     'author': 'zeffii',
-    'version': (0, 0, 3),
+    'version': (0, 0, 5),
     'blender': (2, 7, 0),
     'location': 'https://github.com/zeffii/Blender_CAD_utils',
     'warning': '',
@@ -41,7 +41,7 @@ import bmesh
 
 from bpy_extras.view3d_utils import location_3d_to_region_2d as loc3d2d
 from mathutils.geometry import intersect_line_line as LineIntersect
-
+from mathutils.geometry import intersect_point_line as PtLineIntersect
 
 VTX_PRECISION = 1.0e-5  # or 1.0e-6 ..if you need
 
@@ -58,11 +58,15 @@ def restore_bgl_defaults():
     bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
 
 
-#   returns True / False if a point happens to lie on an edge
-def point_on_edge(point, edge):
-    A, B = edge
-    eps = (((A - B).length - (point - B).length) - (A - point).length)
-    return abs(eps) < VTX_PRECISION
+def point_on_edge(p, edge):
+    '''
+    > p:        vector
+    > edge:     tuple of 2 vectors
+    < returns:  True / False if a point happens to lie on an edge
+    '''
+    pt, _percent = PtLineIntersect(p, *edge)
+    on_line = (pt-p).length < VTX_PRECISION
+    return on_line and (0.0 <= _percent <= 1.0)
 
 
 def get_prime(self):

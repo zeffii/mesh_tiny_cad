@@ -27,7 +27,7 @@ All the functions have low error margins (`1.5E-6` = tolerance) and are happy to
 
 
 _Update_:  
-This script comes in two flavours, I recommend you use [the latest incarnation](https://github.com/zeffii/Blender_CAD_utils/blob/master/VTX/mesh_autoVTX.py). It performs V, T or X selection automatically. When installad 
+This script comes in two flavours, I recommend you use [the latest incarnation](https://github.com/zeffii/Blender_CAD_utils/blob/master/VTX/mesh_autoVTX.py). It performs V, T or X selection automatically. When installed 
 - Select two edges  
 - hit `Spacebar` and type `auto` ..select `auto vtx`  
 - Bam. the rest is taken care of.

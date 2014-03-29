@@ -50,7 +50,8 @@ def point_on_edge(p, edge):
     < returns:  True / False if a point happens to lie on an edge
     '''
     pt, _percent = PtLineIntersect(p, *edge)
-    return (pt-p).length < AutoVTX.VTX_PRECISION
+    on_line = (pt-p).length < AutoVTX.VTX_PRECISION
+    return on_line and (0.0 <= _percent <= 1.0)
 
 
 def get_intersection_points(edge1, edge2):

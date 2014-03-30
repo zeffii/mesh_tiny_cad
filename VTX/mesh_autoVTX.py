@@ -192,7 +192,7 @@ def doVTX(self):
     # T (extend towards)
     else:
         # this picks the non None member.
-        to_edge_idx = [i for i in self.edges if i][0]
+        to_edge_idx = [i for i in self.edges if i is not None][0]
         from_edge_idx = self.idx1 if to_edge_idx == self.idx2 else self.idx2
 
         # make 3 new edges: 2 on the towards, 1 as extender

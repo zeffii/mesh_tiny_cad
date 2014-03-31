@@ -70,7 +70,7 @@ def CountPointOnEdges(point, edges):
 def vertex_indices_from_edges_tuple(bm, edge):
     ''' find the vertex indices of a 2-tuple of edges '''
     k = lambda v, w: bm.edges[edge[v]].verts[w].index
-    return [k(i >> 1, i % 2)for i in range(4)]
+    return [k(i >> 1, i % 2) for i in range(4)]
 
 
 def vector_from_indices(bm, raw_vert_indices):

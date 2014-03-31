@@ -21,8 +21,8 @@ END GPL LICENCE BLOCK
 bl_info = {
     "name": "Edge tools : tinyCAD X ALL",
     "author": "zeffii",
-    "version": (0, 0, 4),
-    "blender": (2, 6, 7),
+    "version": (0, 0, 5),
+    "blender": (2, 7, 0),
     "category": "Mesh",
     "location": "View3D > EditMode > (w) Specials",
     "warning": "Still under development",
@@ -128,7 +128,7 @@ def can_skip(closest_points, vert_vectors):
         return True
 
     # if this distance is larger than than VTX_PRECISION, we can skip it.
-    if mDist(closest_points[0], closest_points[1]) > VTX_PRECISION:
+    if mDist(*closest_points) > VTX_PRECISION:
         return True
     return False
 

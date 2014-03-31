@@ -45,11 +45,6 @@ VTX_DOUBLES_THRSHLD = 0.0001
 ''' helpers '''
 
 
-def mDist(A, B):
-    ''' returns distance between two given points '''
-    return (A-B).length
-
-
 def isPointOnEdge(p, A, B):
     '''
     > p:        vector
@@ -128,9 +123,8 @@ def can_skip(closest_points, vert_vectors):
         return True
 
     # if this distance is larger than than VTX_PRECISION, we can skip it.
-    if mDist(*closest_points) > VTX_PRECISION:
-        return True
-    return False
+    cpa, cpb = closest_points
+    return (cpa-cpb).length > VTX_PRECISION
 
 
 def get_intersection_dictionary(bm, edge_indices):

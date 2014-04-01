@@ -8,6 +8,7 @@ from mathutils.geometry import intersect_point_line as PtLineIntersect
 
 class CAD_prefs:
     VTX_PRECISION = 1.0e-5
+    VTX_DOUBLES_THRSHLD = 0.0001
 
 
 def point_on_edge(p, edge):

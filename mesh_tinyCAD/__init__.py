@@ -1,0 +1,58 @@
+'''
+BEGIN GPL LICENSE BLOCK
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software Foundation,
+Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+END GPL LICENCE BLOCK
+'''
+
+bl_info = {
+    "name": "tinyCAD Mesh tools",
+    "author": "zeffii (aka Dealga McArdle)",
+    "version": (1, 0, 5),
+    "blender": (2, 7, 0),
+    "category": "Mesh",
+    "location": "View3D > EditMode > (w) Specials",
+    "wiki_url": "",
+    "tracker_url": ""
+}
+
+
+if "bpy" in locals():
+    import imp
+
+import bpy
+from mesh_tinyCAD.VTX import AutoVTX
+
+
+vtx_classes = (
+    AutoVTX,
+)
+
+
+def register():
+    for i in vtx_classes:
+        bpy.utils.register_class(i)
+    #bpy.types.VIEW3D_MT_edit_mesh_specials.append(menu_func)
+
+
+def unregister():
+    for i in vtx_classes:
+        bpy.utils.unregister_class(i)
+    #bpy.types.VIEW3D_MT_edit_mesh_specials.remove(menu_func)
+
+
+if __name__ == "__main__":
+    register()

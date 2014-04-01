@@ -35,10 +35,16 @@ if "bpy" in locals():
 
 import bpy
 from mesh_tinyCAD.VTX import AutoVTX
+from mesh_tinyCAD.V2X import Vert2Intersection
+from mesh_tinyCAD.EXM import ExtendEdgesMulti
+from mesh_tinyCAD.XALL import IntersectAllEdges
 
 
 vtx_classes = (
     AutoVTX,
+    Vert2Intersection,
+    IntersectAllEdges,
+    ExtendEdgesMulti
 )
 
 

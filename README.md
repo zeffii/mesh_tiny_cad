@@ -67,7 +67,7 @@ It has two modes.
 ### BIX (generate Bisector)
 
 Creates a single edge which is the bisect of two edges.
-
+![Imgur](http://i.imgur.com/FOtxXM5.gif)
 
 ### Trim Multiples
 

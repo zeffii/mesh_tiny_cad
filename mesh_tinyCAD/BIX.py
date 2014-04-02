@@ -63,7 +63,7 @@ def add_line_to_bisection(self):
             self.report({"WARNING"}, msg)
             return
         pt = cm.get_intersection(edge1, edge2)
-        # pick fartest vertex from (projected) intersections
+        # pick farthest vertex from (projected) intersections
         far1 = v2 if (v1-pt).length < (v2-pt).length else v1
         far2 = v4 if (v3-pt).length < (v4-pt).length else v3
     print('intersection: ', pt)

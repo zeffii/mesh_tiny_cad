@@ -39,7 +39,7 @@ This script comes in two flavours, I recommend you use [the latest incarnation](
 Intersect all, it programatically goes through all selected edges and slices them all using any found intersections, then welds them.
 
   - XALL is fast!  
-  ![XALL](http://i.imgur.com/9po2kIV.gif)
+  ![Imgur](http://i.imgur.com/1I7totI.gif)
 
 ### V2X (Vertex to Intersection)
 

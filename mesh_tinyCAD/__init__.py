@@ -41,23 +41,28 @@ from mesh_tinyCAD.XALL import IntersectAllEdges
 
 
 vtx_classes = (
-    AutoVTX,
-    Vert2Intersection,
-    IntersectAllEdges,
-    ExtendEdgesMulti
+    [AutoVTX, "tinyCAD autoVTX"],
+    [Vert2Intersection, "tinyCAD V2X"],
+    [IntersectAllEdges, "tinyCAD XALL"],
+    [ExtendEdgesMulti, "tinyCAD EXM"]
 )
 
 
+def menu_func(self, context):
+    for i, text in vtx_classes:
+        self.layout.operator(i.bl_idname, text=text)
+
+
 def register():
-    for i in vtx_classes:
+    for i, _ in vtx_classes:
         bpy.utils.register_class(i)
-    #bpy.types.VIEW3D_MT_edit_mesh_specials.append(menu_func)
+    bpy.types.VIEW3D_MT_edit_mesh_specials.append(menu_func)
 
 
 def unregister():
-    for i in vtx_classes:
+    for i, _ in vtx_classes:
         bpy.utils.unregister_class(i)
-    #bpy.types.VIEW3D_MT_edit_mesh_specials.remove(menu_func)
+    bpy.types.VIEW3D_MT_edit_mesh_specials.remove(menu_func)
 
 
 if __name__ == "__main__":

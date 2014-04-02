@@ -12,9 +12,9 @@ My scripts have shortnames: `VTX, EXM, V2X, XALL` and are described separately i
 
 ### VTX
 
-The VTX script has lived in contrib distributions of Blender since 2010, with relatively minor changes. The feedback from BlenderArtists has been [overwhelmingly positive](http://blenderartists.org/forum/showthread.php?204836-CAD-Addon-Edge-Tools-(blender-2-6x)). I'm not going to claim it's bug free, but finding them has proven difficult.  
+The VTX script has lived in contrib distributions of Blender since 2010, with relatively minor changes. The feedback from BlenderArtists has been [overwhelmingly positive](http://blenderartists.org/forum/showthread.php?204836-CAD-Addon-Edge-Tools-(blender-2-6x)). I'm not going to claim it's bug free, but showstopping issues has proven difficult. It now performs V, T or X selection automatically.   
   
-All the functions have low error margins (`1.5E-6` = tolerance) and are happy to operate on geometry that isn't flat on X,Y or Z. Expect full freedom of orientation, but stuff must really intersect within this tolerance. These functions are not easy to describe hence pictures below:
+Expect full freedom of orientation, but stuff must really intersect within error margins (`1.5E-6` = tolerance). These kinds of functions are handy for drawing construction lines and fixing up geometry. 
 
   - V : extending two edges towards their _calculated_ intersection point.  
    ![V](http://i.imgur.com/zBSciFf.png)
@@ -26,11 +26,8 @@ All the functions have low error margins (`1.5E-6` = tolerance) and are happy to
    ![X](http://i.imgur.com/kqtX9OE.png)
 
 
-_Update_:  
-This script comes in two flavours, I recommend you use [the latest incarnation](https://github.com/zeffii/Blender_CAD_utils/blob/master/VTX/mesh_autoVTX.py). It performs V, T or X selection automatically.  
-
 - Select two edges  
-- hit `Spacebar` and type `auto` ..select `auto vtx`  
+- hit `Spacebar` and type `vtx` ..select `autoVTX`  
 - Bam. the rest is taken care of.
 
 
@@ -40,6 +37,8 @@ Intersect all, it programatically goes through all selected edges and slices the
 
   - XALL is fast!  
   ![Imgur](http://i.imgur.com/1I7totI.gif)
+  - Select as many edges as you want to intersect.
+  - hit `spacebar` and type `xa`  ..select `XALL intersect all edges`
 
 ### V2X (Vertex to Intersection)
 
@@ -51,7 +50,7 @@ This might be a niche accessory, but sometimes all you want is a vertex position
 It has two modes.  
   -  Pick an edge (we'll call this Edge Prime)
   -  make sure only one edge is selected
-  -  Run `extend edge` from spacebar menu
+  -  Run `EXM extend multiple edges` from spacebar menu
   -  Your picked edge has turned light blue
   -  Pick edges to extend towards that edge
   -  If edges are picked that don't intersect in 3d space (within tolerance) then those edges are not added
@@ -64,6 +63,11 @@ It has two modes.
 
 
 ![Imgur](http://i.imgur.com/WRD0prj.gif)  
+
+### BIX (generate Bisector)
+
+Creates a single edge which is the bisect of two edges.
+
 
 ### Trim Multiples
 

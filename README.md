@@ -66,9 +66,9 @@ It has two modes.
 
 ### BIX (generate Bisector)
 
-Creates a single edge which is the bisect of two edges.
+Creates a single edge which is the bisect of two edges.  
 ![Imgur](http://i.imgur.com/FOtxXM5.gif)
-
+  
 ### Trim Multiples
 
 Explained in the issue tracker with moving GIF: [issue3](https://github.com/zeffii/Blender_CAD_utils/issues/3)

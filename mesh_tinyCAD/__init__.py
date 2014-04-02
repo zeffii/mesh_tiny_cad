@@ -38,13 +38,14 @@ from mesh_tinyCAD.VTX import AutoVTX
 from mesh_tinyCAD.V2X import Vert2Intersection
 from mesh_tinyCAD.EXM import ExtendEdgesMulti
 from mesh_tinyCAD.XALL import IntersectAllEdges
-
+from mesh_tinyCAD.BIX import LineOnBisection
 
 vtx_classes = (
     [AutoVTX, "tinyCAD autoVTX"],
     [Vert2Intersection, "tinyCAD V2X"],
     [IntersectAllEdges, "tinyCAD XALL"],
-    [ExtendEdgesMulti, "tinyCAD EXM"]
+    [ExtendEdgesMulti, "tinyCAD EXM"],
+    [LineOnBisection, "tinyCAD BIX"]
 )
 
 

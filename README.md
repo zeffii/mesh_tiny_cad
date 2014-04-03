@@ -46,7 +46,6 @@ This might be a niche accessory, but sometimes all you want is a vertex position
 
 ### EXM (Extend Multiples)
 
-[download EXM](https://github.com/zeffii/Blender_CAD_utils/tree/master/EXM)  
 It has two modes.  
   -  Pick an edge (we'll call this Edge Prime)
   -  make sure only one edge is selected

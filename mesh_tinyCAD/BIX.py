@@ -64,9 +64,13 @@ def add_line_to_bisection(self):
     pt2 = pt + (dex1).lerp(dex2, 0.5)
     # print('bisector point:', pt2)
 
+    pt3 = pt2.lerp(pt, 2.0)
+
     vec1 = bm.verts.new(pt2)
     vec2 = bm.verts.new(pt)
+    vec3 = bm.verts.new(pt3)
     bm.edges.new((vec1, vec2))
+    bm.edges.new((vec2, vec3))
     bmesh.update_edit_mesh(me)
     # print("done")
 

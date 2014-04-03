@@ -5,7 +5,7 @@ A tiny subset of unmissable CAD functions for Blender 3d.
 
 ### OK, what's this all about?
 
-Certain functionality found in most dedicated CAD software speeds up drafting significantly, namely: `Extend`, `Trim`,  `Intersect`, `Fillet /w radius` and `Offset /w distance`. At the moment of this writing these functions aren't included by default in regular distributions on Blender.org, so i've coded a few of the main features that I missed most. 
+Certain functionality found in most dedicated CAD software speeds up drafting significantly, namely: `Extend`, `Trim`,  `Intersect`, `Fillet /w radius` and `Offset /w distance`. At the moment of this writing many of these functions aren't included by default in regular distributions on Blender.org, so i've coded scripts to perform a few of the main features that I missed most. 
   
 My scripts have shortnames: `VTX, EXM, V2X, XALL, BIX` and are described separately in sections below. `Fillet` and `Offset` are written by zmj100 and can be found [here](http://blenderartists.org/forum/showthread.php?179375).
   

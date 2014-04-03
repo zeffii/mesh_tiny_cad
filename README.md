@@ -57,7 +57,7 @@ It has two modes.
   -  Edges that do intersect will be shown in a different colour with the extended part in yet another colour
   -  You can unpick edges by clicking on them
   -  To finalize the operation:  
-    - Press `Comma` to extend the edges using the vertex closest to the intersection point
+    - Press `Comma` to extend the edges using the vertex closest to the intersection point by moving the vertex closest to the edge being extended towards.
     - Press `Period` to create a new edge attached to the original geometry.
   -  This addon does not weld the extended edges onto Edge Prime.
 

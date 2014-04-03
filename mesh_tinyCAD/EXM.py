@@ -177,10 +177,13 @@ class ExtendEdgesMulti(bpy.types.Operator):
 
     def modal(self, context, event):
 
-        if event.type in ('PERIOD', 'COMMA'):
+        if event.type in ('PERIOD', 'COMMA', 'ESC'):
             bpy.types.SpaceView3D.draw_handler_remove(self.handle, 'WINDOW')
             bpy.context.space_data.show_manipulator = True
-            self.modify_geometry(context, event.type)
+
+            if not (event.type is 'ESC'):
+                self.modify_geometry(context, event.type)
+
             del self.selected_edges
             del self.xvectors
             return {'FINISHED'}

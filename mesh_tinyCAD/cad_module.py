@@ -41,6 +41,18 @@ def get_intersection(edge1, edge2):
     return ((line[0] + line[1]) / 2)
 
 
+def get_intersection_from_idxs(bm, idx1, ixd2):
+    '''
+    > takes reference to bm and 2 indices
+    < returns intersection or None
+    '''
+    p1, p2 = coords_tuple_from_edge_idx(bm, idx1)
+    p3, p4 = coords_tuple_from_edge_idx(bm, idx2)
+    a, b = LineIntersect(p1, p2, p3, p4)
+    if (a-b).length < CAD_prefs.VTX_PRECISION:
+        return a
+
+
 def test_coplanar(edge1, edge2):
     '''
     the line that describes the shortest line between the two edges

@@ -12,7 +12,7 @@ My scripts have shortnames: `VTX, EXM, V2X, XALL, BIX` and are described separat
 
 ### VTX
 
-The VTX script has lived in contrib distributions of Blender since 2010, with relatively minor changes. The feedback from BlenderArtists has been [overwhelmingly positive](http://blenderartists.org/forum/showthread.php?204836-CAD-Addon-Edge-Tools-(blender-2-6x)). I'm not going to claim it's bug free, but showstopping issues has proven difficult. It now performs V, T or X selection automatically.   
+The VTX script has lived in contrib distributions of Blender since 2010, with relatively minor changes. The feedback from BlenderArtists has been [overwhelmingly positive](http://blenderartists.org/forum/showthread.php?204836-CAD-Addon-Edge-Tools-(blender-2-6x)). I'm not going to claim it's bug free, but finding any showstopping issues has proven difficult. It now performs V, T or X selection automatically.   
   
 Expect full freedom of orientation, but stuff must really intersect within error margins (`1.5E-6` = tolerance). These kinds of functions are handy for drawing construction lines and fixing up geometry. 
 

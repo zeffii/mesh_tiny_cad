@@ -1,8 +1,8 @@
 Blender CAD utils
 =================
 
-A tiny subset of unmissable CAD functions for Blender 3d.
-Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts/Modeling/mesh_tinyCAD) (Wich has most of the same info)
+A tiny subset of unmissable CAD functions for Blender 3d.  
+Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts/Modeling/mesh_tinyCAD) (Wich has most of the same info)  
 
 ### OK, what's this all about?
 

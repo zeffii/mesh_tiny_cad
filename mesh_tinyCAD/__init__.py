@@ -39,13 +39,15 @@ from mesh_tinyCAD.V2X import Vert2Intersection
 from mesh_tinyCAD.EXM import ExtendEdgesMulti
 from mesh_tinyCAD.XALL import IntersectAllEdges
 from mesh_tinyCAD.BIX import LineOnBisection
+from mesh_tinyCAD.PERP import CutOnPerpendicular
 
 vtx_classes = (
     [AutoVTX, "tinyCAD autoVTX"],
     [Vert2Intersection, "tinyCAD V2X"],
     [IntersectAllEdges, "tinyCAD XALL"],
     [ExtendEdgesMulti, "tinyCAD EXM"],
-    [LineOnBisection, "tinyCAD BIX"]
+    [LineOnBisection, "tinyCAD BIX"],
+    [CutOnPerpendicular, "tinyCAD PERP CUT"]
 )
 
 

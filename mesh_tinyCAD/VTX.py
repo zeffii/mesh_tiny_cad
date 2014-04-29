@@ -128,6 +128,7 @@ class AutoVTX(bpy.types.Operator):
                 return True
 
     def execute(self, context):
+        self.me.update()
         if checkVTX(self, context):
             doVTX(self)
 

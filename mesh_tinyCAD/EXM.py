@@ -146,7 +146,7 @@ def draw_callback_px(self, context, event):
 
 
 class ExtendEdgesMulti(bpy.types.Operator):
-    bl_idname = "view3d.extend_edges"
+    bl_idname = "mesh.extendmulti"
     bl_label = "EXM extend multiple edges"
     bl_description = "extend edge towards"
 

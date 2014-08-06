@@ -51,22 +51,26 @@ vtx_classes = (
 )
 
 
-def menu_func(self, context):
-    for i, text in vtx_classes:
-        self.layout.operator(i.bl_idname, text=text)
+class VIEW3D_MT_edit_mesh_tinycad(bpy.types.Menu):
+    bl_label = "TinyCAD"
+    
+    def draw(self, context):
+        for i, text in vtx_classes:
+            self.layout.operator(i.bl_idname, text=text)
 
+def menu_func(self, context):
+    self.layout.menu("VIEW3D_MT_edit_mesh_tinycad")
+    self.layout.separator()
 
 def register():
     for i, _ in vtx_classes:
         bpy.utils.register_class(i)
-    bpy.types.VIEW3D_MT_edit_mesh_specials.append(menu_func)
+    bpy.utils.register_class(VIEW3D_MT_edit_mesh_tinycad)    
+    bpy.types.VIEW3D_MT_edit_mesh_specials.prepend(menu_func)
 
 
 def unregister():
     for i, _ in vtx_classes:
         bpy.utils.unregister_class(i)
+    bpy.utils.unregister_class(VIEW3D_MT_edit_mesh_tinycad)
     bpy.types.VIEW3D_MT_edit_mesh_specials.remove(menu_func)
-
-
-if __name__ == "__main__":
-    register()

@@ -31,6 +31,11 @@ def cut_visible_by_perpendicular(self):
     me = obj.data
     bm = bmesh.from_edit_mesh(me)
 
+    if hasattr(bm.verts, "ensure_lookup_table"):
+        bm.verts.ensure_lookup_table()
+        bm.edges.ensure_lookup_table()    
+        bm.faces.ensure_lookup_table()
+
     verts = [v for v in bm.verts if (v.select and not v.hide)]
 
     if not len(verts) == 2:

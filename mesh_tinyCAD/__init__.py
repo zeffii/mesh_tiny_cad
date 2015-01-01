@@ -21,14 +21,15 @@ END GPL LICENCE BLOCK
 bl_info = {
     "name": "tinyCAD Mesh tools",
     "author": "zeffii (aka Dealga McArdle)",
-    "version": (1, 0, 5),
-    "blender": (2, 7, 0),
+    "version": (1, 0, 7),
+    "blender": (2, 7, 3),
     "category": "Mesh",
     "location": "View3D > EditMode > (w) Specials",
     "wiki_url": "",
     "tracker_url": ""
 }
 
+## implemented lookup table for bmesh changes in 2.73
 
 if "bpy" in locals():
     import imp
@@ -36,7 +37,7 @@ if "bpy" in locals():
 import bpy
 from mesh_tinyCAD.VTX import AutoVTX
 from mesh_tinyCAD.V2X import Vert2Intersection
-from mesh_tinyCAD.EXM import ExtendEdgesMulti
+# from mesh_tinyCAD.EXM import ExtendEdgesMulti
 from mesh_tinyCAD.XALL import IntersectAllEdges
 from mesh_tinyCAD.BIX import LineOnBisection
 from mesh_tinyCAD.PERP import CutOnPerpendicular
@@ -45,7 +46,7 @@ vtx_classes = (
     [AutoVTX, "tinyCAD autoVTX"],
     [Vert2Intersection, "tinyCAD V2X"],
     [IntersectAllEdges, "tinyCAD XALL"],
-    [ExtendEdgesMulti, "tinyCAD EXM"],
+    # [ExtendEdgesMulti, "tinyCAD EXM"],      # this is buggy
     [LineOnBisection, "tinyCAD BIX"],
     [CutOnPerpendicular, "tinyCAD PERP CUT"]
 )
@@ -53,19 +54,21 @@ vtx_classes = (
 
 class VIEW3D_MT_edit_mesh_tinycad(bpy.types.Menu):
     bl_label = "TinyCAD"
-    
+
     def draw(self, context):
         for i, text in vtx_classes:
             self.layout.operator(i.bl_idname, text=text)
+
 
 def menu_func(self, context):
     self.layout.menu("VIEW3D_MT_edit_mesh_tinycad")
     self.layout.separator()
 
+
 def register():
     for i, _ in vtx_classes:
         bpy.utils.register_class(i)
-    bpy.utils.register_class(VIEW3D_MT_edit_mesh_tinycad)    
+    bpy.utils.register_class(VIEW3D_MT_edit_mesh_tinycad)
     bpy.types.VIEW3D_MT_edit_mesh_specials.prepend(menu_func)
 
 

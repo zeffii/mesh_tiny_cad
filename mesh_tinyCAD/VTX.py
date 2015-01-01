@@ -18,6 +18,12 @@ def getVTX(self):
 
 
 def add_edges(self, idxs):
+
+    # precaution?
+    if hasattr(self.bm.verts, "ensure_lookup_table"):
+        self.bm.verts.ensure_lookup_table()
+        self.bm.edges.ensure_lookup_table()
+
     for e in idxs:
         v1 = self.bm.verts[-1]
         v2 = self.bm.verts[e]
@@ -35,17 +41,22 @@ def checkVTX(self, context):
     - remembers edges attached to current selection, for later.
     '''
 
-    # [x] if either of these edges share a vertex, return early.
+    # precaution?
+    if hasattr(self.bm.verts, "ensure_lookup_table"):
+        self.bm.verts.ensure_lookup_table()
+        self.bm.edges.ensure_lookup_table()
+
+    # if either of these edges share a vertex, return early.
     indices = cm.vertex_indices_from_edges_tuple(self.bm, self.selected_edges)
     if cm.duplicates(indices):
         msg = "edges share a vertex, degenerate case, returning early"
         self.report({"WARNING"}, msg)
         return False
 
-    # [x] find which edges intersect
+    # find which edges intersect
     getVTX(self)
 
-    # [x] check coplanar, or parallel.
+    # check coplanar, or parallel.
     if [] == self.edges:
         coplanar = cm.test_coplanar(self.edge1, self.edge2)
         if not coplanar:
@@ -117,7 +128,11 @@ class AutoVTX(bpy.types.Operator):
         obj = context.active_object
         self.me = obj.data
         self.bm = bmesh.from_edit_mesh(self.me)
-        self.me.update()
+
+        # self.me.update()
+        if hasattr(self.bm.verts, "ensure_lookup_table"):
+            self.bm.verts.ensure_lookup_table()
+            self.bm.edges.ensure_lookup_table()
 
         if obj is not None and obj.type == 'MESH':
             edges = self.bm.edges
@@ -128,6 +143,7 @@ class AutoVTX(bpy.types.Operator):
                 return True
 
     def execute(self, context):
+
         self.me.update()
         if checkVTX(self, context):
             doVTX(self)

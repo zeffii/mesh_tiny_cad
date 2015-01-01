@@ -76,6 +76,11 @@ def can_skip(closest_points, vert_vectors):
 
 
 def get_intersection_dictionary(bm, edge_indices):
+
+    if hasattr(bm.verts, "ensure_lookup_table"):
+        bm.verts.ensure_lookup_table()
+        bm.edges.ensure_lookup_table()
+
     permutations = get_valid_permutations(bm, edge_indices)
 
     k = defaultdict(list)
@@ -123,6 +128,11 @@ def update_mesh(obj, d):
         for i in range(num_edges_to_add):
             oe.add(1)
             ov.add(2)
+
+            # if hasattr(bm.verts, "ensure_lookup_table"):
+            #     bm.verts.ensure_lookup_table()
+            #     bm.edges.ensure_lookup_table()
+
             ov[vert_count].co = point_list[i]
             ov[vert_count+1].co = point_list[i+1]
 

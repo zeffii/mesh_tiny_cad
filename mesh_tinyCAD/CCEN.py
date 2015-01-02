@@ -27,52 +27,9 @@ from mathutils import geometry
 from mathutils import Vector
 
 
-def generate_gp3d_stroke(p1, axis, v1, radius=1.0):
-
-    # get grease pencil data
-    # hella clunky for testing.
-    # grease_pencil_name = 'tc_circle_000'
-    # layer_name = "TinyCad Layer"
-
-    # if grease_pencil_name not in bpy.data.grease_pencil:
-    #     gp = bpy.data.grease_pencil.new(grease_pencil_name)
-    # else:
-    #     gp = bpy.data.grease_pencil[grease_pencil_name]
-
-    # # get grease pencil layer
-    # if not (layer_name in gp.layers):
-    #     layer = gp.layers.new(layer_name)
-    #     layer.frames.new(1)
-    #     layer.line_width = 1
-    # else:
-    #     layer = gp.layers[layer_name]
-    #     layer.frames[0].clear()
-
-    #     s = layer.frames[0].strokes.new()
-    #     s.draw_mode = '3DSPACE'
-
-    #     num_verts = 20
-    #     chain = []
-    #     for i in range(num_verts+1):
-    #         mat_rot = mathutils.Matrix.Rotation(((360 / num_verts) * i), 4, axis)
-    #         chain.append(((v1 - p1) * mat_rot) + p1)
-
-    #     s.points.add(len(chain))
-    #     for idx, p in enumerate(chain):
-    #         s.points[idx].co = p
-
-    num_verts = 20
-    chain = []
-    for i in range(num_verts+1):
-        mat_rot = mathutils.Matrix.Rotation(((360 / num_verts) * i), 4, axis)
-        point = ((v1 - p1) * mat_rot) + p1
-        chain.append(point)
-        # bpy.ops.object.add(type='EMPTY', location=point, rotation=(0, 0, 0))
-
-    print(chain)
-
-
-def generate_3PT_mode_1(pts=[], origin=(0, 0, 0)):
+def generate_3PT_mode_1(pts, obj):
+    origin = obj.location
+    transform_matrix = obj.matrix_local
     V = Vector
 
     # construction
@@ -91,8 +48,10 @@ def generate_3PT_mode_1(pts=[], origin=(0, 0, 0)):
     r = geometry.intersect_line_line(v1_, v2_, v3_, v4_)
     if r:
         p1, _ = r
-        bpy.context.scene.cursor_location = p1 + origin
-        generate_gp3d_stroke(p1 + origin, axis, v1_ + origin, radius=(v1_-p1).length)
+        # cp = transform_matrix * (p1 + origin)
+        cp = transform_matrix * p1
+        bpy.context.scene.cursor_location = cp
+        # generate_gp3d_stroke(cp, axis, obj, radius=(p1-v1).length)
     else:
         print('not on a circle')
 
@@ -105,7 +64,7 @@ def get_three_verts_from_selection(obj):
         bm.verts.ensure_lookup_table()
         bm.edges.ensure_lookup_table()
 
-    return [v.co[:] for v in bm.verts if v.select], obj.location
+    return [v.co[:] for v in bm.verts if v.select]
 
 
 class CircleCenter(bpy.types.Operator):
@@ -121,6 +80,6 @@ class CircleCenter(bpy.types.Operator):
 
     def execute(self, context):
         obj = bpy.context.object
-        pts, origin = get_three_verts_from_selection(obj)
-        generate_3PT_mode_1(pts, origin)
+        pts = get_three_verts_from_selection(obj)
+        generate_3PT_mode_1(pts, obj)
         return {'FINISHED'}

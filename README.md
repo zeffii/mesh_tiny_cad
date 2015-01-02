@@ -68,6 +68,15 @@ It has two modes.
 
 Creates a single edge which is the bisect of two edges.  
 ![Imgur](http://i.imgur.com/uzyv1Mv.gif)  
+
+### CCEN (Circle Centers)
+
+Given either 
+
+- two adjacent edges on the circumference of an incomplete circle
+- or two vertices (not required to be adjacent)
+
+this operator will places the 3d cursor at original center of that circle.
   
 ### Trim Multiples
 

@@ -41,6 +41,8 @@ from mesh_tinyCAD.V2X import Vert2Intersection
 from mesh_tinyCAD.XALL import IntersectAllEdges
 from mesh_tinyCAD.BIX import LineOnBisection
 from mesh_tinyCAD.PERP import CutOnPerpendicular
+from mesh_tinyCAD.CCEN import CircleCenter
+
 
 vtx_classes = (
     [AutoVTX, "tinyCAD autoVTX"],
@@ -48,7 +50,8 @@ vtx_classes = (
     [IntersectAllEdges, "tinyCAD XALL"],
     # [ExtendEdgesMulti, "tinyCAD EXM"],      # this is buggy
     [LineOnBisection, "tinyCAD BIX"],
-    [CutOnPerpendicular, "tinyCAD PERP CUT"]
+    [CutOnPerpendicular, "tinyCAD PERP CUT"],
+    [CircleCenter, "tC Circle Center"]
 )
 
 

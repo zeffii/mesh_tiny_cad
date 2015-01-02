@@ -77,6 +77,8 @@ Given either
 - or two vertices (not required to be adjacent)
 
 this operator will places the 3d cursor at original center of that circle.
+
+![imgur](https://cloud.githubusercontent.com/assets/619340/5595657/2786f984-9279-11e4-9dff-9db5d5a52a52.gif)
   
 ### Trim Multiples
 

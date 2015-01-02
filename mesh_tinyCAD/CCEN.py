@@ -27,7 +27,15 @@ from mathutils import geometry
 from mathutils import Vector
 
 
-def generate_gp3d_stroke(r, center, v1, axis):
+def generate_gp3d_stroke(p1, v1, axis, mw, origin):
+
+    '''
+        p1:     center of circle (local coordinates)
+        v1:     first vertex of circle in (local coordinates)
+        axis:   orientation matrix
+        mw:     obj.matrix_world
+        origin: obj.location
+    '''
 
     # get grease pencil data
     # hella clunky for testing.
@@ -55,12 +63,13 @@ def generate_gp3d_stroke(r, center, v1, axis):
     s.draw_mode = '3DSPACE'
 
     chain = []
-    num_verts = 14
+    num_verts = 64
     gamma = 2 * math.pi / num_verts
     for i in range(num_verts+1):
         theta = gamma * i
         mat_rot = mathutils.Matrix.Rotation(theta, 4, axis)
-        world_point = (mat_rot * (v1 - center)) + center
+        local_point = mw * (mat_rot * (v1 - p1))  # + origin
+        world_point = local_point - (origin - (mw*p1))
         chain.append(world_point)
 
     s.points.add(len(chain))
@@ -70,7 +79,7 @@ def generate_gp3d_stroke(r, center, v1, axis):
 
 def generate_3PT_mode_1(pts, obj):
     origin = obj.location
-    transform_matrix = obj.matrix_local
+    mw = obj.matrix_world
     V = Vector
 
     # construction
@@ -89,11 +98,9 @@ def generate_3PT_mode_1(pts, obj):
     r = geometry.intersect_line_line(v1_, v2_, v3_, v4_)
     if r:
         p1, _ = r
-        cp = transform_matrix * p1
+        cp = mw * p1
         bpy.context.scene.cursor_location = cp
-
-        radius = (transform_matrix * (p1-v1)).length
-        generate_gp3d_stroke(radius, cp, transform_matrix*v1, axis)
+        generate_gp3d_stroke(p1, v1, axis, mw, origin)
     else:
         print('not on a circle')
 

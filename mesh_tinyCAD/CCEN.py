@@ -27,6 +27,47 @@ from mathutils import geometry
 from mathutils import Vector
 
 
+def generate_gp3d_stroke(r, center, v1, axis):
+
+    # get grease pencil data
+    # hella clunky for testing.
+    grease_pencil_name = 'tc_circle_000'
+    layer_name = "TinyCad Layer"
+
+    grease_data = bpy.data.grease_pencil
+    if grease_pencil_name not in grease_data:
+        gp = grease_data.new(grease_pencil_name)
+    else:
+        gp = grease_data[grease_pencil_name]
+
+    # get grease pencil layer
+    if not (layer_name in gp.layers):
+        layer = gp.layers.new(layer_name)
+        layer.frames.new(1)
+        layer.line_width = 1
+    else:
+        layer = gp.layers[layer_name]
+        layer.frames[0].clear()
+
+    layer.show_points = True
+    layer.color = (0.2, 0.90, .2)
+    s = layer.frames[0].strokes.new()
+    s.draw_mode = '3DSPACE'
+
+    chain = []
+    num_verts = 14
+    gamma = 2 * math.pi / num_verts
+    for i in range(num_verts+1):
+        theta = gamma * i
+        mat_rot = mathutils.Matrix.Rotation(theta, 4, axis)
+        world_point = (mat_rot * (v1 - center)) + center
+        chain.append(world_point)
+
+    s.points.add(len(chain))
+    for idx, p in enumerate(chain):
+        s.points[idx].co = p
+
+
 def generate_3PT_mode_1(pts, obj):
     origin = obj.location
     transform_matrix = obj.matrix_local
@@ -48,10 +89,11 @@ def generate_3PT_mode_1(pts, obj):
     r = geometry.intersect_line_line(v1_, v2_, v3_, v4_)
     if r:
         p1, _ = r
-        # cp = transform_matrix * (p1 + origin)
         cp = transform_matrix * p1
         bpy.context.scene.cursor_location = cp
-        # generate_gp3d_stroke(cp, axis, obj, radius=(p1-v1).length)
+
+        radius = (transform_matrix * (p1-v1)).length
+        generate_gp3d_stroke(radius, cp, transform_matrix*v1, axis)
     else:
         print('not on a circle')
 

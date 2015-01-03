@@ -54,7 +54,7 @@ def get_layer():
     return layer
 
 
-def generate_gp3d_stroke(layer, p1, v1, axis, mw, origin):
+def generate_gp3d_stroke(layer, p1, v1, axis, mw, origin, nv):
 
     '''
         p1:     center of circle (local coordinates)
@@ -70,7 +70,7 @@ def generate_gp3d_stroke(layer, p1, v1, axis, mw, origin):
     s.draw_mode = '3DSPACE'
 
     chain = []
-    num_verts = 64
+    num_verts = nv
     gamma = 2 * math.pi / num_verts
     for i in range(num_verts+1):
         theta = gamma * i
@@ -84,10 +84,12 @@ def generate_gp3d_stroke(layer, p1, v1, axis, mw, origin):
         s.points[idx].co = p
 
 
-def generate_3PT_mode_1(pts, obj):
+def generate_3PT_mode_1(pts, obj, nv):
     origin = obj.location
     mw = obj.matrix_world
     V = Vector
+
+    nv = max(3, nv)
 
     # construction
     v1, v2, v3, v4 = V(pts[0]), V(pts[1]), V(pts[1]), V(pts[2])
@@ -108,7 +110,7 @@ def generate_3PT_mode_1(pts, obj):
         cp = mw * p1
         bpy.context.scene.cursor_location = cp
         layer = get_layer()
-        generate_gp3d_stroke(layer, p1, v1, axis, mw, origin)
+        generate_gp3d_stroke(layer, p1, v1, axis, mw, origin, nv)
     else:
         print('not on a circle')
 
@@ -130,6 +132,8 @@ class CircleCenter(bpy.types.Operator):
     bl_label = 'circle center from selected'
     bl_options = {'REGISTER', 'UNDO'}
 
+    nv = bpy.props.IntProperty(default=12)
+
     @classmethod
     def poll(self, context):
         obj = context.active_object
@@ -138,5 +142,28 @@ class CircleCenter(bpy.types.Operator):
     def execute(self, context):
         obj = bpy.context.object
         pts = get_three_verts_from_selection(obj)
-        generate_3PT_mode_1(pts, obj)
+        generate_3PT_mode_1(pts, obj, self.nv)
         return {'FINISHED'}
+
+
+class CirclePanel(bpy.types.Panel):
+    bl_label = "tinyCAD circle"
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+
+    @classmethod
+    def poll(self, context):
+        obj = context.active_object
+        if not obj:
+            return
+
+        if (obj.type == 'MESH' and obj.mode == 'EDIT'):
+            return obj.data.total_vert_sel >= 3
+
+    def draw(self, context):
+        layout = self.layout
+        col = layout.col()
+        col.prop(context.scene, "tc_numverts")
+
+        sender = col.operator("mesh.circlecenter'", text='Servus')
+        sender.nv = context.scene.tc_numverts

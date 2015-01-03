@@ -37,7 +37,6 @@ if "bpy" in locals():
 import bpy
 from mesh_tinyCAD.VTX import AutoVTX
 from mesh_tinyCAD.V2X import Vert2Intersection
-# from mesh_tinyCAD.EXM import ExtendEdgesMulti
 from mesh_tinyCAD.XALL import IntersectAllEdges
 from mesh_tinyCAD.BIX import LineOnBisection
 from mesh_tinyCAD.PERP import CutOnPerpendicular
@@ -48,7 +47,6 @@ vtx_classes = (
     [AutoVTX, "tinyCAD autoVTX"],
     [Vert2Intersection, "tinyCAD V2X"],
     [IntersectAllEdges, "tinyCAD XALL"],
-    # [ExtendEdgesMulti, "tinyCAD EXM"],      # this is buggy
     [LineOnBisection, "tinyCAD BIX"],
     [CutOnPerpendicular, "tinyCAD PERP CUT"],
     [CircleCenter, "tC Circle Center"]
@@ -71,6 +69,7 @@ def menu_func(self, context):
 def register():
     for i, _ in vtx_classes:
         bpy.utils.register_class(i)
+
     bpy.utils.register_class(VIEW3D_MT_edit_mesh_tinycad)
     bpy.types.VIEW3D_MT_edit_mesh_specials.prepend(menu_func)
 
@@ -78,5 +77,6 @@ def register():
 def unregister():
     for i, _ in vtx_classes:
         bpy.utils.unregister_class(i)
+
     bpy.utils.unregister_class(VIEW3D_MT_edit_mesh_tinycad)
     bpy.types.VIEW3D_MT_edit_mesh_specials.remove(menu_func)

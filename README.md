@@ -45,7 +45,7 @@ Intersect all, it programatically goes through all selected edges and slices the
 
 This might be a niche accessory, but sometimes all you want is a vertex positioned on the intersection of two edges. Nothing fancy.
 
-### EXM (Extend Multiples)
+### EXM (Extend Multiples) -- disabled for the time being
 
 It has two modes.  
   -  Pick an edge (we'll call this Edge Prime)

@@ -27,18 +27,12 @@ from mathutils import geometry
 from mathutils import Vector
 
 
-def generate_gp3d_stroke(p1, v1, axis, mw, origin):
-
+def get_layer():
     '''
-        p1:     center of circle (local coordinates)
-        v1:     first vertex of circle in (local coordinates)
-        axis:   orientation matrix
-        mw:     obj.matrix_world
-        origin: obj.location
+        this always returns a new empty layer ready for drawing to
     '''
 
     # get grease pencil data
-    # hella clunky for testing.
     grease_pencil_name = 'tc_circle_000'
     layer_name = "TinyCad Layer"
 
@@ -56,6 +50,19 @@ def generate_gp3d_stroke(p1, v1, axis, mw, origin):
     else:
         layer = gp.layers[layer_name]
         layer.frames[0].clear()
+
+    return layer
+
+
+def generate_gp3d_stroke(layer, p1, v1, axis, mw, origin):
+
+    '''
+        p1:     center of circle (local coordinates)
+        v1:     first vertex of circle in (local coordinates)
+        axis:   orientation matrix
+        mw:     obj.matrix_world
+        origin: obj.location
+    '''
 
     layer.show_points = True
     layer.color = (0.2, 0.90, .2)
@@ -100,7 +107,8 @@ def generate_3PT_mode_1(pts, obj):
         p1, _ = r
         cp = mw * p1
         bpy.context.scene.cursor_location = cp
-        generate_gp3d_stroke(p1, v1, axis, mw, origin)
+        layer = get_layer()
+        generate_gp3d_stroke(layer, p1, v1, axis, mw, origin)
     else:
         print('not on a circle')
 

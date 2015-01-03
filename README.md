@@ -8,7 +8,7 @@ Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.
 
 Dedicated CAD software speeds up drafting significantly with functions like: `Extend`, `Trim`,  `Intersect`, `Fillet /w radius` and `Offset /w distance`. At the moment of this writing many of these functions aren't included by default in regular distributions on Blender.org, so i've coded scripts to perform a few of the main features that I missed most. 
   
-My scripts have shortnames: `VTX, EXM, V2X, XALL, BIX` and are described separately in sections below. `Fillet` and `Offset` are written by zmj100 and can be found [here](http://blenderartists.org/forum/showthread.php?179375).
+My scripts have shortnames: `VTX, V2X, XALL, BIX, CCEN` and are described separately in sections below. `Fillet` and `Offset` are written by zmj100 and can be found [here](http://blenderartists.org/forum/showthread.php?179375).
   
 
 ### VTX
@@ -79,6 +79,10 @@ Given either
 this operator will places the 3d cursor at original center of that circle.
 
 ![imgur](https://cloud.githubusercontent.com/assets/619340/5595657/2786f984-9279-11e4-9dff-9db5d5a52a52.gif)
+
+updated version may become a modal operator to generate a full set of circle vertices, with variable vertex count.
+
+![imgur demo](https://cloud.githubusercontent.com/assets/619340/5602194/ce613c96-933d-11e4-9879-d2cfc686cb69.gif)
   
 ### Trim Multiples
 

@@ -41,6 +41,7 @@ from mesh_tinyCAD.XALL import IntersectAllEdges
 from mesh_tinyCAD.BIX import LineOnBisection
 from mesh_tinyCAD.PERP import CutOnPerpendicular
 from mesh_tinyCAD.CCEN import CircleCenter
+from mesh_tinyCAD.CCEN import CirclePanel
 
 
 vtx_classes = (
@@ -70,13 +71,17 @@ def register():
     for i, _ in vtx_classes:
         bpy.utils.register_class(i)
 
+    bpy.types.Scene.tc_numverts = bpy.props.IntProperty(default=12)
     bpy.utils.register_class(VIEW3D_MT_edit_mesh_tinycad)
     bpy.types.VIEW3D_MT_edit_mesh_specials.prepend(menu_func)
+    bpy.utils.register_class(CirclePanel)
 
 
 def unregister():
     for i, _ in vtx_classes:
         bpy.utils.unregister_class(i)
 
+    bpy.utils.unregister_class(CirclePanel)
     bpy.utils.unregister_class(VIEW3D_MT_edit_mesh_tinycad)
     bpy.types.VIEW3D_MT_edit_mesh_specials.remove(menu_func)
+    del bpy.types.Scene.tc_numverts

@@ -165,5 +165,5 @@ class CirclePanel(bpy.types.Panel):
         col = layout.col()
         col.prop(context.scene, "tc_numverts")
 
-        sender = col.operator("mesh.circlecenter'", text='Servus')
-        sender.nv = context.scene.tc_numverts
+        s1 = col.operator("mesh.circlecenter'", text='GreasePencil points')
+        s1.nv = context.scene.tc_numverts

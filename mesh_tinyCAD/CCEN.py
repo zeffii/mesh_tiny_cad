@@ -162,7 +162,7 @@ class CirclePanel(bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
-        col = layout.col()
+        col = layout.column()
         col.prop(context.scene, "tc_numverts")
 
         s1 = col.operator("mesh.circlecenter'", text='GreasePencil points')

@@ -69,7 +69,10 @@ def menu_func(self, context):
 
 def register():
     for i, _ in vtx_classes:
-        bpy.utils.register_class(i)
+        try:
+            bpy.utils.register_class(i)
+        except:
+            print('failed:', i )
 
     bpy.types.Scene.tc_numverts = bpy.props.IntProperty(default=12)
     bpy.utils.register_class(VIEW3D_MT_edit_mesh_tinycad)

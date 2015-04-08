@@ -144,6 +144,7 @@ class CircleCenter(bpy.types.Operator):
         pts = get_three_verts_from_selection(obj)
         generate_3PT_mode_1(pts, obj, self.nv)
         return {'FINISHED'}
+    pass
 
 
 class CirclePanel(bpy.types.Panel):
@@ -153,17 +154,23 @@ class CirclePanel(bpy.types.Panel):
 
     @classmethod
     def poll(self, context):
-        obj = context.active_object
-        if not obj:
-            return
 
-        if (obj.type == 'MESH' and obj.mode == 'EDIT'):
-            return obj.data.total_vert_sel >= 3
+        # obj = context.active_object
+        # if not obj:
+        #     return
+
+        # if (obj.type == 'MESH' and obj.mode == 'EDIT'):
+        #     return obj.data.total_vert_sel >= 3
+        return False
 
     def draw(self, context):
-        layout = self.layout
-        col = layout.column()
-        col.prop(context.scene, "tc_numverts")
+        #     layout = self.layout
+        #     col = layout.column()
 
-        s1 = col.operator("mesh.circlecenter'", text='GreasePencil points')
-        s1.nv = context.scene.tc_numverts
+        #     if 'tc_numverts' in dir(context.scene):
+
+        #         col.prop(context.scene, "tc_numverts")
+
+        #         s1 = col.operator("mesh.circlecenter'", text='GreasePencil points')
+        #         s1.nv = context.scene.tc_numverts
+        pass

@@ -84,7 +84,7 @@ def generate_gp3d_stroke(layer, p1, v1, axis, mw, origin, num_verts):
         s.points[idx].co = p
 
 
-def generate_bmesh_repr(p1, v1, axis, origin, num_verts):
+def generate_bmesh_repr(p1, v1, axis, num_verts):
 
     '''
         p1:     center of circle (local coordinates)
@@ -99,9 +99,8 @@ def generate_bmesh_repr(p1, v1, axis, origin, num_verts):
     for i in range(num_verts + 1):
         theta = gamma * i
         mat_rot = mathutils.Matrix.Rotation(theta, 4, axis)
-        local_point = (mat_rot * (v1 - p1))  # + origin
-        point = local_point - (origin - p1)
-        chain.append(point)
+        local_point = (mat_rot * (v1 - p1))
+        chain.append(local_point + p1)
 
     obj = bpy.context.edit_object
     me = obj.data
@@ -158,7 +157,7 @@ def generate_3PT(pts, obj, nv, mode=0):
             scn.grease_pencil = bpy.data.grease_pencil['tc_circle_000']
 
         elif mode == 1:
-            generate_bmesh_repr(p1, v1, axis, origin, nv)
+            generate_bmesh_repr(p1, v1, axis, nv)
 
     else:
         print('not on a circle')

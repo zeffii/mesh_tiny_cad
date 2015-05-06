@@ -29,7 +29,8 @@ bl_info = {
     "tracker_url": ""
 }
 
-## implemented lookup table for bmesh changes in 2.73
+# # implemented lookup table for bmesh changes in 2.73
+
 
 if "bpy" in locals():
     import imp
@@ -41,7 +42,7 @@ from mesh_tinyCAD.XALL import IntersectAllEdges
 from mesh_tinyCAD.BIX import LineOnBisection
 from mesh_tinyCAD.PERP import CutOnPerpendicular
 from mesh_tinyCAD.CCEN import CircleCenter
-from mesh_tinyCAD.CCEN import CirclePanel
+from mesh_tinyCAD.CCEN import CircleMake
 
 
 vtx_classes = (
@@ -68,23 +69,33 @@ def menu_func(self, context):
 
 
 def register():
+    # register scene properties first.
+    ugly_green = (0.2, 0.90, .2)
+    bpy.types.Scene.tc_gp_color = bpy.props.FloatVectorProperty(
+        default=ugly_green,
+        subtype='COLOR',
+        min=0.0, max=1.0)
+    bpy.types.Scene.tc_num_verts = bpy.props.IntProperty(default=12)
+
+    # my classes
     for i, _ in vtx_classes:
         try:
             bpy.utils.register_class(i)
         except:
-            print('failed:', i )
+            print('failed:', i)
 
-    bpy.types.Scene.tc_numverts = bpy.props.IntProperty(default=12)
+    # miscl registration not order dependant
     bpy.utils.register_class(VIEW3D_MT_edit_mesh_tinycad)
     bpy.types.VIEW3D_MT_edit_mesh_specials.prepend(menu_func)
-    bpy.utils.register_class(CirclePanel)
+    bpy.utils.register_class(CircleMake)
 
 
 def unregister():
     for i, _ in vtx_classes:
         bpy.utils.unregister_class(i)
 
-    bpy.utils.unregister_class(CirclePanel)
+    bpy.utils.unregister_class(CircleMake)
     bpy.utils.unregister_class(VIEW3D_MT_edit_mesh_tinycad)
     bpy.types.VIEW3D_MT_edit_mesh_specials.remove(menu_func)
-    del bpy.types.Scene.tc_numverts
+    del bpy.types.Scene.tc_num_verts
+    del bpy.types.Scene.tc_gp_color

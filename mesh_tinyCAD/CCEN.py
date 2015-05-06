@@ -54,7 +54,7 @@ def get_layer():
     return layer
 
 
-def generate_gp3d_stroke(layer, p1, v1, axis, mw, origin, nv):
+def generate_gp3d_stroke(layer, p1, v1, axis, mw, origin, num_verts):
 
     '''
         p1:     center of circle (local coordinates)
@@ -64,13 +64,13 @@ def generate_gp3d_stroke(layer, p1, v1, axis, mw, origin, nv):
         origin: obj.location
     '''
 
-    layer.show_points = True
-    layer.color = (0.2, 0.90, .2)
+    layer.show_points = True  # is this still broken? GP bug, reported!
+
+    layer.color = bpy.context.scene.tc_gp_color
     s = layer.frames[0].strokes.new()
     s.draw_mode = '3DSPACE'
 
     chain = []
-    num_verts = nv
     gamma = 2 * math.pi / num_verts
     for i in range(num_verts + 1):
         theta = gamma * i
@@ -84,7 +84,47 @@ def generate_gp3d_stroke(layer, p1, v1, axis, mw, origin, nv):
         s.points[idx].co = p
 
 
-def generate_3PT_mode_1(pts, obj, nv):
+def generate_bmesh_repr(p1, v1, axis, origin, num_verts):
+
+    '''
+        p1:     center of circle (local coordinates)
+        v1:     first vertex of circle in (local coordinates)
+        axis:   orientation matrix
+        origin: obj.location
+    '''
+
+    # generate geometr up front
+    chain = []
+    gamma = 2 * math.pi / num_verts
+    for i in range(num_verts + 1):
+        theta = gamma * i
+        mat_rot = mathutils.Matrix.Rotation(theta, 4, axis)
+        local_point = (mat_rot * (v1 - p1))  # + origin
+        point = local_point - (origin - p1)
+        chain.append(point)
+
+    obj = bpy.context.edit_object
+    me = obj.data
+    bm = bmesh.from_edit_mesh(me)
+
+    # add verts
+    v_refs = []
+    for p in chain:
+        v = bm.verts.new(p)
+        v.select = False  # this might be a default.. redundant?
+        v_refs.append(v)
+
+    # join verts
+    num_verts = len(v_refs)
+    for i in range(num_verts):
+        idx1 = i
+        idx2 = (i + 1) % num_verts
+        bm.edges.new([v_refs[idx1], v_refs[idx2]])
+
+    bmesh.update_edit_mesh(me, True)
+
+
+def generate_3PT(pts, obj, nv, mode=0):
     origin = obj.location
     mw = obj.matrix_world
     V = Vector
@@ -109,11 +149,16 @@ def generate_3PT_mode_1(pts, obj, nv):
         p1, _ = r
         cp = mw * p1
         bpy.context.scene.cursor_location = cp
-        layer = get_layer()
-        generate_gp3d_stroke(layer, p1, v1, axis, mw, origin, nv)
 
-        scn = bpy.context.scene
-        scn.grease_pencil = bpy.data.grease_pencil['tc_circle_000']
+        if mode == 0:
+            layer = get_layer()
+            generate_gp3d_stroke(layer, p1, v1, axis, mw, origin, nv)
+
+            scn = bpy.context.scene
+            scn.grease_pencil = bpy.data.grease_pencil['tc_circle_000']
+
+        elif mode == 1:
+            generate_bmesh_repr(p1, v1, axis, origin, nv)
 
     else:
         print('not on a circle')
@@ -136,46 +181,37 @@ class CircleCenter(bpy.types.Operator):
     bl_label = 'circle center from selected'
     bl_options = {'REGISTER', 'UNDO'}
 
-    nv = bpy.props.IntProperty(default=12)
+    def draw(self, context):
+        scn = context.scene
+        l = self.layout
+        col = l.column()
+
+        col.prop(scn, 'tc_gp_color', text='layer color')
+        col.prop(scn, 'tc_num_verts', text='num verts')
+        col.operator('mesh.circlemake', text='Make Mesh')
 
     @classmethod
     def poll(self, context):
-        obj = context.active_object
+        obj = context.edit_object
         return obj is not None and obj.type == 'MESH' and obj.mode == 'EDIT'
 
     def execute(self, context):
-        obj = bpy.context.object
+        obj = bpy.context.edit_object
         pts = get_three_verts_from_selection(obj)
-        generate_3PT_mode_1(pts, obj, self.nv)
-
+        nv = context.scene.tc_num_verts
+        generate_3PT(pts, obj, nv, mode=0)
         return {'FINISHED'}
-    pass
 
 
-class CirclePanel(bpy.types.Panel):
-    bl_label = "tinyCAD circle"
-    bl_space_type = "VIEW_3D"
-    bl_region_type = "UI"
+class CircleMake(bpy.types.Operator):
 
-    @classmethod
-    def poll(self, context):
+    bl_idname = 'mesh.circlemake'
+    bl_label = 'circle mesh from selected'
+    bl_options = {'REGISTER', 'UNDO'}
 
-        # obj = context.active_object
-        # if not obj:
-        #     return
-
-        # if (obj.type == 'MESH' and obj.mode == 'EDIT'):
-        #     return obj.data.total_vert_sel >= 3
-        return False
-
-    def draw(self, context):
-        #     layout = self.layout
-        #     col = layout.column()
-
-        #     if 'tc_numverts' in dir(context.scene):
-
-        #         col.prop(context.scene, "tc_numverts")
-
-        #         s1 = col.operator("mesh.circlecenter'", text='GreasePencil points')
-        #         s1.nv = context.scene.tc_numverts
-        pass
+    def execute(self, context):
+        obj = bpy.context.edit_object
+        pts = get_three_verts_from_selection(obj)
+        nv = context.scene.tc_num_verts
+        generate_3PT(pts, obj, nv, mode=1)
+        return {'FINISHED'}

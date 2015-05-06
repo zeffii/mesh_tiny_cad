@@ -72,11 +72,11 @@ def generate_gp3d_stroke(layer, p1, v1, axis, mw, origin, nv):
     chain = []
     num_verts = nv
     gamma = 2 * math.pi / num_verts
-    for i in range(num_verts+1):
+    for i in range(num_verts + 1):
         theta = gamma * i
         mat_rot = mathutils.Matrix.Rotation(theta, 4, axis)
         local_point = mw * (mat_rot * (v1 - p1))  # + origin
-        world_point = local_point - (origin - (mw*p1))
+        world_point = local_point - (origin - (mw * p1))
         chain.append(world_point)
 
     s.points.add(len(chain))
@@ -112,19 +112,6 @@ def generate_3PT_mode_1(pts, obj, nv):
         layer = get_layer()
         generate_gp3d_stroke(layer, p1, v1, axis, mw, origin, nv)
 
-        ''' 
-        # f = [i for i in dir(bpy.context) if 'gpencil' in i]
-        active_gpencil_frame
-        active_gpencil_layer
-        editable_gpencil_layers
-        editable_gpencil_strokes
-        gpencil_data
-        gpencil_data_owner
-        visible_gpencil_layers
-        '''
-        
-        #bpy.context.active_gpencil_layer = layer
-        #print(bpy.context.gpencil_data)
         scn = bpy.context.scene
         scn.grease_pencil = bpy.data.grease_pencil['tc_circle_000']
 
@@ -161,12 +148,6 @@ class CircleCenter(bpy.types.Operator):
         pts = get_three_verts_from_selection(obj)
         generate_3PT_mode_1(pts, obj, self.nv)
 
-        # no idea how to set it to active...
-        # print(context.scene.grease_pencil)
-        # context.gpencil_data = bpy.data.grease_pencil['tc_circle_000']
-        # scn = bpy.context.scene
-        # print(dir(scn.tool_settings))
-        # print(scn.grease_pencil)
         return {'FINISHED'}
     pass
 

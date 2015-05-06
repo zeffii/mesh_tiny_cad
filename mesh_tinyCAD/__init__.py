@@ -75,7 +75,8 @@ def register():
         default=ugly_green,
         subtype='COLOR',
         min=0.0, max=1.0)
-    bpy.types.Scene.tc_num_verts = bpy.props.IntProperty(default=12)
+    bpy.types.Scene.tc_num_verts = bpy.props.IntProperty(
+        min=3, max=60, default=12)
 
     # my classes
     for i, _ in vtx_classes:

@@ -8,7 +8,7 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
@@ -29,7 +29,7 @@ from mathutils import Vector
 
 def get_layer():
     '''
-        this always returns a new empty layer ready for drawing to
+    this always returns a new empty layer ready for drawing to
     '''
 
     # get grease pencil data
@@ -114,7 +114,7 @@ def generate_bmesh_repr(p1, v1, axis, origin, num_verts):
         v.select = False  # this might be a default.. redundant?
         v_refs.append(v)
 
-    # join verts
+    # join verts, daisy chain
     num_verts = len(v_refs)
     for i in range(num_verts):
         idx1 = i
@@ -164,6 +164,9 @@ def generate_3PT(pts, obj, nv, mode=0):
         print('not on a circle')
 
 
+''' Shared Utils '''
+
+
 def get_three_verts_from_selection(obj):
     me = obj.data
     bm = bmesh.from_edit_mesh(me)
@@ -173,6 +176,16 @@ def get_three_verts_from_selection(obj):
         bm.edges.ensure_lookup_table()
 
     return [v.co[:] for v in bm.verts if v.select]
+
+
+def dispatch(context, mode=0):
+    obj = context.edit_object
+    pts = get_three_verts_from_selection(obj)
+    nv = context.scene.tc_num_verts
+    generate_3PT(pts, obj, nv, mode)
+
+
+''' Operators '''
 
 
 class CircleCenter(bpy.types.Operator):
@@ -193,13 +206,10 @@ class CircleCenter(bpy.types.Operator):
     @classmethod
     def poll(self, context):
         obj = context.edit_object
-        return obj is not None and obj.type == 'MESH' and obj.mode == 'EDIT'
+        return obj and obj.type == 'MESH'
 
     def execute(self, context):
-        obj = bpy.context.edit_object
-        pts = get_three_verts_from_selection(obj)
-        nv = context.scene.tc_num_verts
-        generate_3PT(pts, obj, nv, mode=0)
+        dispatch(context, mode=0)  # make gp
         return {'FINISHED'}
 
 
@@ -209,9 +219,12 @@ class CircleMake(bpy.types.Operator):
     bl_label = 'circle mesh from selected'
     bl_options = {'REGISTER', 'UNDO'}
 
+    def draw(self, context):
+        scn = context.scene
+        l = self.layout
+        col = l.column()
+        col.prop(scn, 'tc_num_verts', text='num verts')
+
     def execute(self, context):
-        obj = bpy.context.edit_object
-        pts = get_three_verts_from_selection(obj)
-        nv = context.scene.tc_num_verts
-        generate_3PT(pts, obj, nv, mode=1)
+        dispatch(context, mode=1)  # bake mesh
         return {'FINISHED'}

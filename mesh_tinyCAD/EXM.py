@@ -181,7 +181,8 @@ class ExtendEdgesMulti(bpy.types.Operator):
                 ensure_tables(bm)
                 bm.verts[closest_idx].co = point
 
-        bmesh.update_edit_mesh(self.me)
+        # bmesh.update_edit_mesh(self.me)
+        bmesh.update_edit_mesh(context.edit_object.data)
 
     def modal(self, context, event):
 

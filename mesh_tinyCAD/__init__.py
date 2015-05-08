@@ -35,8 +35,10 @@ if "bpy" in locals():
     if 'VTX' in locals():
         try:
             print('tinyCAD detected reload event.')
-            imp.reload(VTX); imp.reload(V2X); imp.reload(XALL)
-            imp.reload(BIX); imp.reload(PERP); imp.reload(CCEN); imp.reload(EXM)
+            modules = "VTX V2X XALL BIX PERP CCEN EXM".split()
+            for m in modules:
+                exec('imp.reload({0})'.format(m))
+
             print("tinyCAD reloaded modules, all systems operational")
         except Exception as E:
             print('reload failed with error:')

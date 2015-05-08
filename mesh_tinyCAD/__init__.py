@@ -34,6 +34,9 @@ bl_info = {
 
 if "bpy" in locals():
     import imp
+    if 'VTX' in locals():
+        imp.reload(VTX); imp.reload(V2X); imp.reload(XALL)
+        imp.reload(BIX); imp.reload(PERP); imp.reload(CCEN); imp.reload(EXM)
 
 import bpy
 from .VTX import AutoVTX
@@ -43,15 +46,17 @@ from .BIX import LineOnBisection
 from .PERP import CutOnPerpendicular
 from .CCEN import CircleCenter
 from .CCEN import CircleMake
+from .EXM import ExtendEdgesMulti
 
 
 vtx_classes = (
-    [AutoVTX, "tinyCAD autoVTX"],
-    [Vert2Intersection, "tinyCAD V2X"],
-    [IntersectAllEdges, "tinyCAD XALL"],
-    [LineOnBisection, "tinyCAD BIX"],
-    [CutOnPerpendicular, "tinyCAD PERP CUT"],
-    [CircleCenter, "tC Circle Center"]
+    [AutoVTX, 'tC autoVTX'],
+    [Vert2Intersection, 'tC V2X'],
+    [IntersectAllEdges, 'tC XALL'],
+    [LineOnBisection, 'tC BIX'],
+    [CutOnPerpendicular, 'tC PERP CUT'],
+    [CircleCenter, 'C Circle Center'],
+    [ExtendEdgesMulti, 'tc extend multi']
 )
 
 

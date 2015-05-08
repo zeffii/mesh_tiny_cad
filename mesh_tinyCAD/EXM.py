@@ -162,22 +162,26 @@ class ExtendEdgesMulti(bpy.types.Operator):
 
     def modify_geometry(self, context, event_type):
         list2d = [val for key, val in self.xvectors.items()]
-        vertex_count = len(self.bm.verts)
+
+        bm = self.bm
+        vertex_count = len(bm.verts)
 
         # adds new geometry
         if event_type == 'PERIOD':
 
             for point, closest_idx in list2d:
-                self.bm.verts.new((point))
-                v1 = self.bm.verts[-1]
-                v2 = self.bm.verts[closest_idx]
-                self.bm.edges.new((v1, v2))
+                bm.verts.new((point))
+                ensure_tables(bm)
+                v1 = bm.verts[-1]
+                v2 = bm.verts[closest_idx]
+                bm.edges.new((v1, v2))
 
         # extend current egdes towards intersections
         elif event_type == 'COMMA':
 
             for point, closest_idx in list2d:
-                self.bm.verts[closest_idx].co = point
+                ensure_tables(bm)
+                bm.verts[closest_idx].co = point
 
         bmesh.update_edit_mesh(self.me)
 

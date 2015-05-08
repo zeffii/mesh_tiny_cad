@@ -112,9 +112,7 @@ def draw_callback_px(self, context, event):
     # get screen information
     region = context.region
     rv3d = context.space_data.region_3d
-    this_object = context.active_object
-    matrix_world = this_object.matrix_world
-    # scene = context.scene
+    matrix_world = self.matrix_world
 
     def draw_gl_strip(coords, line_thickness):
         bgl.glLineWidth(line_thickness)
@@ -211,8 +209,10 @@ class ExtendEdgesMulti(bpy.types.Operator):
 
             self.selected_edges = []
             self.xvectors = {}
-            self.me = context.edit_object.data
-            bm = bmesh.from_edit_mesh(self.me)
+
+            obj = context.edit_object
+            me = obj.data
+            bm = bmesh.from_edit_mesh(me)
 
             # enforce singular edge selection first then assign to edge_prime
             m = [e.index for e in bm.edges if e.select]
@@ -224,8 +224,12 @@ class ExtendEdgesMulti(bpy.types.Operator):
             self.edge_prime_idx = m[0]
             bpy.context.space_data.show_manipulator = False
 
-            # configure draw handler
+            # pack for transport to callback
             self.bm = bm
+            self.me = me
+            self.matrix_world = obj.matrix_world
+
+            # configure draw handler
             fparams = self, context, event
             handler_config = draw_callback_px, fparams, 'WINDOW', 'POST_PIXEL'
             draw_handler_add = bpy.types.SpaceView3D.draw_handler_add

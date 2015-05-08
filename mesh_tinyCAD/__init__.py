@@ -35,6 +35,7 @@ bl_info = {
 if "bpy" in locals():
     import imp
     if 'VTX' in locals():
+        print('this happened')
         imp.reload(VTX); imp.reload(V2X); imp.reload(XALL)
         imp.reload(BIX); imp.reload(PERP); imp.reload(CCEN); imp.reload(EXM)
 
@@ -50,13 +51,13 @@ from .EXM import ExtendEdgesMulti
 
 
 vtx_classes = (
-    [AutoVTX, 'tC autoVTX'],
-    [Vert2Intersection, 'tC V2X'],
-    [IntersectAllEdges, 'tC XALL'],
-    [LineOnBisection, 'tC BIX'],
-    [CutOnPerpendicular, 'tC PERP CUT'],
-    [CircleCenter, 'C Circle Center'],
-    [ExtendEdgesMulti, 'tc extend multi']
+    [AutoVTX, 'auto VTX'],
+    [Vert2Intersection, 'Place vertex at intersection'],
+    [IntersectAllEdges, 'Intersect selected edges'],
+    [LineOnBisection, 'Place Bisector of 2 planar edges'],
+    [CutOnPerpendicular, 'Cut face perpendicular'],
+    [CircleCenter, 'Resurrect circle center'],
+    [ExtendEdgesMulti, 'Extend Multiple edges']
 )
 
 

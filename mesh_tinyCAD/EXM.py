@@ -181,12 +181,16 @@ class ExtendEdgesMulti(bpy.types.Operator):
                 ensure_tables(bm)
                 bm.verts[closest_idx].co = point
 
+        # merge, not yet handled.
+        elif event_type == 'M':
+            ...
+
         # bmesh.update_edit_mesh(self.me)
         bmesh.update_edit_mesh(context.edit_object.data)
 
     def modal(self, context, event):
 
-        if event.type in ('PERIOD', 'COMMA', 'ESC'):
+        if event.type in ('M', 'PERIOD', 'COMMA', 'ESC'):
             bpy.types.SpaceView3D.draw_handler_remove(self.handle, 'WINDOW')
             bpy.context.space_data.show_manipulator = True
 

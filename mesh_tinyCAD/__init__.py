@@ -21,23 +21,26 @@ END GPL LICENCE BLOCK
 bl_info = {
     "name": "tinyCAD Mesh tools",
     "author": "zeffii (aka Dealga McArdle)",
-    "version": (1, 0, 7),
-    "blender": (2, 7, 3),
+    "version": (1, 2, 0),
+    "blender": (2, 7, 4),
     "category": "Mesh",
     "location": "View3D > EditMode > (w) Specials",
     "wiki_url": "",
     "tracker_url": ""
 }
 
-# # implemented lookup table for bmesh changes in 2.73
-
 
 if "bpy" in locals():
     import imp
     if 'VTX' in locals():
-        print('this happened')
-        imp.reload(VTX); imp.reload(V2X); imp.reload(XALL)
-        imp.reload(BIX); imp.reload(PERP); imp.reload(CCEN); imp.reload(EXM)
+        try:
+            print('tinyCAD detected reload event.')
+            imp.reload(VTX); imp.reload(V2X); imp.reload(XALL)
+            imp.reload(BIX); imp.reload(PERP); imp.reload(CCEN); imp.reload(EXM)
+        except Exception as E:
+            print('reload failed with error:')
+            print(E)
+
 
 import bpy
 from .VTX import AutoVTX
@@ -52,12 +55,12 @@ from .EXM import ExtendEdgesMulti
 
 vtx_classes = (
     [AutoVTX, 'auto VTX'],
-    [Vert2Intersection, 'Place vertex at intersection'],
-    [IntersectAllEdges, 'Intersect selected edges'],
-    [LineOnBisection, 'Place Bisector of 2 planar edges'],
-    [CutOnPerpendicular, 'Cut face perpendicular'],
-    [CircleCenter, 'Resurrect circle center'],
-    [ExtendEdgesMulti, 'Extend Multiple edges']
+    [Vert2Intersection, 'V2X | Vertex at intersection'],
+    [IntersectAllEdges, 'XALL | Intersect selected edges'],
+    [LineOnBisection, 'BIX |  Bisector of 2 planar edges'],
+    [CutOnPerpendicular, 'PERP | Cut face perpendicular'],
+    [CircleCenter, 'CCEN | Resurrect circle center'],
+    [ExtendEdgesMulti, 'EXM | Extend Multiple edges']
 )
 
 

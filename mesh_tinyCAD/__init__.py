@@ -36,13 +36,13 @@ if "bpy" in locals():
     import imp
 
 import bpy
-from mesh_tinyCAD.VTX import AutoVTX
-from mesh_tinyCAD.V2X import Vert2Intersection
-from mesh_tinyCAD.XALL import IntersectAllEdges
-from mesh_tinyCAD.BIX import LineOnBisection
-from mesh_tinyCAD.PERP import CutOnPerpendicular
-from mesh_tinyCAD.CCEN import CircleCenter
-from mesh_tinyCAD.CCEN import CircleMake
+from .VTX import AutoVTX
+from .V2X import Vert2Intersection
+from .XALL import IntersectAllEdges
+from .BIX import LineOnBisection
+from .PERP import CutOnPerpendicular
+from .CCEN import CircleCenter
+from .CCEN import CircleMake
 
 
 vtx_classes = (

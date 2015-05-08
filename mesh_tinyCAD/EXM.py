@@ -38,6 +38,12 @@ line_colors = {
 }
 
 
+def ensure_tables(bm):
+    bm.verts.ensure_lookup_table()
+    bm.edges.ensure_lookup_table()
+    # bm.faces.ensure_lookup_table()
+
+
 def restore_bgl_defaults():
     bgl.glLineWidth(1)
     bgl.glDisable(bgl.GL_BLEND)
@@ -60,8 +66,8 @@ def get_extender_coords(self):
 
 def add_or_remove_new_edge(self, idx):
     '''
-        - only add idx if not edge_prime
-        - and not currently present in selected_edges
+    - only add idx if not edge_prime
+    - and not currently present in selected_edges
     '''
     p_idx = self.edge_prime_idx
 
@@ -201,12 +207,11 @@ class ExtendEdgesMulti(bpy.types.Operator):
 
             self.selected_edges = []
             self.xvectors = {}
-            self.me = context.active_object.data
-            self.bm = bmesh.from_edit_mesh(self.me)
-            self.me.update()
+            self.me = context.edit_object.data
+            bm = bmesh.from_edit_mesh(self.me)
 
             # enforce singular edge selection first then assign to edge_prime
-            m = [e.index for e in self.bm.edges if e.select]
+            m = [e.index for e in bm.edges if e.select]
             if not len(m) is 1:
                 self.report({"WARNING"}, "Please select 1 edge only")
                 return {'CANCELLED'}
@@ -216,6 +221,7 @@ class ExtendEdgesMulti(bpy.types.Operator):
             bpy.context.space_data.show_manipulator = False
 
             # configure draw handler
+            self.bm = bm
             fparams = self, context, event
             handler_config = draw_callback_px, fparams, 'WINDOW', 'POST_PIXEL'
             draw_handler_add = bpy.types.SpaceView3D.draw_handler_add

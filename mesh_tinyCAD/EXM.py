@@ -183,7 +183,7 @@ class ExtendEdgesMulti(bpy.types.Operator):
 
         # merge, not yet handled.
         elif event_type == 'M':
-            ...
+            print('dooo M')
 
         # bmesh.update_edit_mesh(self.me)
         bmesh.update_edit_mesh(context.edit_object.data)

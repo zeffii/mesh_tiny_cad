@@ -31,15 +31,15 @@ bl_info = {
 
 
 if "bpy" in locals():
-    import imp
     if 'VTX' in locals():
+        import imp
+        print('tinyCAD: detected reload event.')
         try:
-            print('tinyCAD detected reload event.')
             modules = "VTX V2X XALL BIX PERP CCEN EXM".split()
             for m in modules:
                 exec('imp.reload({0})'.format(m))
+            print("tinyCAD: reloaded modules, all systems operational")
 
-            print("tinyCAD reloaded modules, all systems operational")
         except Exception as E:
             print('reload failed with error:')
             print(E)
@@ -92,10 +92,7 @@ def register():
 
     # my classes
     for i, _ in vtx_classes:
-        try:
-            bpy.utils.register_class(i)
-        except:
-            print('failed:', i)
+        bpy.utils.register_class(i)
 
     # miscl registration not order dependant
     bpy.utils.register_class(VIEW3D_MT_edit_mesh_tinycad)

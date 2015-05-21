@@ -9,7 +9,9 @@ Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.
 Dedicated CAD software speeds up drafting significantly with functions like: `Extend`, `Trim`,  `Intersect`, `Fillet /w radius` and `Offset /w distance`. At the moment of this writing many of these functions aren't included by default in regular distributions on Blender.org, so i've coded scripts to perform a few of the main features that I missed most. 
   
 My scripts have shortnames: `VTX, V2X, XALL, BIX, CCEN` and are described separately in sections below. `Fillet` and `Offset` are written by zmj100 and can be found [here](http://blenderartists.org/forum/showthread.php?179375).
-  
+
+
+Since I started this repository: Vertex Fillet / Bevel was added to master. So no more need for a separate addon.  (Ctrl+Shift+b)
 
 ### VTX
 

@@ -15,7 +15,7 @@ def generate(from_file, x, y, filenames, type='.png'):
 
 
 def main():
-    rendered_name = 'RENDERED_ARRAY.png'
+    rendered_name = 'RENDERED_icons.png'
     icons = "VTX V2X XALL BIX PERP CCEN EXM"
     file_strings = generate(rendered_name, 32, 32, icons)
     for line in file_strings:

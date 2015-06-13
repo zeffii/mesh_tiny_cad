@@ -76,7 +76,7 @@ class CutOnPerpendicular(bpy.types.Operator):
     @classmethod
     def poll(self, context):
         obj = context.active_object
-        return all([obj is not None, obj.type == 'MESH', obj.mode == 'EDIT'])
+        return all([obj, hasattr(obj, 'type'), obj.type == 'MESH', obj.mode == 'EDIT'])
 
     def execute(self, context):
         cut_visible_by_perpendicular(self)

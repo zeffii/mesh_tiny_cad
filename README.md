@@ -1,6 +1,10 @@
 Blender CAD utils
 =================
 
+update: now requires a recent build of Blender 2.74 to handle custom icons. Get recent Blender builds from [builder bot](https://builder.blender.org/download/)
+
+__________________
+
 A tiny subset of unmissable CAD functions for Blender 3d.  
 Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts/Modeling/mesh_tinyCAD) (Which has most of the same info)  
 

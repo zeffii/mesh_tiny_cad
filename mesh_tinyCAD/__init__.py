@@ -75,12 +75,19 @@ preview_collections = {}
 class VIEW3D_MT_edit_mesh_tinycad(bpy.types.Menu):
     bl_label = "TinyCAD"
 
+    @classmethod
+    def poll(cls, context):
+        return (context.object is not None)
+
     def draw(self, context):
-        pcoll = preview_collections["main"]
-        for i, text, ico_info in vtx_classes:
-            icon_name = ico_info[:-4]
-            my_icon = pcoll[icon_name]
-            self.layout.operator(i.bl_idname, icon_value=my_icon.icon_id, text=text)
+        try:
+            pcoll = preview_collections["main"]
+            for i, text, ico_info in vtx_classes:
+                icon_name = ico_info[:-4]
+                my_icon = pcoll[icon_name]
+                self.layout.operator(i.bl_idname, icon_value=my_icon.icon_id, text=text)
+        except:
+            print('blender not ready.. try again')
 
 
 def menu_func(self, context):

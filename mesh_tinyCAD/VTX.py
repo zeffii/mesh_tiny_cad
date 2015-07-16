@@ -126,15 +126,13 @@ class AutoVTX(bpy.types.Operator):
         - and both are not hidden
         '''
         obj = context.active_object
-        self.me = obj.data
-        self.bm = bmesh.from_edit_mesh(self.me)
+        if obj is not None and obj.type == 'MESH':
 
-        # self.me.update()
-        if hasattr(self.bm.verts, "ensure_lookup_table"):
+            self.me = obj.data
+            self.bm = bmesh.from_edit_mesh(self.me)
             self.bm.verts.ensure_lookup_table()
             self.bm.edges.ensure_lookup_table()
 
-        if obj is not None and obj.type == 'MESH':
             edges = self.bm.edges
             ok = lambda v: v.select and not v.hide
             idxs = [v.index for v in edges if ok(v)]

@@ -33,7 +33,7 @@ def cut_visible_by_perpendicular(self):
 
     if hasattr(bm.verts, "ensure_lookup_table"):
         bm.verts.ensure_lookup_table()
-        bm.edges.ensure_lookup_table()    
+        bm.edges.ensure_lookup_table()
         bm.faces.ensure_lookup_table()
 
     verts = [v for v in bm.verts if (v.select and not v.hide)]
@@ -52,8 +52,7 @@ def cut_visible_by_perpendicular(self):
     dist = 0.0001
 
     # hidden geometry will not be affected.
-    visible_geom = [g for g in bm.faces[:]
-                    + bm.verts[:] + bm.edges[:] if not g.hide]
+    visible_geom = [g for g in bm.faces[:] + bm.verts[:] + bm.edges[:] if not g.hide]
 
     bmesh.ops.bisect_plane(
         bm,
@@ -76,7 +75,7 @@ class CutOnPerpendicular(bpy.types.Operator):
     @classmethod
     def poll(self, context):
         obj = context.active_object
-        return all([obj, hasattr(obj, 'type'), obj.type == 'MESH', obj.mode == 'EDIT'])
+        return all([obj is not None, hasattr(obj, 'type'), obj.type == 'MESH', obj.mode == 'EDIT'])
 
     def execute(self, context):
         cut_visible_by_perpendicular(self)

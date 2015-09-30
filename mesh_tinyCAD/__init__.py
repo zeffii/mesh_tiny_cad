@@ -75,9 +75,9 @@ preview_collections = {}
 class VIEW3D_MT_edit_mesh_tinycad(bpy.types.Menu):
     bl_label = "TinyCAD"
 
-    @classmethod
-    def poll(cls, context):
-        return (context.object is not None)
+    # @classmethod
+    # def poll(cls, context):
+    #     return (context.object is not None)
 
     def draw(self, context):
         try:

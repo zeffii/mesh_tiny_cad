@@ -35,7 +35,7 @@ if "bpy" in locals():
         import imp
         print('tinyCAD: detected reload event.')
         try:
-            modules = "VTX V2X XALL BIX PERP CCEN EXM".split()
+            modules = "VTX V2X XALL BIX CCEN".split()
             for m in modules:
                 exec('imp.reload({0})'.format(m))
             print("tinyCAD: reloaded modules, all systems operational")
@@ -51,43 +51,28 @@ from .VTX import AutoVTX
 from .V2X import Vert2Intersection
 from .XALL import IntersectAllEdges
 from .BIX import LineOnBisection
-# from .PERP import CutOnPerpendicular
 from .CCEN import CircleCenter
 from .CCEN import CircleMake
-# from .EXM import ExtendEdgesMulti
 
-Scene = bpy.types.Scene
 
-vtx_classes = (
-    # class, shortname ui, icon
-    [AutoVTX, 'auto VTX', 'VTX.png'],
-    [Vert2Intersection, 'V2X | Vertex at intersection', 'V2X.png'],
-    [IntersectAllEdges, 'XALL | Intersect selected edges', 'XALL.png'],
-    [LineOnBisection, 'BIX |  Bisector of 2 planar edges', 'BIX.png'],
-    # [CutOnPerpendicular, 'PERP | Cut face perpendicular', 'PERP.png'],
-    [CircleCenter, 'CCEN | Resurrect circle center', 'CCEN.png'],
-    # [ExtendEdgesMulti, 'EXM | Extend Multiple edges (experimenal)', 'EXM.png']
-)
-
-preview_collections = {}
+vtx_classes = [
+    AutoVTX, Vert2Intersection, IntersectAllEdges, LineOnBisection, CircleCenter
+]
 
 
 class VIEW3D_MT_edit_mesh_tinycad(bpy.types.Menu):
     bl_label = "TinyCAD"
 
-    # @classmethod
-    # def poll(cls, context):
-    #     return (context.object is not None)
+    @classmethod
+    def poll(cls, context):
+        return (context.object is not None)
 
     def draw(self, context):
-        try:
-            pcoll = preview_collections["main"]
-            for i, text, ico_info in vtx_classes:
-                icon_name = ico_info[:-4]
-                my_icon = pcoll[icon_name]
-                self.layout.operator(i.bl_idname, icon_value=my_icon.icon_id, text=text)
-        except:
-            print('blender not ready.. try again')
+        self.layout.operator('mesh.autovtx', text='VTX | AUTO')
+        self.layout.operator('mesh.vertintersect', text='V2X | Vertex at intersection')
+        self.layout.operator('mesh.intersectall', text='XALL | Intersect selected edges')
+        self.layout.operator('mesh.linetobisect', text='BIX |  Bisector of 2 planar edges')
+        self.layout.operator('mesh.circlecenter', text='CCEN | Resurrect circle center')
 
 
 def menu_func(self, context):
@@ -96,29 +81,18 @@ def menu_func(self, context):
 
 
 def register():
-    # icons!
-    import bpy.utils.previews
-    pcoll = bpy.utils.previews.new()
-    my_icons_dir = os.path.join(os.path.dirname(__file__), "icons")
-
-    for classinfo in vtx_classes:
-        icon_file = classinfo[2]
-        icon_name = icon_file[:-4]
-        pcoll.load(icon_name, os.path.join(my_icons_dir, icon_file), 'IMAGE')
-
-    preview_collections["main"] = pcoll
+    scn = bpy.types.Scene
 
     # register scene properties first.
     ugly_green = (0.2, 0.90, .2)
-    Scene.tc_gp_color = bpy.props.FloatVectorProperty(
+    scn.tc_gp_color = bpy.props.FloatVectorProperty(
         default=ugly_green,
         subtype='COLOR',
         min=0.0, max=1.0)
-    Scene.tc_num_verts = bpy.props.IntProperty(
+    scn.tc_num_verts = bpy.props.IntProperty(
         min=3, max=60, default=12)
 
-    # my classes
-    for i, _, _ in vtx_classes:
+    for i in vtx_classes:
         bpy.utils.register_class(i)
 
     # miscl registration not order dependant
@@ -128,15 +102,13 @@ def register():
 
 
 def unregister():
-    for i, _, _ in vtx_classes:
+    scn = bpy.types.Scene
+
+    for i in vtx_classes:
         bpy.utils.unregister_class(i)
 
     bpy.utils.unregister_class(CircleMake)
     bpy.utils.unregister_class(VIEW3D_MT_edit_mesh_tinycad)
     bpy.types.VIEW3D_MT_edit_mesh_specials.remove(menu_func)
-    del Scene.tc_num_verts
-    del Scene.tc_gp_color
-
-    for pcoll in preview_collections.values():
-        bpy.utils.previews.remove(pcoll)
-    preview_collections.clear()
+    del scn.tc_num_verts
+    del scn.tc_gp_color

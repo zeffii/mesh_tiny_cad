@@ -205,7 +205,7 @@ class CircleCenter(bpy.types.Operator):
     @classmethod
     def poll(self, context):
         obj = context.edit_object
-        return obj and obj.type == 'MESH'
+        return obj is not None and obj.type == 'MESH'
 
     def execute(self, context):
         dispatch(context, mode=0)  # make gp

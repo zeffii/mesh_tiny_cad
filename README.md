@@ -5,7 +5,7 @@ update:
 
   - custom icons disabled
   - addons_contrib version of this addon is no equal to this github release.
-
+  - download as [installable zip here](https://github.com/zeffii/mesh_tinyCAD/archive/master.zip)
 __________________
 
 A tiny subset of unmissable CAD functions for Blender 3d.  

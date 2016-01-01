@@ -1,12 +1,15 @@
 Blender CAD utils
 =================
 
-update: now requires a recent build of Blender 2.74 to handle custom icons. Get recent Blender builds from [builder bot](https://builder.blender.org/download/)
+update: 
+
+  - custom icons disabled
+  - addons_contrib version of this addon is no equal to this github release.
 
 __________________
 
 A tiny subset of unmissable CAD functions for Blender 3d.  
-Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts/Modeling/mesh_tinyCAD) (Which has most of the same info)  
+Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts/Modeling/mesh_tinyCAD) (Which has most of the same info - but the download link references an old archive zip. Github no longer offer specialized zips conveniently. I think some nefarious people abused the privilege and github had to stop it entirely)  
 
 ### OK, what's this all about?
 

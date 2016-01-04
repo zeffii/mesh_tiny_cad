@@ -56,25 +56,6 @@ Intersect all, it programatically goes through all selected edges and slices the
 
 This might be a niche accessory, but sometimes all you want is a vertex positioned on the intersection of two edges. Nothing fancy.
 
-### EXM (Extend Multiples) -- disabled for the time being
-
-It has two modes.  
-  -  Pick an edge (we'll call this Edge Prime)
-  -  make sure only one edge is selected
-  -  Run `EXM extend multiple edges` from spacebar menu
-  -  Your picked edge has turned light blue
-  -  Pick edges to extend towards that edge
-  -  If edges are picked that don't intersect in 3d space (within tolerance) then those edges are not added
-  -  Edges that do intersect will be shown in a different colour with the extended part in yet another colour
-  -  You can unpick edges by clicking on them
-  -  To finalize the operation:  
-    - Press `Comma` to extend the edges using the vertex closest to the intersection point by moving the vertex closest to the edge being extended towards.
-    - Press `Period` to create a new edge attached to the original geometry.
-  -  This addon does not weld the extended edges onto Edge Prime.
-
-
-![Imgur](http://i.imgur.com/WRD0prj.gif)  
-
 ### BIX (generate Bisector)
 
 Creates a single edge which is the bisect of two edges.  
@@ -95,9 +76,11 @@ updated version may become a modal operator to generate a full set of circle ver
 
 ![imgur demo](https://cloud.githubusercontent.com/assets/619340/5602194/ce613c96-933d-11e4-9879-d2cfc686cb69.gif)
   
-### Trim Multiples
+### E2F (Extend Edge to Selected Face, Edge 2 Face)
 
-Explained in the issue tracker with moving GIF: [issue3](https://github.com/zeffii/Blender_CAD_utils/issues/3)
+Select a single Edge and a single Polygon (ngon, tri, quad) within the same Object. Execute `W > TinyCAD > E2F`
+
+![image](https://cloud.githubusercontent.com/assets/619340/12091278/2884820e-b2f6-11e5-9f1b-37ebfdf10cfc.png)
 
 
 ### Why on github?

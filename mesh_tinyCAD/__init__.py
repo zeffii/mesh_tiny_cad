@@ -35,7 +35,7 @@ if "bpy" in locals():
         import imp
         print('tinyCAD: detected reload event.')
         try:
-            modules = "VTX V2X XALL BIX CCEN".split()
+            modules = "VTX V2X XALL BIX CCEN E2F".split()
             for m in modules:
                 exec('imp.reload({0})'.format(m))
             print("tinyCAD: reloaded modules, all systems operational")
@@ -53,10 +53,16 @@ from .XALL import IntersectAllEdges
 from .BIX import LineOnBisection
 from .CCEN import CircleCenter
 from .CCEN import CircleMake
+from .E2F import TinyCADEdgeToFace
 
 
 vtx_classes = [
-    AutoVTX, Vert2Intersection, IntersectAllEdges, LineOnBisection, CircleCenter
+    AutoVTX,
+    Vert2Intersection,
+    IntersectAllEdges,
+    LineOnBisection,
+    CircleCenter,
+    TinyCADEdgeToFace
 ]
 
 
@@ -73,6 +79,7 @@ class VIEW3D_MT_edit_mesh_tinycad(bpy.types.Menu):
         self.layout.operator('mesh.intersectall', text='XALL | Intersect selected edges')
         self.layout.operator('mesh.linetobisect', text='BIX |  Bisector of 2 planar edges')
         self.layout.operator('mesh.circlecenter', text='CCEN | Resurrect circle center')
+        self.layout.operator('mesh.edge_to_face', text='E2F | Extend Edge to Face')
 
 
 def menu_func(self, context):

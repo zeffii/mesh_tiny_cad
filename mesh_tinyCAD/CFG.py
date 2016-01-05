@@ -1,3 +1,6 @@
+import bpy
+
+
 class TinyCADProperties(bpy.types.PropertyGroup):
 
     gp_color = bpy.props.FloatVectorProperty(

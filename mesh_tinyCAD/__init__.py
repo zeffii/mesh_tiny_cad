@@ -21,23 +21,25 @@ END GPL LICENCE BLOCK
 bl_info = {
     "name": "tinyCAD Mesh tools",
     "author": "zeffii (aka Dealga McArdle)",
-    "version": (1, 2, 0),
+    "version": (1, 2, 3),
     "blender": (2, 7, 6),
     "category": "Mesh",
     "location": "View3D > EditMode > (w) Specials",
     "wiki_url": "",
-    "tracker_url": ""
+    "tracker_url": "https://github.com/zeffii/Blender_CAD_utils/issues"
 }
 
 
 if "bpy" in locals():
     if 'VTX' in locals():
-        import imp
+
         print('tinyCAD: detected reload event.')
+        import importlib
+
         try:
-            modules = "VTX V2X XALL BIX CCEN E2F".split()
+            modules = [VTX, V2X, XALL, BIX, CCEN, E2F]
             for m in modules:
-                exec('imp.reload({0})'.format(m))
+                importlib.reload(m)
             print("tinyCAD: reloaded modules, all systems operational")
 
         except Exception as E:
@@ -47,6 +49,7 @@ if "bpy" in locals():
 
 import os
 import bpy
+
 from .VTX import TCAutoVTX
 from .V2X import TCVert2Intersection
 from .XALL import TCIntersectAllEdges

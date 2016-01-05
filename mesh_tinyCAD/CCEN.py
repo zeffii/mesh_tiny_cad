@@ -66,7 +66,7 @@ def generate_gp3d_stroke(layer, p1, v1, axis, mw, origin, num_verts):
 
     layer.show_points = True  # is this still broken? GP bug, reported!
 
-    layer.color = bpy.context.scene.tc_gp_color
+    layer.color = bpy.context.scene.tinycad_props.gp_color
     s = layer.frames[0].strokes.new()
     s.draw_mode = '3DSPACE'
 
@@ -180,7 +180,7 @@ def get_three_verts_from_selection(obj):
 def dispatch(context, mode=0):
     obj = context.edit_object
     pts = get_three_verts_from_selection(obj)
-    nv = context.scene.tc_num_verts
+    nv = context.scene.tinycad_props.num_verts
     generate_3PT(pts, obj, nv, mode)
 
 
@@ -198,8 +198,8 @@ class TCCircleCenter(bpy.types.Operator):
         l = self.layout
         col = l.column()
 
-        col.prop(scn, 'tc_gp_color', text='layer color')
-        col.prop(scn, 'tc_num_verts', text='num verts')
+        col.prop(scn.tinycad_props, 'gp_color', text='layer color')
+        col.prop(scn.tinycad_props, 'num_verts', text='num verts')
         col.operator('tinycad.circlemake', text='Make Mesh')
 
     @classmethod
@@ -213,7 +213,7 @@ class TCCircleCenter(bpy.types.Operator):
 
 
 class TCCircleMake(bpy.types.Operator):
-
+    """this is a private op, used by the TCCircleCenter Op only"""
     bl_idname = 'tinycad.circlemake'
     bl_label = 'circle mesh from selected'
     bl_options = {'REGISTER', 'UNDO'}
@@ -222,7 +222,7 @@ class TCCircleMake(bpy.types.Operator):
         scn = context.scene
         l = self.layout
         col = l.column()
-        col.prop(scn, 'tc_num_verts', text='num verts')
+        col.prop(scn.tinycad_props, 'num_verts', text='num verts')
 
     def execute(self, context):
         dispatch(context, mode=1)  # bake mesh

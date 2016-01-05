@@ -66,20 +66,32 @@ vtx_classes = [
 ]
 
 
+class TinyCADProperties(bpy.types.PropertyGroup):
+
+    gp_color = bpy.props.FloatVectorProperty(
+        default=(0.2, 0.90, .2),
+        subtype='COLOR',
+        min=0.0, max=1.0)
+
+    num_verts = bpy.props.IntProperty(
+        min=3, max=60, default=12)
+
+
 class VIEW3D_MT_edit_mesh_tinycad(bpy.types.Menu):
     bl_label = "TinyCAD"
 
     @classmethod
     def poll(cls, context):
-        return (context.object is not None)
+        return bool(context.object)
 
     def draw(self, context):
-        self.layout.operator('tinycad.autovtx', text='VTX | AUTO')
-        self.layout.operator('tinycad.vertintersect', text='V2X | Vertex at intersection')
-        self.layout.operator('tinycad.intersectall', text='XALL | Intersect selected edges')
-        self.layout.operator('tinycad.linetobisect', text='BIX |  Bisector of 2 planar edges')
-        self.layout.operator('tinycad.circlecenter', text='CCEN | Resurrect circle center')
-        self.layout.operator('tinycad.edge_to_face', text='E2F | Extend Edge to Face')
+        operator = self.layout.operator
+        operator('tinycad.autovtx', text='VTX | AUTO')
+        operator('tinycad.vertintersect', text='V2X | Vertex at intersection')
+        operator('tinycad.intersectall', text='XALL | Intersect selected edges')
+        operator('tinycad.linetobisect', text='BIX |  Bisector of 2 planar edges')
+        operator('tinycad.circlecenter', text='CCEN | Resurrect circle center')
+        operator('tinycad.edge_to_face', text='E2F | Extend Edge to Face')
 
 
 def menu_func(self, context):
@@ -88,15 +100,9 @@ def menu_func(self, context):
 
 
 def register():
-    scn = bpy.types.Scene
 
-    # register scene properties first.
-    scn.tc_gp_color = bpy.props.FloatVectorProperty(
-        default=(0.2, 0.90, .2),
-        subtype='COLOR',
-        min=0.0, max=1.0)
-    scn.tc_num_verts = bpy.props.IntProperty(
-        min=3, max=60, default=12)
+    bpy.utils.register_class(TinyCADProperties)
+    bpy.types.Scene.tinycad_props = bpy.props.PointerProperty(name="TinyCAD props", type=TinyCADProperties)
 
     for i in vtx_classes:
         bpy.utils.register_class(i)
@@ -108,7 +114,9 @@ def register():
 
 
 def unregister():
-    scn = bpy.types.Scene
+
+    bpy.utils.unregister_class(TinyCADProperties)
+    del bpy.types.Scene.tinycad_props
 
     for i in vtx_classes:
         bpy.utils.unregister_class(i)
@@ -116,5 +124,3 @@ def unregister():
     bpy.utils.unregister_class(TCCircleMake)
     bpy.utils.unregister_class(VIEW3D_MT_edit_mesh_tinycad)
     bpy.types.VIEW3D_MT_edit_mesh_specials.remove(menu_func)
-    del scn.tc_num_verts
-    del scn.tc_gp_color

@@ -57,9 +57,9 @@ def extend_vertex():
     bmesh.update_edit_mesh(me, True)
 
 
-class TinyCADEdgeToFace(bpy.types.Operator):
+class TCEdgeToFace(bpy.types.Operator):
 
-    bl_idname = 'mesh.edge_to_face'
+    bl_idname = 'tinycad.edge_to_face'
     bl_label = 'E2F edge to face'
     bl_options = {'REGISTER', 'UNDO'}
 

@@ -187,10 +187,10 @@ def dispatch(context, mode=0):
 ''' Operators '''
 
 
-class CircleCenter(bpy.types.Operator):
+class TCCircleCenter(bpy.types.Operator):
 
-    bl_idname = 'mesh.circlecenter'
-    bl_label = 'circle center from selected'
+    bl_idname = 'tinycad.circlecenter'
+    bl_label = 'CCEN circle center from selected'
     bl_options = {'REGISTER', 'UNDO'}
 
     def draw(self, context):
@@ -200,7 +200,7 @@ class CircleCenter(bpy.types.Operator):
 
         col.prop(scn, 'tc_gp_color', text='layer color')
         col.prop(scn, 'tc_num_verts', text='num verts')
-        col.operator('mesh.circlemake', text='Make Mesh')
+        col.operator('tinycad.circlemake', text='Make Mesh')
 
     @classmethod
     def poll(self, context):
@@ -212,9 +212,9 @@ class CircleCenter(bpy.types.Operator):
         return {'FINISHED'}
 
 
-class CircleMake(bpy.types.Operator):
+class TCCircleMake(bpy.types.Operator):
 
-    bl_idname = 'mesh.circlemake'
+    bl_idname = 'tinycad.circlemake'
     bl_label = 'circle mesh from selected'
     bl_options = {'REGISTER', 'UNDO'}
 

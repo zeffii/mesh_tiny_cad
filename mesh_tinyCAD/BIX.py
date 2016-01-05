@@ -44,8 +44,8 @@ def add_line_to_bisection(self):
     [[v1, v2], [v3, v4]] = [[v.co for v in e.verts] for e in edges]
     print('vectors found:\n', v1, '\n', v2, '\n', v3, '\n', v4)
 
-    dist1 = (v1-v2).length
-    dist2 = (v3-v4).length
+    dist1 = (v1 - v2).length
+    dist2 = (v3 - v4).length
     bdist = min([dist1, dist2])
     edge1 = (v1, v2)
     edge2 = (v3, v4)
@@ -57,8 +57,8 @@ def add_line_to_bisection(self):
 
     # get pt and pick fartest vertex from (projected) intersections
     pt = cm.get_intersection(edge1, edge2)
-    far1 = v2 if (v1-pt).length < (v2-pt).length else v1
-    far2 = v4 if (v3-pt).length < (v4-pt).length else v3
+    far1 = v2 if (v1 - pt).length < (v2 - pt).length else v1
+    far2 = v4 if (v3 - pt).length < (v4 - pt).length else v3
     # print('intersection: ', pt)
 
     dex1 = far1 - pt
@@ -79,10 +79,10 @@ def add_line_to_bisection(self):
     # print("done")
 
 
-class LineOnBisection(bpy.types.Operator):
+class TCLineOnBisection(bpy.types.Operator):
 
-    bl_idname = 'mesh.linetobisect'
-    bl_label = 'bix line to bisector'
+    bl_idname = 'tinycad.linetobisect'
+    bl_label = 'BIX line to bisector'
     bl_options = {'REGISTER', 'UNDO'}
 
     @classmethod

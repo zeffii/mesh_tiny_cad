@@ -47,22 +47,22 @@ if "bpy" in locals():
 
 import os
 import bpy
-from .VTX import AutoVTX
-from .V2X import Vert2Intersection
-from .XALL import IntersectAllEdges
-from .BIX import LineOnBisection
-from .CCEN import CircleCenter
-from .CCEN import CircleMake
-from .E2F import TinyCADEdgeToFace
+from .VTX import TCAutoVTX
+from .V2X import TCVert2Intersection
+from .XALL import TCIntersectAllEdges
+from .BIX import TCLineOnBisection
+from .CCEN import TCCircleCenter
+from .CCEN import TCCircleMake
+from .E2F import TCEdgeToFace
 
 
 vtx_classes = [
-    AutoVTX,
-    Vert2Intersection,
-    IntersectAllEdges,
-    LineOnBisection,
-    CircleCenter,
-    TinyCADEdgeToFace
+    TCAutoVTX,
+    TCVert2Intersection,
+    TCIntersectAllEdges,
+    TCLineOnBisection,
+    TCCircleCenter,
+    TCEdgeToFace
 ]
 
 
@@ -74,12 +74,12 @@ class VIEW3D_MT_edit_mesh_tinycad(bpy.types.Menu):
         return (context.object is not None)
 
     def draw(self, context):
-        self.layout.operator('mesh.autovtx', text='VTX | AUTO')
-        self.layout.operator('mesh.vertintersect', text='V2X | Vertex at intersection')
-        self.layout.operator('mesh.intersectall', text='XALL | Intersect selected edges')
-        self.layout.operator('mesh.linetobisect', text='BIX |  Bisector of 2 planar edges')
-        self.layout.operator('mesh.circlecenter', text='CCEN | Resurrect circle center')
-        self.layout.operator('mesh.edge_to_face', text='E2F | Extend Edge to Face')
+        self.layout.operator('tinycad.autovtx', text='VTX | AUTO')
+        self.layout.operator('tinycad.vertintersect', text='V2X | Vertex at intersection')
+        self.layout.operator('tinycad.intersectall', text='XALL | Intersect selected edges')
+        self.layout.operator('tinycad.linetobisect', text='BIX |  Bisector of 2 planar edges')
+        self.layout.operator('tinycad.circlecenter', text='CCEN | Resurrect circle center')
+        self.layout.operator('tinycad.edge_to_face', text='E2F | Extend Edge to Face')
 
 
 def menu_func(self, context):
@@ -91,9 +91,8 @@ def register():
     scn = bpy.types.Scene
 
     # register scene properties first.
-    ugly_green = (0.2, 0.90, .2)
     scn.tc_gp_color = bpy.props.FloatVectorProperty(
-        default=ugly_green,
+        default=(0.2, 0.90, .2),
         subtype='COLOR',
         min=0.0, max=1.0)
     scn.tc_num_verts = bpy.props.IntProperty(
@@ -105,7 +104,7 @@ def register():
     # miscl registration not order dependant
     bpy.utils.register_class(VIEW3D_MT_edit_mesh_tinycad)
     bpy.types.VIEW3D_MT_edit_mesh_specials.prepend(menu_func)
-    bpy.utils.register_class(CircleMake)
+    bpy.utils.register_class(TCCircleMake)
 
 
 def unregister():
@@ -114,7 +113,7 @@ def unregister():
     for i in vtx_classes:
         bpy.utils.unregister_class(i)
 
-    bpy.utils.unregister_class(CircleMake)
+    bpy.utils.unregister_class(TCCircleMake)
     bpy.utils.unregister_class(VIEW3D_MT_edit_mesh_tinycad)
     bpy.types.VIEW3D_MT_edit_mesh_specials.remove(menu_func)
     del scn.tc_num_verts

@@ -112,10 +112,9 @@ def doVTX(self):
     bmesh.update_edit_mesh(self.me, True)
 
 
-class AutoVTX(bpy.types.Operator):
-    bl_idname = 'mesh.autovtx'
-    bl_label = 'autoVTX'
-    # bl_options = {'REGISTER', 'UNDO'}
+class TCAutoVTX(bpy.types.Operator):
+    bl_idname = 'tinycad.autovtx'
+    bl_label = 'VTX autoVTX'
 
     VTX_PRECISION = 1.0e-5  # or 1.0e-6 ..if you need
 

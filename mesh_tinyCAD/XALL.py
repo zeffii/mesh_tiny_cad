@@ -35,7 +35,7 @@ def order_points(edge, point_list):
     ''' order these edges from distance to v1, then
     sandwich the sorted list with v1, v2 '''
     v1, v2 = edge
-    dist = lambda co: (v1-co).length
+    dist = lambda co: (v1 - co).length
     point_list = sorted(point_list, key=dist)
     return [v1] + point_list + [v2]
 
@@ -72,7 +72,7 @@ def can_skip(closest_points, vert_vectors):
 
     # if this distance is larger than than VTX_PRECISION, we can skip it.
     cpa, cpb = closest_points
-    return (cpa-cpb).length > cm.CAD_prefs.VTX_PRECISION
+    return (cpa - cpb).length > cm.CAD_prefs.VTX_PRECISION
 
 
 def get_intersection_dictionary(bm, edge_indices):
@@ -123,7 +123,7 @@ def update_mesh(obj, d):
 
     for old_edge, point_list in d.items():
         num_points = len(point_list)
-        num_edges_to_add = num_points-1
+        num_edges_to_add = num_points - 1
 
         for i in range(num_edges_to_add):
             oe.add(1)
@@ -134,9 +134,9 @@ def update_mesh(obj, d):
             #     bm.edges.ensure_lookup_table()
 
             ov[vert_count].co = point_list[i]
-            ov[vert_count+1].co = point_list[i+1]
+            ov[vert_count + 1].co = point_list[i + 1]
 
-            oe[edge_count].vertices = [vert_count, vert_count+1]
+            oe[edge_count].vertices = [vert_count, vert_count + 1]
             vert_count = len(ov)
             edge_count = len(oe)
 
@@ -155,9 +155,9 @@ def unselect_nonintersecting(bm, d_edges, edge_indices):
         print("unselected {}, non intersecting edges".format(reserved_edges))
 
 
-class IntersectAllEdges(bpy.types.Operator):
+class TCIntersectAllEdges(bpy.types.Operator):
 
-    bl_idname = 'mesh.intersectall'
+    bl_idname = 'tinycad.intersectall'
     bl_label = 'XALL intersect all edges'
     # bl_options = {'REGISTER', 'UNDO'}
 

@@ -69,6 +69,11 @@ class TinyCADProperties(bpy.types.PropertyGroup):
     num_verts = bpy.props.IntProperty(
         min=3, max=60, default=12)
 
+    rescale = bpy.props.FloatProperty(
+        default=1.0,
+        precision=4,
+        min=0.0001)
+
 
 class VIEW3D_MT_edit_mesh_tinycad(bpy.types.Menu):
     bl_label = "TinyCAD"

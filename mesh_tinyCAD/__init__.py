@@ -59,16 +59,6 @@ from .CCEN import TCCircleMake
 from .E2F import TCEdgeToFace
 
 
-vtx_classes = [
-    TCAutoVTX,
-    TCVert2Intersection,
-    TCIntersectAllEdges,
-    TCLineOnBisection,
-    TCCircleCenter,
-    TCEdgeToFace
-]
-
-
 class TinyCADProperties(bpy.types.PropertyGroup):
 
     gp_color = bpy.props.FloatVectorProperty(
@@ -103,27 +93,12 @@ def menu_func(self, context):
 
 
 def register():
-
-    bpy.utils.register_class(TinyCADProperties)
+    bpy.utils.register_module(__name__)
     bpy.types.Scene.tinycad_props = bpy.props.PointerProperty(name="TinyCAD props", type=TinyCADProperties)
-
-    for i in vtx_classes:
-        bpy.utils.register_class(i)
-
-    # miscl registration not order dependant
-    bpy.utils.register_class(VIEW3D_MT_edit_mesh_tinycad)
     bpy.types.VIEW3D_MT_edit_mesh_specials.prepend(menu_func)
-    bpy.utils.register_class(TCCircleMake)
 
 
 def unregister():
-
-    bpy.utils.unregister_class(TinyCADProperties)
     del bpy.types.Scene.tinycad_props
-
-    for i in vtx_classes:
-        bpy.utils.unregister_class(i)
-
-    bpy.utils.unregister_class(TCCircleMake)
-    bpy.utils.unregister_class(VIEW3D_MT_edit_mesh_tinycad)
+    bpy.utils.unregister_module(__name__)
     bpy.types.VIEW3D_MT_edit_mesh_specials.remove(menu_func)

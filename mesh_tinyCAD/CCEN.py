@@ -227,3 +227,11 @@ class TCCircleMake(bpy.types.Operator):
     def execute(self, context):
         dispatch(context, mode=1)  # bake mesh
         return {'FINISHED'}
+
+
+def register():
+    bpy.utils.register_module(__name__)
+
+
+def unregister():
+    bpy.utils.unregister_module(__name__)

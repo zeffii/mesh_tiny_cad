@@ -5,7 +5,7 @@ from mathutils import Vector
 from mathutils.geometry import intersect_line_line as LineIntersect
 from mathutils.geometry import intersect_point_line as PtLineIntersect
 
-from mesh_tinyCAD import cad_module as cm
+from . import cad_module as cm
 
 
 def getVTX(self):

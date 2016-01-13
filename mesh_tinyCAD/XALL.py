@@ -25,7 +25,7 @@ from mathutils.geometry import intersect_line_line as LineIntersect
 
 import itertools
 from collections import defaultdict
-from mesh_tinyCAD import cad_module as cm
+from . import cad_module as cm
 
 
 ''' helpers '''

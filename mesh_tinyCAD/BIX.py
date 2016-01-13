@@ -21,7 +21,7 @@ END GPL LICENCE BLOCK
 import bpy
 import bmesh
 from mathutils import geometry
-from mesh_tinyCAD import cad_module as cm
+from . import cad_module as cm
 
 
 def add_line_to_bisection(self):

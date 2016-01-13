@@ -4,7 +4,7 @@ Blender CAD utils
 update: 
 
   - custom icons disabled
-  - addons_contrib version of this addon is no equal to this github release.
+  - addons_contrib version of this addon is now (13-jan-2016) equal to this github release.
   - download as [installable zip here](https://github.com/zeffii/mesh_tinyCAD/archive/master.zip)  
 
 __________________

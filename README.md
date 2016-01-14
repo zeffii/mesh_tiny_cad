@@ -11,7 +11,7 @@ __________________
 
 
 A tiny subset of unmissable CAD functions for Blender 3d.  
-Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts/Modeling/mesh_tinyCAD) (Which has most of the same info - but the download link references an old archive zip. Github no longer offer specialized zips conveniently. I think some nefarious people abused the privilege and github had to stop it entirely)  
+Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts/Modeling/mesh_tinyCAD) (Which has most of the same info]  
 
 ### OK, what's this all about?
 

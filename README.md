@@ -1,12 +1,16 @@
 Blender CAD utils
 =================
 
-update: 
+### Installation
+
+Download the stable [installable zip here](https://github.com/zeffii/mesh_tinyCAD/archive/master.zip)   
+
+### Updates: 
 
   - custom icons disabled
   - addons_contrib version of this addon is now (13-jan-2016) equal to this github release.
-  - download as [installable zip here](https://github.com/zeffii/mesh_tinyCAD/archive/master.zip)  
-
+  - this repo is used for development, but I update the installation zip frequently.
+  
 __________________
 
 

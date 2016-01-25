@@ -6,7 +6,7 @@ Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.
 
 ### Installation
 
-Download the [`installable stable release zip` here](https://github.com/zeffii/mesh_tinyCAD/archive/master.zip)   
+Download the [`installable stable release zip` here](https://github.com/zeffii/mesh_tinyCAD/archive/mesh_tinyCAD.zip)   
 
 ### Updates: 
 

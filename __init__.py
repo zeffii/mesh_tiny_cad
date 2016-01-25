@@ -52,13 +52,7 @@ import bpy
 
 from .CFG import TinyCADProperties
 from .CFG import VIEW3D_MT_edit_mesh_tinycad
-from .VTX import TCAutoVTX
-from .V2X import TCVert2Intersection
-from .XALL import TCIntersectAllEdges
-from .BIX import TCLineOnBisection
-from .CCEN import TCCircleCenter
-from .CCEN import TCCircleMake
-from .E2F import TCEdgeToFace
+from . import VTX, V2X, XALL, BIX, CCEN, CCEN, E2F
 
 
 def menu_func(self, context):

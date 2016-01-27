@@ -11,8 +11,8 @@ Download the [`installable stable release zip` here](https://github.com/zeffii/m
 ### Updates: 
 
   - custom icons disabled
-  - addons_contrib version of this addon is now (13-jan-2016) equal to this github release.
-  - this repo is used for development, but I update the installation zip frequently.
+  - addons_contrib version of this addon is now (27-jan-2016) equal to this github release with respect to functionality, 
+    but this repo's init file has been cleaned up more.
   
 __________________
 
@@ -70,7 +70,7 @@ Creates a single edge which is the bisect of two edges.
 Given either 
 
 - two adjacent edges on the circumference of an incomplete circle
-- or two vertices (not required to be adjacent)
+- or three vertices (not required to be adjacent)
 
 this operator will places the 3d cursor at original center of that circle.
 

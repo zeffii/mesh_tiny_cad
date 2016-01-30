@@ -80,6 +80,7 @@ def doVTX(self):
     print('edges to use:', self.edges)
 
     self.bm.verts.new((self.point))
+    self.bm.verts.index_update()
 
     earmarked = self.edges
     pt = self.point
@@ -121,24 +122,26 @@ class TCAutoVTX(bpy.types.Operator):
     @classmethod
     def poll(self, context):
         obj = context.active_object
-        return obj is not None and obj.type == 'MESH'
+        return bool(obj) and obj.type == 'MESH'
 
     def execute(self, context):
         obj = context.active_object
-        self.me = obj.data
-        self.bm = bmesh.from_edit_mesh(self.me)
-        self.bm.verts.ensure_lookup_table()
-        self.bm.edges.ensure_lookup_table()
+        me = obj.data
+        bm = bmesh.from_edit_mesh(me)
+        bm.verts.ensure_lookup_table()
+        bm.edges.ensure_lookup_table()
 
-        edges = self.bm.edges
-        ok = lambda v: v.select and not v.hide
-        idxs = [v.index for v in edges if ok(v)]
-        if len(idxs) is 2:
+        idxs = [v.index for v in bm.edges if v.select and (not v.hide)]
+        
+        if len(idxs) == 2:
             self.selected_edges = idxs
         else:
             print('select two edges!')
 
-        self.me.update()
+        me.update()
+        self.bm = bm
+        self.me = me
+
         if checkVTX(self, context):
             doVTX(self)
 

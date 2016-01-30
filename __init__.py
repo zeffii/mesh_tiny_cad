@@ -37,7 +37,7 @@ if "bpy" in locals():
         import importlib
 
         try:
-            modules = [CFG, VTX, V2X, XALL, BIX, CCEN, E2F]
+            modules = [CFG, VTX, V2X, XALL, BIX, CCEN, E2F, RAR]
             for m in modules:
                 importlib.reload(m)
             print("tinyCAD: reloaded modules, all systems operational")
@@ -52,7 +52,7 @@ import bpy
 
 from .CFG import TinyCADProperties
 from .CFG import VIEW3D_MT_edit_mesh_tinycad
-from . import VTX, V2X, XALL, BIX, CCEN, CCEN, E2F
+from . import VTX, V2X, XALL, BIX, CCEN, CCEN, E2F, RAR
 
 
 def menu_func(self, context):

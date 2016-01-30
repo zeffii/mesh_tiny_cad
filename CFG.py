@@ -17,6 +17,19 @@ class TinyCADProperties(bpy.types.PropertyGroup):
         min=0.0001)
 
 
+class VIEW3D_MT_edit_mesh_tinycad_sub(bpy.types.Menu):
+    bl_label = "Extras"
+
+    @classmethod
+    def poll(cls, context):
+        return bool(context.object)
+
+    def draw(self, context):
+        operator = self.layout.operator
+        operator('tinycad.radial_array', text='RAR | Radial Array')
+
+
+
 class VIEW3D_MT_edit_mesh_tinycad(bpy.types.Menu):
     bl_label = "TinyCAD"
 
@@ -32,6 +45,7 @@ class VIEW3D_MT_edit_mesh_tinycad(bpy.types.Menu):
         operator('tinycad.linetobisect', text='BIX |  Bisector of 2 planar edges')
         operator('tinycad.circlecenter', text='CCEN | Resurrect circle center')
         operator('tinycad.edge_to_face', text='E2F | Extend Edge to Face')
+        self.layout.menu("VIEW3D_MT_edit_mesh_tinycad_sub")
 
 
 def register():

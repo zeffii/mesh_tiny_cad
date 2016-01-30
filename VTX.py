@@ -25,10 +25,12 @@ def add_edges(self, idxs):
         self.bm.edges.ensure_lookup_table()
 
     for e in idxs:
+        self.bm.edges.index_update()
         v1 = self.bm.verts[-1]
         v2 = self.bm.verts[e]
         self.bm.edges.new((v1, v2))
 
+    self.bm.edges.index_update()  # woah.. profilactic.
 
 def remove_earmarked_edges(self, earmarked):
     edges_select = [e for e in self.bm.edges if e.index in earmarked]

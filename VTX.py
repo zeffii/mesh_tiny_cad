@@ -81,6 +81,7 @@ def doVTX(self):
 
     self.bm.verts.new((self.point))
     self.bm.verts.index_update()
+    self.bm.edges.index_update()
 
     earmarked = self.edges
     pt = self.point

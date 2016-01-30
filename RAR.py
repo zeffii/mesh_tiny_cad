@@ -20,7 +20,7 @@ def add_empty(loc, name):
     return mt
 
 def main(self, context):
-	
+
     active_object = bpy.context.active_object
     loc = active_object.location
     mts = [o for o in bpy.data.objects if o.type == 'EMPTY' and o['UID'] == self.UID]
@@ -74,12 +74,12 @@ class TCRadialArray(bpy.types.Operator):
 
     def execute(self, context):
         main(self, context)
-		return {'FINISHED'}
-	
-	def invoke(self, context, event):
-	    self.UID = str(hash(self) ^ hash(time.monotonic()))
+        return {'FINISHED'}
+
+    def invoke(self, context, event):
+        self.UID = str(hash(self) ^ hash(time.monotonic()))
         return self.execute(context)
-		
+
 
 def register():
     bpy.utils.register_module(__name__)

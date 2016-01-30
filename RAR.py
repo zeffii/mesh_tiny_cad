@@ -2,6 +2,7 @@ import bpy
 import mathutils
 from mathutils import Euler
 
+import time
 import math
 from math import radians
 
@@ -20,9 +21,16 @@ def add_empty(loc, name):
 
 def main(self, context):
 
+    UID = str(hash(self) ^ hash(time.monotonic()))
+
     active_object = bpy.context.active_object
     loc = active_object.location
-    mt = add_empty(loc, name="empty_name")
+    mts = [o for o in bpy.data.objects if o.type == 'EMPTY' and o['UÍD'] == UID]
+    if mts:
+        mt = mts[-1] 
+    else:
+        mt = add_empty(loc, name="empty_name")
+        mt['UÍD'] = UID
 
     modifiers = active_object.modifiers
     array = modifiers.get('radial_array')

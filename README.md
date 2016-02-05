@@ -12,7 +12,6 @@ Download the [`installable stable release zip` here](https://github.com/zeffii/m
 
   - addons_contrib version of this addon is now (27-jan-2016) equal to this github release with respect to functionality, 
     but this repo's init file has been cleaned up more.  
-  - custom icons disabled
   
 __________________
 

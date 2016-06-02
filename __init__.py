@@ -53,7 +53,7 @@ import bpy
 from .CFG import TinyCADProperties
 from .CFG import VIEW3D_MT_edit_mesh_tinycad
 from .CFG import register_icons, unregister_icons
-from . import VTX, V2X, XALL, BIX, CCEN, CCEN, E2F
+from . import VTX, V2X, XALL, BIX, CCEN, E2F
 
 
 def menu_func(self, context):

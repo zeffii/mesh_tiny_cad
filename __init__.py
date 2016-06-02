@@ -52,6 +52,7 @@ import bpy
 
 from .CFG import TinyCADProperties
 from .CFG import VIEW3D_MT_edit_mesh_tinycad
+from .CFG import register_icons, unregister_icons
 from . import VTX, V2X, XALL, BIX, CCEN, CCEN, E2F
 
 
@@ -59,8 +60,8 @@ def menu_func(self, context):
     self.layout.menu("VIEW3D_MT_edit_mesh_tinycad")
     self.layout.separator()
 
-
 def register():
+    register_icons()
     bpy.utils.register_module(__name__)
     bpy.types.Scene.tinycad_props = bpy.props.PointerProperty(name="TinyCAD props", type=TinyCADProperties)
     bpy.types.VIEW3D_MT_edit_mesh_specials.prepend(menu_func)
@@ -70,3 +71,4 @@ def unregister():
     bpy.types.VIEW3D_MT_edit_mesh_specials.remove(menu_func)
     bpy.utils.unregister_module(__name__)
     del bpy.types.Scene.tinycad_props
+    unregister_icons()

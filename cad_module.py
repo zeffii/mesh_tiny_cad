@@ -38,7 +38,8 @@ def get_intersection(edge1, edge2):
     < returns the point halfway on line. See intersect_line_line
     '''
     line = line_from_edge_intersect(edge1, edge2)
-    return ((line[0] + line[1]) / 2)
+    if line:
+        return ((line[0] + line[1]) / 2)
 
 
 def get_intersection_from_idxs(bm, idx1, ixd2):
@@ -61,7 +62,8 @@ def test_coplanar(edge1, edge2):
     coplanar or parallel.
     '''
     line = line_from_edge_intersect(edge1, edge2)
-    return (line[0]-line[1]).length < CAD_prefs.VTX_PRECISION
+    if line:
+        return (line[0]-line[1]).length < CAD_prefs.VTX_PRECISION
 
 
 def closest_idx(pt, e):
@@ -131,6 +133,8 @@ def find_intersecting_edges(bm, pt, idx1, idx2):
     > idx1, ix2:    edge indices,
     < returns the list of edge indices where pt is on those edges
     '''
+    if not pt:
+        return
     idxs = [idx1, idx2]
     edges = [coords_tuple_from_edge_idx(bm, idx) for idx in idxs]
     return [idx for edge, idx in zip(edges, idxs) if point_on_edge(pt, edge)]

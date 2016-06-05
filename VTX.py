@@ -58,11 +58,17 @@ def checkVTX(self, context):
     # find which edges intersect
     getVTX(self)
 
-    # check coplanar, or parallel.
+    # check parallel
+    if not self.point:
+        msg = "parallel! returning early"
+        self.report({"WARNING"}, msg)
+        return False
+
+    # check coplanar
     if [] == self.edges:
         coplanar = cm.test_coplanar(self.edge1, self.edge2)
         if not coplanar:
-            msg = "parallel or not coplanar! returning early"
+            msg = "not coplanar! returning early"
             self.report({"WARNING"}, msg)
             return False
 

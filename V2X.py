@@ -35,16 +35,17 @@ def add_vertex_to_intersection():
         [[v1, v2], [v3, v4]] = [[v.co for v in e.verts] for e in edges]
 
         iv = geometry.intersect_line_line(v1, v2, v3, v4)
-        iv = (iv[0] + iv[1]) / 2
-        bm.verts.new(iv)
+        if iv:
+            iv = (iv[0] + iv[1]) / 2
+            bm.verts.new(iv)
 
-        # precaution?
-        if hasattr(bm.verts, "ensure_lookup_table"):
-            bm.verts.ensure_lookup_table()
-            # bm.edges.ensure_lookup_table()
+            # precaution?
+            if hasattr(bm.verts, "ensure_lookup_table"):
+                bm.verts.ensure_lookup_table()
+                # bm.edges.ensure_lookup_table()
 
-        bm.verts[-1].select = True
-        bmesh.update_edit_mesh(me)
+            bm.verts[-1].select = True
+            bmesh.update_edit_mesh(me)
 
 
 class TCVert2Intersection(bpy.types.Operator):

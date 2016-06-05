@@ -134,7 +134,7 @@ def find_intersecting_edges(bm, pt, idx1, idx2):
     < returns the list of edge indices where pt is on those edges
     '''
     if not pt:
-        return
+        return []
     idxs = [idx1, idx2]
     edges = [coords_tuple_from_edge_idx(bm, idx) for idx in idxs]
     return [idx for edge, idx in zip(edges, idxs) if point_on_edge(pt, edge)]

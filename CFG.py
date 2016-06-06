@@ -1,7 +1,7 @@
 import bpy
 import os
 
-ICONS = 'BIX CCEN V2X VTX XALL'.split(' ')
+ICONS = 'BIX CCEN V2X VTX XALL E2F'.split(' ')
 icon_collection = {}
 
 
@@ -41,7 +41,7 @@ class VIEW3D_MT_edit_mesh_tinycad(bpy.types.Menu):
         op('tinycad.intersectall', text='XALL | Intersect selected edges', icon_value=cicon('XALL'))
         op('tinycad.linetobisect', text='BIX |  Bisector of 2 planar edges', icon_value=cicon('BIX'))
         op('tinycad.circlecenter', text='CCEN | Resurrect circle center', icon_value=cicon('CCEN'))
-        op('tinycad.edge_to_face', text='E2F | Extend Edge to Face')
+        op('tinycad.edge_to_face', text='E2F | Extend Edge to Face', icon_value=cicon('E2F'))
 
 
 def register_icons():

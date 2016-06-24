@@ -1,9 +1,6 @@
 import bpy
 import bmesh
-from mathutils import Vector
-from mathutils.geometry import intersect_line_line as LineIntersect
-from mathutils.geometry import intersect_point_line as PtLineIntersect
-
+from mathutils import Vector, geometry
 from . import cad_module as cm
 
 messages = {
@@ -12,18 +9,64 @@ messages = {
     'NON_PLANAR_EDGES': 'Non Planar Edges, no clean intersection point'
 }
 
+def add_edges(bm, v1, idxs):
+    bm.verts.ensure_lookup_table()
+    bm.edges.ensure_lookup_table()    
+
+    for e in idxs:
+        bm.edges.index_update()
+        v2 = bm.verts[e]
+        bm.edges.new((v1, v2))
+
+    bm.edges.index_update()
+
+def remove_earmarked_edges(bm, earmarked):
+    edges_select = [e for e in bm.edges if e.index in earmarked]
+    bmesh.ops.delete(bm, geom=edges_select, context=2)
+
 def get_vert_indices_from_bmedges(edges):
     temp_edges = []
+    print(edges)
     for e in edges:
-        for v in e.verts[:]:
-            temp_edges.extend(v.index)
+        for v in e.verts:
+            temp_edges.append(v.index)
     return temp_edges
 
-def perform_vtx(bm=bm, pt=point, edges=edges, pts=(p1, p2, p3, p4)):
-    '''
-    csx
-    '''
+def perform_vtx(bm, pt, edges, pts, vertex_indices):
+    print(pts)
+    idx1, idx2 = edges[0].index, edges[1].index
 
+    # this list will hold those edges that pt lies on, 
+    edges_indices = cm.find_intersecting_edges(bm, pt, idx1, idx2)
+    num_itx_edges = len(edges_indices)
+
+    v1 = bm.verts.new(pt)
+    bm.verts.index_update()
+    bm.edges.index_update()
+
+    if num_itx_edges == 0:  # V (projection of both edges)
+        cl_vert1 = cm.closest_idx(pt, edges[0])
+        cl_vert2 = cm.closest_idx(pt, edges[1])
+        add_edges(bm, v1, [cl_vert1, cl_vert2])
+
+    elif num_itx_edges == 2:  # X (weld intersection)
+        add_edges(bm, v1, vertex_indices)
+
+    elif num_itx_edges == 1:  # T (extend towards)
+        # make 3 new edges: 2 on the towards, 1 as extender
+        to_edge_idx = edges[0].index
+        from_edge_idx = idx1 if to_edge_idx == idx2 else idx2
+
+        cl_vert = cm.closest_idx(pt, bm.edges[from_edge_idx])
+        to_vert1, to_vert2 = cm.vert_idxs_from_edge_idx(bm, to_edge_idx)
+        roto_indices = [cl_vert, to_vert1, to_vert2]
+        add_edges(bm, v1, roto_indices)
+
+    # final refresh before returning to user.
+    if edges_indices:
+        remove_earmarked_edges(bm, edges_indices)
+
+    bm.edges.index_update()
     return bm
 
 
@@ -46,7 +89,7 @@ def do_vtx_if_appropriate(bm, edges):
         return {'NON_PLANAR_EDGES'}
 
     # point must lie on an edge or the virtual extention of an edge
-    bm = perform_vtx(bm=bm, pt=point, edges=edges, pts=(p1, p2, p3, p4))
+    bm = perform_vtx(bm, point, edges, (p1, p2, p3, p4), vertex_indices)
     return bm
 
 
@@ -54,10 +97,8 @@ class TCAutoVTX(bpy.types.Operator):
     bl_idname = 'tinycad.autovtx'
     bl_label = 'VTX autoVTX'
 
-    VTX_PRECISION = 1.0e-5
-
     @classmethod
-    def poll(self, context):
+    def poll(cls, context):
         obj = context.active_object
         return bool(obj) and obj.type == 'MESH'
 

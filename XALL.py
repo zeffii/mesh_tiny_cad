@@ -159,7 +159,7 @@ class TCIntersectAllEdges(bpy.types.Operator):
 
     bl_idname = 'tinycad.intersectall'
     bl_label = 'XALL intersect all edges'
-    # bl_options = {'REGISTER', 'UNDO'}
+    bl_options = {'REGISTER', 'UNDO'}
 
     @classmethod
     def poll(self, context):

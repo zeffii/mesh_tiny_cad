@@ -122,39 +122,42 @@ def doVTX(self):
     bmesh.update_edit_mesh(self.me, True)
 
 
-class TCAutoVTX(bpy.types.Operator):
-    bl_idname = 'tinycad.autovtx'
-    bl_label = 'VTX autoVTX'
+# class TCAutoVTX(bpy.types.Operator):
+#     bl_idname = 'tinycad.autovtx'
+#     bl_label = 'VTX autoVTX'
 
-    VTX_PRECISION = 1.0e-5  # or 1.0e-6 ..if you need
+#     VTX_PRECISION = 1.0e-5  # or 1.0e-6 ..if you need
 
-    @classmethod
-    def poll(self, context):
-        obj = context.active_object
-        return bool(obj) and obj.type == 'MESH'
+#     @classmethod
+#     def poll(self, context):
+#         obj = context.active_object
+#         return bool(obj) and obj.type == 'MESH'
 
-    def execute(self, context):
-        obj = context.active_object
-        me = obj.data
-        bm = bmesh.from_edit_mesh(me)
-        bm.verts.ensure_lookup_table()
-        bm.edges.ensure_lookup_table()
+#     def execute(self, context):
+#         obj = context.active_object
+#         me = obj.data
+#         bm = bmesh.from_edit_mesh(me)
+#         bm.verts.ensure_lookup_table()
+#         bm.edges.ensure_lookup_table()
 
-        idxs = [v.index for v in bm.edges if v.select and (not v.hide)]
-        
-        if len(idxs) == 2:
-            self.selected_edges = idxs
-        else:
-            print('select two edges!')
+#         idxs = [v.index for v in bm.edges if v.select and (not v.hide)]
 
-        me.update()
-        self.bm = bm
-        self.me = me
+#         if len(idxs) == 2:
+#             self.selected_edges = idxs
+#         else:
+#             print('select two edges!')
 
-        if checkVTX(self, context):
-            doVTX(self)
+#         me.update()
+#         self.bm = bm
+#         self.me = me
 
-        return {'FINISHED'}
+#         if checkVTX(self, context):
+#             doVTX(self)
+
+#         return {'FINISHED'}
+
+
+
 
 
 def register():

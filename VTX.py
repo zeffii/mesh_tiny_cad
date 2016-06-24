@@ -1,6 +1,5 @@
 import bpy
 import bmesh
-from mathutils import Vector, geometry
 from . import cad_module as cm
 
 messages = {

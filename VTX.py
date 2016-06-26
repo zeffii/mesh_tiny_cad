@@ -13,11 +13,10 @@ def add_edges(bm, v1, idxs):
     bm.edges.ensure_lookup_table()    
 
     for e in idxs:
-        bm.edges.index_update()
         v2 = bm.verts[e]
         bm.edges.new((v1, v2))
+        bm.edges.index_update()
 
-    bm.edges.index_update()
 
 def remove_earmarked_edges(bm, earmarked):
     edges_select = [e for e in bm.edges if e.index in earmarked]
@@ -123,6 +122,8 @@ class TCAutoVTX(bpy.types.Operator):
         else:
             return self.cancel_message('select two edges!')
 
+        bm.verts.index_update()
+        bm.edges.index_update()
         bmesh.update_edit_mesh(me, True)
         return {'FINISHED'}
 

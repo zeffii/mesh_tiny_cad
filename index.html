@@ -1,155 +1,89 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html >
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Mesh tinycad by zeffii</title>
+    <meta charset="UTF-8">
+    <title>tinycad mesh doc</title>
+    
+    
+    
+    
+        <link rel="stylesheet" href="css/style.css">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    
+    
+    
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Mesh tinycad</h1>
-        <p>a tiny set of unmissable CAD functions ( VTX, XALL ...)</p>
 
-        <p class="view"><a href="https://github.com/zeffii/mesh_tinyCAD">View the Project on GitHub <small>zeffii/mesh_tinyCAD</small></a></p>
+    <div class='main'>
+  <div class='blurp'>
+  mesh_tinyCAD is a small set of CAD style functions for Blender. These are similar to the standard features that I love in industrial 2D/3D drafting software. The functions are implemented in a way that makes sense inside Blender. These functions are generally bug free but if you think you've found something please <a href="https://github.com/zeffii/mesh_tinyCAD/issues"> report the issue here.</a> 
+  
+  </div>
+  <div class='sections'>
 
-
-        <ul>
-          <li><a href="https://github.com/zeffii/mesh_tinyCAD/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/zeffii/mesh_tinyCAD/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/zeffii/mesh_tinyCAD">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
-<a id="blender-cad-utils" class="anchor" href="#blender-cad-utils" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Blender CAD utils</h1>
-
-<p>A tiny subset of unmissable CAD functions for Blender 3d.<br>
-Addon <a href="http://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts/Modeling/mesh_tinyCAD">page on blender.org/wiki</a> (Which has most of the same info]  </p>
-
-<h3>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h3>
-
-<p>Download the <a href="https://github.com/zeffii/mesh_tinyCAD/archive/v1_2_4.zip"><code>installable stable release zip</code> here</a>   </p>
-
-<h3>
-<a id="updates" class="anchor" href="#updates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Updates:</h3>
-
-<ul>
-<li>custom icons disabled</li>
-<li>addons_contrib version of this addon is now (27-jan-2016) equal to this github release with respect to functionality, 
-but this repo's init file has been cleaned up more.</li>
-</ul>
-
-<hr>
-
-<h3>
-<a id="ok-whats-this-all-about" class="anchor" href="#ok-whats-this-all-about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OK, what's this all about?</h3>
-
-<p>Dedicated CAD software speeds up drafting significantly with functions like: <code>Extend</code>, <code>Trim</code>,  <code>Intersect</code>, <code>Fillet /w radius</code> and <code>Offset /w distance</code>. At the moment of this writing many of these functions aren't included by default in regular distributions on Blender.org, so i've coded scripts to perform a few of the main features that I missed most. </p>
-
-<p>My scripts have shortnames: <code>VTX, V2X, XALL, BIX, CCEN</code> and are described separately in sections below. <code>Fillet</code> and <code>Offset</code> are written by zmj100 and can be found <a href="http://blenderartists.org/forum/showthread.php?179375">here</a>.</p>
-
-<p>Since I started this repository: Vertex Fillet / Bevel was added to master. So no more need for a separate addon.  (Ctrl+Shift+b)</p>
-
-<h3>
-<a id="vtx" class="anchor" href="#vtx" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>VTX</h3>
-
-<p>The VTX script has lived in contrib distributions of Blender since 2010, with relatively minor changes. The feedback from BlenderArtists has been <a href="http://blenderartists.org/forum/showthread.php?204836-CAD-Addon-Edge-Tools-(blender-2-6x)">overwhelmingly positive</a>. I'm not going to claim it's bug free, but finding any showstopping issues has proven difficult. It now performs V, T or X selection automatically.   </p>
-
-<p>Expect full freedom of orientation, but stuff must really intersect within error margins (<code>1.5E-6</code> = tolerance). These kinds of functions are handy for drawing construction lines and fixing up geometry. </p>
-
-<ul>
-<li><p>V : extending two edges towards their <em>calculated</em> intersection point.<br>
-<img src="http://i.imgur.com/zBSciFf.png" alt="V"></p></li>
-<li><p>T : extending the path of one edge towards another edge.<br>
-<img src="http://i.imgur.com/CDH5oHm.png" alt="T"></p></li>
-<li><p>X : two edges intersect, their intersection gets a weld vertex. You now have 4 edges and 5 vertices.<br>
-<img src="http://i.imgur.com/kqtX9OE.png" alt="X"></p></li>
-</ul>
-
-<ul>
-<li>Select two edges<br>
-</li>
-<li>hit <code>Spacebar</code> and type <code>vtx</code> ..select <code>autoVTX</code><br>
-</li>
-<li>Bam. the rest is taken care of.</li>
-</ul>
-
-<h3>
-<a id="x-all" class="anchor" href="#x-all" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>X ALL</h3>
-
-<p>Intersect all, it programatically goes through all selected edges and slices them all using any found intersections, then welds them.</p>
-
-<ul>
-<li>XALL is fast!<br>
-<img src="http://i.imgur.com/1I7totI.gif" alt="Imgur">
-</li>
-<li>Select as many edges as you want to intersect.</li>
-<li>hit <code>spacebar</code> and type <code>xa</code>  ..select <code>XALL intersect all edges</code>
-</li>
-</ul>
-
-<h3>
-<a id="v2x-vertex-to-intersection" class="anchor" href="#v2x-vertex-to-intersection" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>V2X (Vertex to Intersection)</h3>
-
-<p>This might be a niche accessory, but sometimes all you want is a vertex positioned on the intersection of two edges. Nothing fancy.</p>
-
-<h3>
-<a id="bix-generate-bisector" class="anchor" href="#bix-generate-bisector" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>BIX (generate Bisector)</h3>
-
-<p>Creates a single edge which is the bisect of two edges.<br>
-<img src="http://i.imgur.com/uzyv1Mv.gif" alt="Imgur">  </p>
-
-<h3>
-<a id="ccen-circle-centers" class="anchor" href="#ccen-circle-centers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CCEN (Circle Centers)</h3>
-
-<p>Given either </p>
-
-<ul>
-<li>two adjacent edges on the circumference of an incomplete circle</li>
-<li>or three vertices (not required to be adjacent)</li>
-</ul>
-
-<p>this operator will places the 3d cursor at original center of that circle.</p>
-
-<p><img src="https://cloud.githubusercontent.com/assets/619340/5595657/2786f984-9279-11e4-9dff-9db5d5a52a52.gif" alt="imgur"></p>
-
-<p>updated version may become a modal operator to generate a full set of circle vertices, with variable vertex count.</p>
-
-<p><img src="https://cloud.githubusercontent.com/assets/619340/5602194/ce613c96-933d-11e4-9879-d2cfc686cb69.gif" alt="imgur demo"></p>
-
-<h3>
-<a id="e2f-extend-edge-to-selected-face-edge-2-face" class="anchor" href="#e2f-extend-edge-to-selected-face-edge-2-face" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>E2F (Extend Edge to Selected Face, Edge 2 Face)</h3>
-
-<p>Select a single Edge and a single Polygon (ngon, tri, quad) within the same Object. Execute <code>W &gt; TinyCAD &gt; E2F</code></p>
-
-<p><img src="https://cloud.githubusercontent.com/assets/619340/12091278/2884820e-b2f6-11e5-9f1b-37ebfdf10cfc.png" alt="image"></p>
-
-<h3>
-<a id="why-on-github" class="anchor" href="#why-on-github" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Why on github?</h3>
-
-<p>The issue tracker, use it.  </p>
-
-<ul>
-<li> Let me know if these things are broken in new releases. Why? I don't update Blender as often as some so am oblivious to the slow evolution. </li>
-<li> If you can make a valid argument for extra functionality and it seems like something I might use or be able to implement for fun, it's going to happen.</li>
-<li> I'm always open to pull requests (just don't expect instant approval of something massive, we can talk..you can use your gift of persuasion and sharp objectivism)</li>
-</ul>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/zeffii">zeffii</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+    <div id='VTX' class='part'>
+      <h3>VTX</h3>
+      <p>
+      VTX will automatically do the following:
+      <ul>
+        <li>extend edges towards their intersection (V and T)</li>
+        <li>intersect / weld two crossing edges (X)</li>
+      </ul>
+      </p>
+      <svg id='vtx' height="120" width="800">
+      </svg>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+    <div id='V2X' class='part'>
+      <h3>V2X</h3>
+      <p>
+      V2X places a new vertex at the (projected) intersection of two selected edges. Without modifying the existing geometry
+      </p>
+      <svg id='v2x' height="120" width="800">
+      </svg>      
+    </div>
+    <div id='XALL' class='part'>
+      <h3>XALL</h3>
+      <p>
+      XALL intersects / welds all selected edges. This is like the X mode of the VTX operating on many selected edges.
+      </p>
+      <svg id='xall' height="120" width="800">
+      </svg>      
+    </div>
+    <div id='E2F' class='part'>
+      <h3>E2F</h3>
+      <p>
+      E2F extends one side of a selected edge towards a selected face.
+      </p>
+      <svg id='e2f' height="120" width="800">
+      </svg>       
+    </div>
+
+    <div id='BIX' class='part'>
+      <h3>BIX</h3>
+      <p>
+      BIX makes the bisector of two selected edges. The edges may share a vertex, but don't have to. Edges must be coplanar for the bisector to make sense. <b>Notice:</b> For both scenarios this function will make <i>guide geometry</i> which is not attached to the original geometry.
+      </p>
+      <svg id='bix' height="120" width="800">
+      </svg>      
+    </div>
+    <div id='CCEN' class='part'>
+      <h3>CCEN</h3>
+      <p>
+      CCEN reconstructs of a circle, the minimal requirement is that you can select 3 vertices of a degenerate circle. Useful for when you've deleted part of the circle geometry and want to find the centroid to place the 3d cursor, or if you want to make a circle with a different vertex count or radius.
+      </p>
+      <svg id='ccen' height="120" width='800'>
+      </svg>      
+    </div>    
+  </div>
+</div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+
+        <script src="js/index.js"></script>
+
+    
+    
     
   </body>
 </html>

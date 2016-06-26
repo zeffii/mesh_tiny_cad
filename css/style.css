@@ -1,0 +1,28 @@
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web);
+
+body {
+  background-color: #d4d4d4;
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 1.0em;
+  color: #333
+}
+
+.main {
+  width: 740px;
+}
+
+h3 {
+  font-size: 1.2em;
+}
+
+.blurp, .sections{
+  padding: 20px 20px 0px 20px;
+}
+
+.part {
+  color: #eee;
+  padding: 0px 8px 3px 10px;
+  background: #00a4dc;
+  margin: 10px 20px 10px 20px;
+  border-left: 1px solid #eee;
+}

@@ -60,7 +60,7 @@ def perform_vtx(bm, pt, edges, pts, vertex_indices):
 
     elif num_itx_edges == 1:  # T (extend towards)
         # make 3 new edges: 2 on the towards, 1 as extender
-        to_edge_idx = edges[0].index
+        to_edge_idx = edges_indices[0]
         from_edge_idx = idx1 if to_edge_idx == idx2 else idx2
 
         cl_vert = cm.closest_idx(pt, bm.edges[from_edge_idx])

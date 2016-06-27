@@ -11,7 +11,13 @@ messages = {
 }
 
 def add_edges(bm, pt, idxs, fdp):
-    ''' this function is a disaster -- '''
+    ''' 
+    this function is a disaster -- 
+    index updates and ensure_lookup_table() are called before this function
+    and after, and i've tried doing this less verbose but results tend to be
+    less predictable. I'm obviously a terrible coder, but can only spend so
+    much time figuring out this stuff.
+    '''
 
     v1 = bm.verts.new(pt)
 

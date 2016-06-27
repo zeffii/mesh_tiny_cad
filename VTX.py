@@ -1,5 +1,7 @@
 import bpy
 import bmesh
+import sys
+
 from . import cad_module as cm
 
 messages = {
@@ -8,15 +10,33 @@ messages = {
     'NON_PLANAR_EDGES': 'Non Planar Edges, no clean intersection point'
 }
 
-def add_edges(bm, v1, idxs):
+def add_edges(bm, pt, idxs, fdp):
+    ''' this function is a disaster -- '''
+
+    v1 = bm.verts.new(pt)
+
     bm.verts.ensure_lookup_table()
     bm.edges.ensure_lookup_table()    
+    bm.verts.index_update()
 
-    for e in idxs:
-        v2 = bm.verts[e]
-        bm.edges.new((v1, v2))
+    try:
+        for e in idxs:
+            bm.edges.index_update()
+            v2 = bm.verts[e]
+            bm.edges.new((v1, v2))
+
         bm.edges.index_update()
+        bm.verts.ensure_lookup_table()
+        bm.edges.ensure_lookup_table() 
 
+    except Exception as err:
+        print('some failure: details')
+        for l in fdp:
+            print(l)
+
+        sys.stderr.write('ERROR: %s\n' % str(err))
+        print(sys.exc_info()[-1].tb_frame.f_code)
+        print('Error on line {}'.format(sys.exc_info()[-1].tb_lineno))
 
 def remove_earmarked_edges(bm, earmarked):
     edges_select = [e for e in bm.edges if e.index in earmarked]
@@ -31,24 +51,20 @@ def get_vert_indices_from_bmedges(edges):
     return temp_edges
 
 def perform_vtx(bm, pt, edges, pts, vertex_indices):
-    print(pts)
     idx1, idx2 = edges[0].index, edges[1].index
+    fdp = pt, edges, pts, vertex_indices
 
     # this list will hold those edges that pt lies on, 
     edges_indices = cm.find_intersecting_edges(bm, pt, idx1, idx2)
     num_itx_edges = len(edges_indices)
 
-    v1 = bm.verts.new(pt)
-    bm.verts.index_update()
-    bm.edges.index_update()
-
     if num_itx_edges == 0:  # V (projection of both edges)
         cl_vert1 = cm.closest_idx(pt, edges[0])
         cl_vert2 = cm.closest_idx(pt, edges[1])
-        add_edges(bm, v1, [cl_vert1, cl_vert2])
+        add_edges(bm, pt, [cl_vert1, cl_vert2], fdp)
 
     elif num_itx_edges == 2:  # X (weld intersection)
-        add_edges(bm, v1, vertex_indices)
+        add_edges(bm, pt, vertex_indices, fdp)
 
     elif num_itx_edges == 1:  # T (extend towards)
         # make 3 new edges: 2 on the towards, 1 as extender
@@ -57,8 +73,7 @@ def perform_vtx(bm, pt, edges, pts, vertex_indices):
 
         cl_vert = cm.closest_idx(pt, bm.edges[from_edge_idx])
         to_vert1, to_vert2 = cm.vert_idxs_from_edge_idx(bm, to_edge_idx)
-        roto_indices = [cl_vert, to_vert1, to_vert2]
-        add_edges(bm, v1, roto_indices)
+        add_edges(bm, pt, [cl_vert, to_vert1, to_vert2], fdp)
 
     # final refresh before returning to user.
     if edges_indices:

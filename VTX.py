@@ -42,14 +42,6 @@ def remove_earmarked_edges(bm, earmarked):
     edges_select = [e for e in bm.edges if e.index in earmarked]
     bmesh.ops.delete(bm, geom=edges_select, context=2)
 
-def get_vert_indices_from_bmedges(edges):
-    temp_edges = []
-    print(edges)
-    for e in edges:
-        for v in e.verts:
-            temp_edges.append(v.index)
-    return temp_edges
-
 def perform_vtx(bm, pt, edges, pts, vertex_indices):
     idx1, idx2 = edges[0].index, edges[1].index
     fdp = pt, edges, pts, vertex_indices
@@ -84,7 +76,7 @@ def perform_vtx(bm, pt, edges, pts, vertex_indices):
 
 
 def do_vtx_if_appropriate(bm, edges):
-    vertex_indices = get_vert_indices_from_bmedges(edges)
+    vertex_indices = cm.get_vert_indices_from_bmedges(edges)
     
     # test 1 , are there shared vers? if so return non-viable
     if not len(set(vertex_indices)) == 4:

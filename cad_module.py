@@ -120,6 +120,17 @@ def vertex_indices_from_edges_tuple(bm, edge_tuple):
     k = lambda v, w: bm.edges[edge_tuple[v]].verts[w].index
     return [k(i >> 1, i % 2) for i in range(4)]
 
+def get_vert_indices_from_bmedges(edges):
+    '''
+    > bmedges:      a list of two bm edges
+    < returns the vertex indices of edge_tuple as a flat list.
+    '''    
+    temp_edges = []
+    print(edges)
+    for e in edges:
+        for v in e.verts:
+            temp_edges.append(v.index)
+    return temp_edges
 
 def num_edges_point_lies_on(pt, edges):
     ''' returns the number of edges that a point lies on. '''

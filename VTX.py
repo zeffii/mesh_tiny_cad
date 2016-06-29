@@ -54,24 +54,23 @@ def perform_vtx(bm, pt, edges, pts, vertex_indices):
 
     # this list will hold those edges that pt lies on, 
     edges_indices = cm.find_intersecting_edges(bm, pt, idx1, idx2)
-    num_itx_edges = len(edges_indices)
+    mode = 'VTX'[len(edges_indices)]
 
-    if num_itx_edges == 0:  # V (projection of both edges)
+    if mode == 'V':
         cl_vert1 = cm.closest_idx(pt, edges[0])
         cl_vert2 = cm.closest_idx(pt, edges[1])
         add_edges(bm, pt, [cl_vert1, cl_vert2], fdp)
 
-    elif num_itx_edges == 2:  # X (weld intersection)
-        add_edges(bm, pt, vertex_indices, fdp)
-
-    elif num_itx_edges == 1:  # T (extend towards)
-        # make 3 new edges: 2 on the towards, 1 as extender
+    elif mode == 'T':
         to_edge_idx = edges_indices[0]
         from_edge_idx = idx1 if to_edge_idx == idx2 else idx2
 
         cl_vert = cm.closest_idx(pt, bm.edges[from_edge_idx])
         to_vert1, to_vert2 = cm.vert_idxs_from_edge_idx(bm, to_edge_idx)
         add_edges(bm, pt, [cl_vert, to_vert1, to_vert2], fdp)
+
+    elif mode == 'X':
+        add_edges(bm, pt, vertex_indices, fdp)
 
     # final refresh before returning to user.
     if edges_indices:

@@ -69,15 +69,6 @@ def draw_ccen(self, context):
     row.operator("tinycad.circlecenter", text='resect')
     row.operator("tinycad.circlemake", text='bake')
 
-    obj = context.active_object
-    verts = obj.data.vertices
-    selection_count = len([v for v in verts if v.select and not v.hide])
-
-    if selection_count == 3:
-        col = L.column()
-        col.prop(scn.tinycad_props, 'gp_color', text='layer color')
-        col.prop(scn.tinycad_props, 'num_verts', text='num verts')
-        col.prop(scn.tinycad_props, 'rescale', text='rescale')
 
 def register():
     register_icons()

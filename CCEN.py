@@ -183,11 +183,13 @@ def get_three_verts_from_selection(obj):
 
 
 def dispatch(context, mode=0):
-    obj = context.edit_object
-    pts = get_three_verts_from_selection(obj)
-    props = context.scene.tinycad_props
-    generate_3PT(pts, obj, props.num_verts, mode)
-
+    try:
+        obj = context.edit_object
+        pts = get_three_verts_from_selection(obj)
+        props = context.scene.tinycad_props
+        generate_3PT(pts, obj, props.num_verts, mode)
+    except:
+        print('oops, dispatch failed', mode)
 
 ''' Operators '''
 

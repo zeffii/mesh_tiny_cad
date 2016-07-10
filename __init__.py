@@ -60,15 +60,36 @@ def menu_func(self, context):
     self.layout.menu("VIEW3D_MT_edit_mesh_tinycad")
     self.layout.separator()
 
+def draw_ccen(self, context):
+    L = self.layout
+
+    scene = context.scene
+    L.label(text="tinyCAD: circle")
+    row = L.row(align=True)
+    row.operator("tinycad.circlecenter", text='resect')
+    row.operator("tinycad.circlemake", text='bake')
+
+    obj = context.active_object
+    verts = obj.data.vertices
+    selection_count = len([v for v in verts if v.select and not v.hide])
+
+    if selection_count == 3:
+        col = L.column()
+        col.prop(scn.tinycad_props, 'gp_color', text='layer color')
+        col.prop(scn.tinycad_props, 'num_verts', text='num verts')
+        col.prop(scn.tinycad_props, 'rescale', text='rescale')
+
 def register():
     register_icons()
     bpy.utils.register_module(__name__)
     bpy.types.Scene.tinycad_props = bpy.props.PointerProperty(name="TinyCAD props", type=TinyCADProperties)
     bpy.types.VIEW3D_MT_edit_mesh_specials.prepend(menu_func)
+    bpy.types.VIEW3D_PT_tools_meshedit.prepend(draw_ccen)
 
 
 def unregister():
     bpy.types.VIEW3D_MT_edit_mesh_specials.remove(menu_func)
+    bpy.types.VIEW3D_PT_tools_meshedit.remove(draw_ccen)
     bpy.utils.unregister_module(__name__)
     del bpy.types.Scene.tinycad_props
     unregister_icons()

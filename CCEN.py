@@ -208,7 +208,9 @@ class TCCircleCenter(bpy.types.Operator):
         col.prop(scn.tinycad_props, 'gp_color', text='layer color')
         col.prop(scn.tinycad_props, 'num_verts', text='num verts')
         col.prop(scn.tinycad_props, 'rescale', text='rescale')
-        col.operator('tinycad.circlemake', text='Make Mesh')
+        # this has become non-functional 
+        # (crashes b3d when run from here, as of late b2.77 version)
+        # col.operator('tinycad.circlemake', text='Make Mesh')
 
     @classmethod
     def poll(self, context):
@@ -239,7 +241,6 @@ class TCCircleMake(bpy.types.Operator):
 
 def register():
     bpy.utils.register_module(__name__)
-
 
 def unregister():
     bpy.utils.unregister_module(__name__)

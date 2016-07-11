@@ -154,7 +154,7 @@ class TCCircleCenter(bpy.types.Operator):
         return obj is not None and obj.type == 'MESH'
 
     def execute(self, context):
-        dispatch(context, mode=1)  # make gp
+        dispatch(context, mode=1)
         return {'FINISHED'}
 
 

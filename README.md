@@ -8,11 +8,7 @@ Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.
 
 Download the [`installable stable release zip` here](https://github.com/zeffii/mesh_tinyCAD/archive/v1_2_4.zip)   
 
-### Updates: 
 
-  - addons_contrib version of this addon is now (27-jan-2016) equal to this github release with respect to functionality, 
-    but this repo's init file has been cleaned up more.  
-  
 __________________
 
 

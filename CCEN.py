@@ -128,6 +128,14 @@ def dispatch(context, mode=0):
 
 ''' Operators '''
 
+class TCCallBackCCEN(bpy.types.Operator):
+    bl_idname = 'tinycad.reset_circlescale'
+    bl_label = 'CCEN circle reset'
+    bl_options = {'REGISTER'}
+
+    def execute(self, context):
+        context.scene.tinycad_props.rescale = 1
+        return {'FINISHED'}
 
 class TCCircleCenter(bpy.types.Operator):
 
@@ -141,7 +149,10 @@ class TCCircleCenter(bpy.types.Operator):
         col = l.column()
 
         col.prop(scn.tinycad_props, 'num_verts', text='num verts')
-        col.prop(scn.tinycad_props, 'rescale', text='rescale')
+        row = col.row(align=True)
+        row.prop(scn.tinycad_props, 'rescale', text='rescale')
+        row.operator('tinycad.reset_circlescale', text="", icon="LINK")
+
 
     @classmethod
     def poll(cls, context):

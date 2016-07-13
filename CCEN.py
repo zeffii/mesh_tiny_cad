@@ -68,7 +68,7 @@ def generate_bmesh_repr(p1, v1, axis, num_verts):
     bmesh.update_edit_mesh(me, True)
 
 
-def generate_3PT(pts, obj, nv, mode=0):
+def generate_3PT(pts, obj, nv, mode=1):
     origin = obj.location
     mw = obj.matrix_world
     V = Vector
@@ -111,9 +111,8 @@ def get_three_verts_from_selection(obj):
     me = obj.data
     bm = bmesh.from_edit_mesh(me)
 
-    if hasattr(bm.verts, "ensure_lookup_table"):
-        bm.verts.ensure_lookup_table()
-        bm.edges.ensure_lookup_table()
+    bm.verts.ensure_lookup_table()
+    bm.edges.ensure_lookup_table()
 
     return [v.co[:] for v in bm.verts if v.select]
 
@@ -141,12 +140,8 @@ class TCCircleCenter(bpy.types.Operator):
         l = self.layout
         col = l.column()
 
-        col.prop(scn.tinycad_props, 'gp_color', text='layer color')
         col.prop(scn.tinycad_props, 'num_verts', text='num verts')
         col.prop(scn.tinycad_props, 'rescale', text='rescale')
-        # this has become non-functional 
-        # (crashes b3d when run from here, as of late b2.77 version)
-        # col.operator('tinycad.circlemake', text='Make Mesh')
 
     @classmethod
     def poll(cls, context):

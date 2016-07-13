@@ -7,11 +7,6 @@ icon_collection = {}
 
 class TinyCADProperties(bpy.types.PropertyGroup):
 
-    gp_color = bpy.props.FloatVectorProperty(
-        default=(0.2, 0.90, .2),
-        subtype='COLOR',
-        min=0.0, max=1.0)
-
     num_verts = bpy.props.IntProperty(
         min=3, max=60, default=12)
 

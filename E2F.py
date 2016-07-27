@@ -20,11 +20,14 @@ END GPL LICENCE BLOCK
 
 import bpy
 import bmesh
-import mathutils
 from mathutils.geometry import intersect_line_plane
 
 
-def extend_vertex():
+def failure_message(self):
+    self.report({"WARNING"}, 'select 1 face and 1 detached edge')
+
+
+def extend_vertex(self):
 
     obj = bpy.context.edit_object
     me = obj.data
@@ -32,7 +35,12 @@ def extend_vertex():
     verts = bm.verts
     faces = bm.faces
 
-    plane = [f for f in faces if f.select][0]
+    planes = [f for f in faces if f.select]
+    if (len(planes) > 1) or (len(planes) == 0):
+        failure_message(self)
+        return
+
+    plane = planes[0]
     plane_vert_indices = [v for v in plane.verts[:]]
     all_selected_vert_indices = [v for v in verts if v.select]
 
@@ -40,6 +48,11 @@ def extend_vertex():
     N = set(all_selected_vert_indices)
     O = N.difference(M)
     O = list(O)
+
+    if not len(O) == 2:
+        failure_message(self)
+        return
+
     (v1_ref, v1_idx, v1), (v2_ref, v2_idx, v2) = [(i, i.index, i.co) for i in O]
 
     plane_co = plane.calc_center_median()
@@ -69,7 +82,7 @@ class TCEdgeToFace(bpy.types.Operator):
         return all([bool(ob), ob.type == 'MESH', ob.mode == 'EDIT'])
 
     def execute(self, context):
-        extend_vertex()
+        extend_vertex(self)
         return {'FINISHED'}
 
 

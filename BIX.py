@@ -80,7 +80,7 @@ def add_line_to_bisection(self):
 
 
 class TCLineOnBisection(bpy.types.Operator):
-
+    '''Generate the bisector of two selected edges'''
     bl_idname = 'tinycad.linetobisect'
     bl_label = 'BIX line to bisector'
     bl_options = {'REGISTER', 'UNDO'}

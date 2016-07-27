@@ -49,7 +49,7 @@ def add_vertex_to_intersection():
 
 
 class TCVert2Intersection(bpy.types.Operator):
-
+    '''Add a vertex at the intersection (projected or real) of two selected edges'''
     bl_idname = 'tinycad.vertintersect'
     bl_label = 'V2X vertex to intersection'
     bl_options = {'REGISTER', 'UNDO'}

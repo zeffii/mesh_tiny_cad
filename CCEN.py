@@ -138,6 +138,7 @@ class TCCallBackCCEN(bpy.types.Operator):
         return {'FINISHED'}
 
 class TCCircleCenter(bpy.types.Operator):
+    '''Recreate a Circle from 3 selected verts, move 3dcursor its center'''
 
     bl_idname = 'tinycad.circlecenter'
     bl_label = 'CCEN circle center from selected'

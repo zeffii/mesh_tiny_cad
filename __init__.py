@@ -25,8 +25,8 @@ bl_info = {
     "blender": (2, 7, 7),
     "category": "Mesh",
     "location": "View3D > EditMode > (w) Specials",
-    "wiki_url": "",
-    "tracker_url": "https://github.com/zeffii/Blender_CAD_utils/issues"
+    "wiki_url": "http://zeffii.github.io/mesh_tiny_cad/",
+    "tracker_url": "https://github.com/zeffii/mesh_tiny_cad/issues"
 }
 
 

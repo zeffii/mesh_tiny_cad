@@ -58,7 +58,7 @@ def extend_vertex():
 
 
 class TCEdgeToFace(bpy.types.Operator):
-
+    '''Extend selected edge towards projected intersection with a selected face'''
     bl_idname = 'tinycad.edge_to_face'
     bl_label = 'E2F edge to face'
     bl_options = {'REGISTER', 'UNDO'}

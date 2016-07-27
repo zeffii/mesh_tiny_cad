@@ -156,7 +156,7 @@ def unselect_nonintersecting(bm, d_edges, edge_indices):
 
 
 class TCIntersectAllEdges(bpy.types.Operator):
-
+    '''Adds a vertex at the intersections of all selected edges''' 
     bl_idname = 'tinycad.intersectall'
     bl_label = 'XALL intersect all edges'
     bl_options = {'REGISTER', 'UNDO'}

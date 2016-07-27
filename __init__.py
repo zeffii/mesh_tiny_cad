@@ -21,7 +21,7 @@ END GPL LICENCE BLOCK
 bl_info = {
     "name": "tinyCAD Mesh tools",
     "author": "zeffii (aka Dealga McArdle)",
-    "version": (1, 2, 9),
+    "version": (1, 3, 0),
     "blender": (2, 7, 7),
     "category": "Mesh",
     "location": "View3D > EditMode > (w) Specials",

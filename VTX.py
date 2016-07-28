@@ -104,7 +104,7 @@ def do_vtx_if_appropriate(bm, edges):
 
 
 class TCAutoVTX(bpy.types.Operator):
-    '''weld intersecting edges, project converging edges towards their intersection'''
+    '''Weld intersecting edges, project converging edges towards their intersection'''
     bl_idname = 'tinycad.autovtx'
     bl_label = 'VTX autoVTX'
 

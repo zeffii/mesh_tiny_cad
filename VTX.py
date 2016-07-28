@@ -93,7 +93,7 @@ def do_vtx_if_appropriate(bm, edges):
     if not point:
         return {'PARALLEL_EDGES'}
 
-    # test 3 , coplanar edges?
+    # test 3, coplanar edges?
     coplanar = cm.test_coplanar([p1, p2], [p3, p4])
     if not coplanar:
         return {'NON_PLANAR_EDGES'}

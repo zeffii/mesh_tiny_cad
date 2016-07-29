@@ -1,3 +1,24 @@
+# ##### BEGIN GPL LICENSE BLOCK #####
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License
+#  as published by the Free Software Foundation; either version 2
+#  of the License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software Foundation,
+#  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# ##### END GPL LICENSE BLOCK #####
+
+# <pep8 compliant>
+
+
 import bpy
 import bmesh
 
@@ -18,7 +39,7 @@ def point_on_edge(p, edge):
     < returns:  True / False if a point happens to lie on an edge
     '''
     pt, _percent = PtLineIntersect(p, *edge)
-    on_line = (pt-p).length < CAD_prefs.VTX_PRECISION
+    on_line = (pt - p).length < CAD_prefs.VTX_PRECISION
     return on_line and (0.0 <= _percent <= 1.0)
 
 
@@ -39,7 +60,7 @@ def get_intersection(edge1, edge2):
     '''
     line = line_from_edge_intersect(edge1, edge2)
     if line:
-        return ((line[0] + line[1]) / 2)
+        return (line[0] + line[1]) / 2
 
 
 def test_coplanar(edge1, edge2):
@@ -51,7 +72,7 @@ def test_coplanar(edge1, edge2):
     '''
     line = line_from_edge_intersect(edge1, edge2)
     if line:
-        return (line[0]-line[1]).length < CAD_prefs.VTX_PRECISION
+        return (line[0] - line[1]).length < CAD_prefs.VTX_PRECISION
 
 
 def closest_idx(pt, e):
@@ -108,17 +129,19 @@ def vertex_indices_from_edges_tuple(bm, edge_tuple):
     k = lambda v, w: bm.edges[edge_tuple[v]].verts[w].index
     return [k(i >> 1, i % 2) for i in range(4)]
 
+
 def get_vert_indices_from_bmedges(edges):
     '''
     > bmedges:      a list of two bm edges
     < returns the vertex indices of edge_tuple as a flat list.
-    '''    
+    '''
     temp_edges = []
     print(edges)
     for e in edges:
         for v in e.verts:
             temp_edges.append(v.index)
     return temp_edges
+
 
 def num_edges_point_lies_on(pt, edges):
     ''' returns the number of edges that a point lies on. '''
@@ -129,7 +152,7 @@ def num_edges_point_lies_on(pt, edges):
 def find_intersecting_edges(bm, pt, idx1, idx2):
     '''
     > pt:           Vector
-    > idx1, ix2:    edge indices,
+    > idx1, ix2:    edge indices
     < returns the list of edge indices where pt is on those edges
     '''
     if not pt:

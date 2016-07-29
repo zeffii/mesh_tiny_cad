@@ -1,22 +1,23 @@
-'''
-BEGIN GPL LICENSE BLOCK
+# ##### BEGIN GPL LICENSE BLOCK #####
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License
+#  as published by the Free Software Foundation; either version 2
+#  of the License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software Foundation,
+#  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# ##### END GPL LICENSE BLOCK #####
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+# <pep8 compliant>
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software Foundation,
-Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-
-END GPL LICENCE BLOCK
-'''
 
 import math
 
@@ -28,7 +29,6 @@ from mathutils import Vector
 
 
 def generate_bmesh_repr(p1, v1, axis, num_verts):
-
     '''
         p1:     center of circle (local coordinates)
         v1:     first vertex of circle in (local coordinates)
@@ -69,10 +69,8 @@ def generate_bmesh_repr(p1, v1, axis, num_verts):
 
 
 def generate_3PT(pts, obj, nv, mode=1):
-    origin = obj.location
     mw = obj.matrix_world
     V = Vector
-
     nv = max(3, nv)
 
     # construction
@@ -104,9 +102,6 @@ def generate_3PT(pts, obj, nv, mode=1):
         print('not on a circle')
 
 
-''' Shared Utils '''
-
-
 def get_three_verts_from_selection(obj):
     me = obj.data
     bm = bmesh.from_edit_mesh(me)
@@ -124,9 +119,8 @@ def dispatch(context, mode=0):
         props = context.scene.tinycad_props
         generate_3PT(pts, obj, props.num_verts, mode)
     except:
-        print('oops, dispatch failed', mode)
+        print('dispatch failed', mode)
 
-''' Operators '''
 
 class TCCallBackCCEN(bpy.types.Operator):
     bl_idname = 'tinycad.reset_circlescale'
@@ -153,7 +147,6 @@ class TCCircleCenter(bpy.types.Operator):
         row = col.row(align=True)
         row.prop(scn.tinycad_props, 'rescale', text='rescale')
         row.operator('tinycad.reset_circlescale', text="", icon="LINK")
-
 
     @classmethod
     def poll(cls, context):

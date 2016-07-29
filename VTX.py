@@ -143,8 +143,14 @@ class TCAutoVTX(bpy.types.Operator):
         return {'CANCELLED'}
 
     def execute(self, context):
+
+        # final attempt to enter unfragmented bm/mesh
+        bpy.ops.object.mode_set(mode='OBJECT')
+        bpy.ops.object.mode_set(mode='EDIT')
+
         obj = context.active_object
         me = obj.data
+
         bm = bmesh.from_edit_mesh(me)
         bm.verts.ensure_lookup_table()
         bm.edges.ensure_lookup_table()
@@ -152,16 +158,18 @@ class TCAutoVTX(bpy.types.Operator):
         edges = [e for e in bm.edges if e.select and not e.hide]
 
         if len(edges) == 2:
-            bm = do_vtx_if_appropriate(bm, edges)
-            if isinstance(bm, set):
-                msg = messages.get(bm.pop())
+            message = do_vtx_if_appropriate(bm, edges)
+            if isinstance(message, set):
+                msg = messages.get(message.pop())
                 return self.cancel_message(msg)
+            bm = message
         else:
             return self.cancel_message('select two edges!')
 
         bm.verts.index_update()
         bm.edges.index_update()
         bmesh.update_edit_mesh(me, True)
+
         return {'FINISHED'}
 
 

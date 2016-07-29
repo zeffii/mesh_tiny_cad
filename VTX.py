@@ -145,6 +145,8 @@ class TCAutoVTX(bpy.types.Operator):
     def execute(self, context):
 
         # final attempt to enter unfragmented bm/mesh
+        # ghastly, but what can I do? it works with these
+        # fails without.
         bpy.ops.object.mode_set(mode='OBJECT')
         bpy.ops.object.mode_set(mode='EDIT')
 

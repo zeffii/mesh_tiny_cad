@@ -131,6 +131,7 @@ class TCCallBackCCEN(bpy.types.Operator):
         context.scene.tinycad_props.rescale = 1
         return {'FINISHED'}
 
+
 class TCCircleCenter(bpy.types.Operator):
     '''Recreate a Circle from 3 selected verts, move 3dcursor its center'''
 
@@ -160,6 +161,7 @@ class TCCircleCenter(bpy.types.Operator):
 
 def register():
     bpy.utils.register_module(__name__)
+
 
 def unregister():
     bpy.utils.unregister_module(__name__)

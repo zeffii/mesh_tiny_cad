@@ -47,6 +47,7 @@ class VIEW3D_MT_edit_mesh_tinycad(bpy.types.Menu):
     def draw(self, context):
 
         pcoll = icon_collection["main"]
+
         def cicon(name):
             return pcoll[name].icon_id
 
@@ -67,6 +68,7 @@ def register_icons():
         pcoll.load(icon_name, os.path.join(icons_dir, icon_name + '.png'), 'IMAGE')
 
     icon_collection["main"] = pcoll
+
 
 def unregister_icons():
     for pcoll in icon_collection.values():

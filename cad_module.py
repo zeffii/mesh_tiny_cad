@@ -19,7 +19,6 @@
 # <pep8 compliant>
 
 
-import bpy
 import bmesh
 
 from mathutils import Vector, geometry
@@ -126,7 +125,9 @@ def vertex_indices_from_edges_tuple(bm, edge_tuple):
     > edge_tuple:   contains two edge indices.
     < returns the vertex indices of edge_tuple
     '''
-    k = lambda v, w: bm.edges[edge_tuple[v]].verts[w].index
+    def k(v, w):
+        return bm.edges[edge_tuple[v]].verts[w].index
+
     return [k(i >> 1, i % 2) for i in range(4)]
 
 

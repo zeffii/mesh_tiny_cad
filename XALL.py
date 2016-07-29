@@ -21,7 +21,6 @@
 
 import bpy
 import bmesh
-from mathutils import Vector
 from mathutils.geometry import intersect_line_line as LineIntersect
 
 import itertools
@@ -33,7 +32,8 @@ def order_points(edge, point_list):
     ''' order these edges from distance to v1, then
     sandwich the sorted list with v1, v2 '''
     v1, v2 = edge
-    dist = lambda co: (v1 - co).length
+    def dist(co):
+        return (v1 - co).length
     point_list = sorted(point_list, key=dist)
     return [v1] + point_list + [v2]
 

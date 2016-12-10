@@ -6,7 +6,7 @@ Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.
 
 ### Installation
 
-Download the [`installable stable release zip` here](https://github.com/zeffii/mesh_tinyCAD/archive/v1_2_4.zip)   
+The add-on is currently included in standard installations on Blender 2.78 onwards. Enable it by doing a search in `User Preferences > Add-ons > and type 'tiny' into the search field`. Enable 'Mesh: tinyCAD Mesh tools'.
 
 
 __________________

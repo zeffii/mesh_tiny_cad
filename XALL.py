@@ -117,8 +117,7 @@ def update_mesh(bm, d):
     ''' Make new geometry '''
 
     """
-    EDGES = 2
-    bmesh.ops.delete(bm, geom=[edge for edge in bm.edges if edge.select], context=EDGES)
+
 
     oe = bm.edges
     ov = bm.verts
@@ -134,6 +133,7 @@ def update_mesh(bm, d):
             bm.normal_update()
             collect([a, b])
 
+    bmesh.ops.delete(bm, geom=[edge for edge in bm.edges if edge.select], context=2) # 2 = edges
 
     #bpy.ops.mesh.remove_doubles(
     #    threshold=cm.CAD_prefs.VTX_DOUBLES_THRSHLD,

@@ -138,6 +138,7 @@ def update_mesh(bm, d):
     #bpy.ops.mesh.remove_doubles(
     #    threshold=cm.CAD_prefs.VTX_DOUBLES_THRSHLD,
     #    use_unselected=False)
+
     bmesh.ops.remove_doubles(bm, verts=new_verts, dist=cm.CAD_prefs.VTX_DOUBLES_THRSHLD)
 
 

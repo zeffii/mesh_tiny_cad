@@ -117,8 +117,8 @@ def update_mesh(bm, d):
     ''' Make new geometry '''
 
     """
-
-    bmesh.ops.delete(bm, geom=[edge for edge in bm.edges if edge.select], context='DEL_EDGES')
+    EDGES = 2
+    bmesh.ops.delete(bm, geom=[edge for edge in bm.edges if edge.select], context=EDGES)
 
     oe = bm.edges
     ov = bm.verts
@@ -176,7 +176,7 @@ class TCIntersectAllEdges(bpy.types.Operator):
             unselect_nonintersecting(bm, d.keys(), edge_indices)
             update_mesh(bm, d)
 
-            bm.to_mesh(obj.data)
+            bmesh.update_edit_mesh(obj.data)
         else:
             print('must be in edit mode')
 

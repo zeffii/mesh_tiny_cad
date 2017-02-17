@@ -22,7 +22,7 @@
 bl_info = {
     "name": "tinyCAD Mesh tools",
     "author": "zeffii (aka Dealga McArdle)",
-    "version": (1, 3, 0),
+    "version": (1, 3, 1),
     "blender": (2, 7, 7),
     "category": "Mesh",
     "location": "View3D > EditMode > (w) Specials",

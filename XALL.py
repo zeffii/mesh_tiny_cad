@@ -111,14 +111,6 @@ def get_intersection_dictionary(bm, edge_indices):
 def update_mesh(bm, d):
     ''' Make new geometry (delete old first) '''
 
-    """ new 
-
-    def update_mesh(bm, d):
-    ''' Make new geometry '''
-
-    """
-
-
     oe = bm.edges
     ov = bm.verts
 

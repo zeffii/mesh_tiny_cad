@@ -28,7 +28,6 @@ def failure_message(self):
     self.report({"WARNING"}, 'select 1 face and 1 detached edge')
 
 def failure_message_on_plane(self):
-    self.report({"WARNING"}, 'select an edge that intersects the plane of the face')
     msg2 = """\
 Edge2Face expects the edge to intersect at one point on the plane of the selected face. You're  
 seeing this warning because mathutils.geometry.intersect_line_plane is being called on an edge/face  
@@ -37,6 +36,7 @@ plane as the face or they lie in a plane that is offset along the face's normal 
     lines = msg2.split('\n')
     for line in lines:
         self.report({'INFO'}, line)
+    self.report({"WARNING"}, 'No intersection found, see the info panel for details')
 
 
 def extend_vertex(self):

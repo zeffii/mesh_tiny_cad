@@ -1,5 +1,5 @@
-Blender CAD utils
-=================
+Blender CAD utils (for Blender 2.80+)
+=====================================
 
 A tiny subset of unmissable CAD functions for Blender 3d.  
 Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.6/Py/Scripts/Modeling/mesh_tinyCAD) (Which has most of the same info]  
@@ -8,6 +8,7 @@ Addon [page on blender.org/wiki](http://wiki.blender.org/index.php/Extensions:2.
 
 The add-on is currently included in standard installations on Blender 2.78 onwards. Enable it by doing a search in `User Preferences > Add-ons > and type 'tiny' into the search field`. Enable 'Mesh: tinyCAD Mesh tools'.
 
+In Blender 2.80 distributions you might encounter an older version of this add-on, if it fails to load/run/enable, please install it again from this github repository. 
 
 __________________
 

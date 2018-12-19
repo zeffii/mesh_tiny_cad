@@ -69,7 +69,7 @@ def add_edges(bm, pt, idxs, fdp):
 
 def remove_earmarked_edges(bm, earmarked):
     edges_select = [e for e in bm.edges if e.index in earmarked]
-    bmesh.ops.delete(bm, geom=edges_select, context=2)
+    bmesh.ops.delete(bm, geom=edges_select, context='EDGES')
 
 
 def perform_vtx(bm, pt, edges, pts, vertex_indices):

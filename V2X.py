@@ -26,6 +26,13 @@ from mathutils import geometry
 
 def add_vertex_to_intersection():
     objs = bpy.context.selected_objects
+    fobj = bpy.context.active_object
+    #making sure the active object is the last object in the "objs"-list
+    #Important as it makes sure the new vertex is added
+    #in the mesh of the object of which the edge was selected first
+    objs.remove(fobj)
+    objs.append(fobj)
+    
     #working with one object
     if len(objs)==1:
         me = objs[0].data

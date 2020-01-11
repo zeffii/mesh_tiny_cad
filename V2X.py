@@ -25,37 +25,60 @@ from mathutils import geometry
 
 
 def add_vertex_to_intersection():
+    objs = bpy.context.selected_objects
+    #working with one object
+    if len(objs)==1:
+        me = objs[0].data
+        #matrix needed for global coordinates
+        wm = objs[0].matrix_world
+        bme = bmesh.from_edit_mesh(me)
+        edges = [e for e in bme.edges if e.select]
 
-    obj = bpy.context.object
-    me = obj.data
-    bm = bmesh.from_edit_mesh(me)
+        if len(edges) == 2:
+            [[v1, v2], [v3, v4]] = [[wm @ v.co for v in e.verts] for e in edges]
 
-    edges = [e for e in bm.edges if e.select]
+    #working with 2 objects
+    if len(objs)==2:
+        me = objs[0].data
+        wm = objs[0].matrix_world
+        he = objs[1].data
+        wm1 = objs[1].matrix_world
+        bme = bmesh.from_edit_mesh(me)
+        bhe = bmesh.from_edit_mesh(he)
 
-    if len(edges) == 2:
-        [[v1, v2], [v3, v4]] = [[v.co for v in e.verts] for e in edges]
+        edgesme = [e for e in bme.edges if e.select]
+        edgeshe = [e for e in bhe.edges if e.select]
 
-        iv = geometry.intersect_line_line(v1, v2, v3, v4)
-        if iv:
-            iv = (iv[0] + iv[1]) / 2
-            bm.verts.new(iv)
+        if len(edgesme) == 1 and len(edgeshe) == 1:
+            [v1, v2] = [wm @ v.co for v in edgesme[0].verts]
+            [v3, v4] = [wm1 @ v.co for v in edgeshe[0].verts]
 
-            bm.verts.ensure_lookup_table()
+        bhe.free()
 
-            bm.verts[-1].select = True
-            bmesh.update_edit_mesh(me)
+    iv = geometry.intersect_line_line(v1, v2, v3, v4)
 
+    if iv:
+        iv = (iv[0] + iv[1]) / 2
+        bme.verts.new(iv)
+        bme.verts.ensure_lookup_table()
+        bme.verts[-1].select = True
+        bmesh.update_edit_mesh(me)
 
 class TCVert2Intersection(bpy.types.Operator):
-    '''Add a vertex at the intersection (projected or real) of two selected edges'''
+    '''Add a vertex at the intersection (projected or real) of two selected edges of up to 2 objects'''
     bl_idname = 'tinycad.vertintersect'
     bl_label = 'V2X vertex to intersection'
     bl_options = {'REGISTER', 'UNDO'}
 
     @classmethod
     def poll(cls, context):
-        obj = context.active_object
-        return obj is not None and obj.type == 'MESH' and obj.mode == 'EDIT'
+        objs = context.selected_objects
+        if len(objs) >2 or len(objs)==0:
+            return 0
+        for obj in objs:
+            if obj is None or obj.type != 'MESH' or obj.mode != 'EDIT':
+                return 0
+        return 1
 
     def execute(self, context):
         add_vertex_to_intersection()

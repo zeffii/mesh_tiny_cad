@@ -29,7 +29,7 @@ icon_collection = {}
 class TinyCADProperties(bpy.types.PropertyGroup):
 
     num_verts: bpy.props.IntProperty(
-        min=3, max=60, default=12)
+        min=3, max=1000, default=12)
 
     rescale: bpy.props.FloatProperty(
         default=1.0,

@@ -18,6 +18,7 @@
 
 # <pep8 compliant>
 
+# 2023
 
 bl_info = {
     "name": "tinyCAD Mesh tools",
